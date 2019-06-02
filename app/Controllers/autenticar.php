@@ -1,14 +1,10 @@
 <?php
 
 namespace App\Controllers;
-//require_once 'config.php';
-//use SON\Controller\Action;
-//use App\Models\Artigo;
-//use SON\Di\Container;
 
 use SON\Controller\Action;
 use SON\Di\Container;
-////
+
 class autenticar {
 	public function validar() {    
 		session_start();
