@@ -1,65 +1,17 @@
 
-<?php
-	session_start();
-	if(!isset($_SESSION['usuario'])){
-		header('Location: autenticar');
-	}
-	$error = isset($_GET['error'])? $_GET['error']:0;
-?>
-
-<!DOCTYPE html>
-<html>
-	<head>
-		<title>Sisconpat - Produtos</title>
-
-		<meta charset="utf-8">
-
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-
-		<!-- favicon -->
-		<link rel="apple-touch-icon" sizes="180x180" href="css/favicon/apple-touch-icon.png">
-		<link rel="icon" type="image/png" sizes="32x32" href="css/favicon/favicon-32x32.png">
-		<link rel="icon" type="image/png" sizes="16x16" href="css/favicon/favicon-16x16.png">
-		<link rel="manifest" href="css/favicon/manifest.json">
-		<meta name="theme-color" content="#ffffff">
-
-
-		<!-- jquery - link cdn -->
-
-		<!--<script src ="jquery-3.2.1.js"></script>-->
-		<link rel="stylesheet" type="text/css" href="css/bootstrap/css/bootstrap.min.css">
-		<script type="text/javascript" src="./scripts/jquery3.2.1.js"></script>
-
-		<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>-->
-		<link rel="stylesheet" type="text/css" href="css/estilo.css">
-		<link rel="stylesheet" href="css/font-awesome-4.7.0/css/font-awesome.min.css">
-
-		<!-- link tabledata 
-		<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.15/css/dataTables.bootstrap.min.css">
-		<script type="text/javascript" language="javascript" src="css/dataTables.min.js"></script>
-		<script type="text/javascript" language="javascript" src="css/dataTables.bootstrap.min.js"></script>
-		-->
-		<script type="text/javascript" src="css/jquery.form.js"></script>
-		<script type="text/javascript" src="./scripts/itens.js"></script>
-
-		<link rel="stylesheet" type="text/css" href="css/menu.css">
-		<script type="text/javascript" src="./scripts/menu.js"></script>
-		
-
-	</head>
-	<body>
-		<?php
-			include '../app/menu.php';
-		?>
+		<div class="titulo-adm">
+			<h3>Produtos</h3>
+			<p>Lista de Produtos cadastrados no sistema</p>
+		</div>
 
 		<div class="row">
 			<div class="col-md-12">
 				<div class="row">
-					<center>          
-						<button type="button"  id="btn_cad" class="btn btn-danger  btn_cad" data-toggle="modal"
-							data-target="#modal_adicionar" ><i class="fa fa-plus-circle fa-1x" aria-hidden="true"> A D I C I O N A R</i>
-						</button>
-					</center>
+					      
+					<button type="button"  id="btn_cad" class="btn btn-primary btn-sm  btn_cad" data-toggle="modal"
+						data-target="#modal_adicionar" ><i class="fa fa-plus-circle fa-1x"> ADICIONAR</i>
+					</button>
+					
 					<script language="javascript" type="text/javascript"></script>
 					<br>
 
@@ -235,7 +187,3 @@
 				</div>
 			</div>
 		</form>
-
-		<script src="./scripts/bootstrap.min.js"></script>
-	</body>
-</html>

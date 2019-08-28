@@ -27,8 +27,8 @@
 
 				$html .='<div class="col-md-2">';
 					$html .='<div class="btn-group" data-toggle="buttons" style="float: right;">';
-						$html .='<button type="button"  id="btn_deletar_'.$res['TOMBAMENTO'].'" class="btn btn-danger  btn_deletar" data-tombamento="'.$res['TOMBAMENTO'].'" style="color: white; font-size: 15px;"><spam class ="glyphicon glyphicon-trash"></spam></button>';
-						$html .='<button type="button"  id="btn_atualizar_'.$res['TOMBAMENTO'].'" class="btn btn-primary  btn_atualizar" data-tombamento="'.$res['TOMBAMENTO'].'" data-toggle="modal"';
+						$html .='<button type="button"  id="'.$res['TOMBAMENTO'].'" class="btn btn-danger btn-xs  btn_deletar" data-tombamento="'.$res['TOMBAMENTO'].'" style="color: white; font-size: 15px;"><spam class ="glyphicon glyphicon-trash"></spam></button>';
+						$html .='<button type="button"  id="btn_atualizar_'.$res['TOMBAMENTO'].'" class="btn btn-primary btn-xs btn_atualizar" data-tombamento="'.$res['TOMBAMENTO'].'" data-toggle="modal"';
 						$html .='data-target="#modal_atualizacao"  ';
 						$html .='data-tombamento="'.$res['TOMBAMENTO'].'" ';
 						$html .='data-produto="'.$res['PRODUTO'].'" '; 

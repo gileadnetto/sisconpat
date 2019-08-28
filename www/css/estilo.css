@@ -226,4 +226,24 @@ a.pdfmaker:hover{
 a.list-group-item, .tabela {
     background-color: #ffffff;
 }
+
+.titulo-adm{
+  margin: 1rem .4rem;
+}
+.titulo-adm h3{
+  color: #444444;
+  font-size: 3rem;
+  text-transform: uppercase;
+  border-bottom: 1px solid #ff5504;
+  margin-bottom: 0;
+  padding-left: 1rem;
+ 
+}
+.titulo-adm p{
+  color: #6d6d6d;
+  margin: 0;
+  padding-left: 1rem;
+  font-size: 1.7rem;
+  text-transform: uppercase;
+}
  

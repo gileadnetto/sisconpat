@@ -16,36 +16,35 @@ Class Index extends Action{
     }
     
     public function homeIndex() {
-        $this->render('home');
+        $this->render('home','index', true, '','home');
     }
     
      public function LocalidadeIndex() {           
-        $this->render('localidade');
+        $this->render('localidade','index', true, 'Local', 'local');
     }
     
     public function itemIndex() {           
-        $this->render('itens');
+        $this->render('itens','index', true, 'Produtos', 'itens');
     }
     
      public function transferenciaIndex() {           
-        $this->render('transferencia');
+        $this->render('transferencia','index', true, 'Transferencia', 'transferencias');
     }
     
     public function minhastransferenciasIndex() {           
-        $this->render('minhas_transferencias');
+        $this->render('minhas_transferencias','index', true, 'Minhas Transferencia', 'minha_transferencias');
     }
     
-     public function relatorioIndex() {           
-        $this->render('relatorio');
+     public function relatorioIndex() { 
+        $this->render('relatorio','index', true, 'Relatorio', 'relatorio');          
     }
     
     public function administradorIndex() {           
-        $this->render('administrador');
+        $this->render('administrador','index', true, 'Administrador', 'administrador');   
     }
     
     
     public function sair() {
-        
         session_start();
         unset($_SESSION['usuario']);
         unset($_SESSION['email']) ;

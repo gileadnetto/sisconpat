@@ -1,57 +1,4 @@
-<?php
-
-session_start();
-if(!isset($_SESSION['usuario'])){
-    header('Location: index.php?error=1');
-}
-
-if (!isset($_GET['pg'])) {
-	$pg = 1;
-} 
-else {
-	$pg = $_GET['pg'];
-	$_SESSION['pg'] =  $pg;
-}
-
-$error = isset($_GET['error'])? $_GET['error']:0;
-?>
-
-<!DOCTYPE html>
-  <html>
-    <head>
-    	<title>Transferencias - SISCONPAT</title>
-   		<meta charset="utf-8">
-  		<meta name="viewport" content="width=device-width, initial-scale=1">
-
-		<!-- favicon -->
-		<link rel="apple-touch-icon" sizes="180x180" href="css/favicon/apple-touch-icon.png">
-		<link rel="icon" type="image/png" sizes="32x32" href="css/favicon/favicon-32x32.png">
-		<link rel="icon" type="image/png" sizes="16x16" href="css/favicon/favicon-16x16.png">
-		<link rel="manifest" href="css/favicon/manifest.json">
-
-		<meta name="theme-color" content="#ffffff">
-
-		<!--<script src ="jquery-3.2.1.js"></script>-->
-		<link rel="stylesheet" type="text/css" href="css/bootstrap/css/bootstrap.min.css">
-		<script type="text/javascript" src="./scripts/jquery3.2.1.js"></script>
-
-		<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>-->
-		<link rel="stylesheet" type="text/css" href="css/estilo.css">
-		<link rel="stylesheet" href="css/font-awesome-4.7.0/css/font-awesome.min.css">
-		<script type="text/javascript" src="css/jquery.form.js"></script>
-		<script type="text/javascript" src="./scripts/minha_transferencias.js"></script>
-		
-		<link rel="stylesheet" type="text/css" href="css/menu.css">
-		<script type="text/javascript" src="./scripts/menu.js"></script>
-			
-	</head>
-	
-    <body >
-		<?php
-			include '../app/menu.php';
-		?>
-		<div class="row">
-		
+	<div class="row">
 		<div class="col-md-12 ">
 			<h2>Minhas Transferencias</h2>
 			<!-- Formulario para pesquisa de transferencia-->
@@ -147,6 +94,3 @@ $error = isset($_GET['error'])? $_GET['error']:0;
 		});
 	})	
 	</script>
-<script src="./scripts/bootstrap.min.js"></script>
-</body>
-</html>
