@@ -1,44 +1,78 @@
 
+
+@font-face {
+	font-family: roboto;
+	src: url(fonte/robotoThin.ttf);
+	font-weight: bold;
+}
+
+@font-face {
+	font-family: robotoRegular;
+	src: url(fonte/Roboto-Bold.ttf);
+}
+@font-face {
+	font-family: robotoBold;
+	src: url(fonte/Roboto-Regular.ttf);
+}
+
+@font-face {
+	font-family: blabla;
+	src: url(fonte/Welcome.ttf) format('truetype');
+}
+
+h1,h2,h3.h4,p,a{
+	font-family: roboto;
+	-webkit-font-smoothing: antialiased;
+}
+
+/* html, html a {
+    -webkit-font-smoothing: antialiased;
+    text-shadow: 1px 1px 1px rgba(0,0,0,0.004);
+} */
+
+a:active{
+	border-style: none;
+	border: 0px;
+}
+
+* {
+	outline: none;
+}
+
 .jumbotron {
-      
-     
-      font-family: Montserrat, sans-serif;
-  }
+	font-family: Montserrat, sans-serif;
+}
 
-  .jumbo {     
-    padding: 20px;
-  }
+.jumbo {     
+	padding: 20px;
+}
 
-  .alert-fixed {
-    position:fixed; 
-    top: 0px; 
-    right: 0px; 
-    width: 40%;
-    z-index:9999; 
-    border-radius:0px
+.alert-fixed {
+	position:fixed; 
+	top: 0px; 
+	right: 0px; 
+	width: 40%;
+	z-index:9999; 
+	border-radius:0px
 }
 
 
 /* estilo para os botoes para transferencia */
 .btn span.glyphicon {         
-  opacity: 0;       
+  	opacity: 0;       
 }
 .btn.active span.glyphicon {        
-  opacity: 1;       
+ 	 opacity: 1;       
 }
-
-
-
 
 /*para as minhas transferencias*/
 .panel-default>.panel-heading{
-   padding: 17px;
+  	padding: 17px;
 }
 
 .panel-default>.panel-heading:hover {
     color: #ffffff;
-   
-     background-color: #80b3ff;
+    background-color: #80b3ff;
     border-color: #ddd;
 }
 /*para o PDF*/
@@ -48,44 +82,41 @@ a:focus, a:hover{
 }
 
 a.list-group-item,.pdfmaker{
-  background-color: #e6e6e6;
-    
+  	background-color: #e6e6e6;
 }
 
 a.pdfmaker:hover{
-     color: #ffffff;
-      background-color: #ff5050;
-         
+	color: #ffffff;
+	background-color: #ff5050;
 }
-
 
 .modal-header-success {
     color:#fff;
-  padding:16px 22px;
+  	padding:16px 22px;
     border-bottom:1px solid #eee;
     background-color: #5cb85c;
     -webkit-border-top-left-radius: 5px;
     -webkit-border-top-right-radius: 5px;
     -moz-border-radius-topleft: 5px;
     -moz-border-radius-topright: 5px;
-     border-top-left-radius: 5px;
-     border-top-right-radius: 5px;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
 }
 
 .modal-header-warning {
-  color:#fff;
-   padding:16px 22px;
-    border-bottom:1px solid #eee;
+	color:#fff;
+	padding:16px 22px;
+	border-bottom:1px solid #eee;
     background-color: #f0ad4e;
     -webkit-border-top-left-radius: 5px;
     -webkit-border-top-right-radius: 5px;
     -moz-border-radius-topleft: 5px;
     -moz-border-radius-topright: 5px;
-     border-top-left-radius: 5px;
-     border-top-right-radius: 5px;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
 }
 .modal-header-danger {
-  color:#fff;
+  	color:#fff;
     padding:16px 22px;
     border-bottom:1px solid #eee;
     background-color: #d9534f;
@@ -93,128 +124,115 @@ a.pdfmaker:hover{
     -webkit-border-top-right-radius: 5px;
     -moz-border-radius-topleft: 5px;
     -moz-border-radius-topright: 5px;
-     border-top-left-radius: 5px;
-     border-top-right-radius: 5px;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
 }
 .modal-header-info {
     color:#fff;
-      padding:16px 22px;
+	padding:16px 22px;
     border-bottom:1px solid #eee;
     background-color: #5bc0de;
     -webkit-border-top-left-radius: 5px;
     -webkit-border-top-right-radius: 5px;
     -moz-border-radius-topleft: 5px;
     -moz-border-radius-topright: 5px;
-     border-top-left-radius: 5px;
-     border-top-right-radius: 5px;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
 }
 
 .modal-header-primary {
-  color:#fff;
-   padding:16px 22px;
+  	color:#fff;
+  	padding:16px 22px;
     border-bottom:1px solid #eee;
     background-color: #428bca;
     -webkit-border-top-left-radius: 5px;
     -webkit-border-top-right-radius: 5px;
     -moz-border-radius-topleft: 5px;
     -moz-border-radius-topright: 5px;
-     border-top-left-radius: 5px;
-     border-top-right-radius: 5px;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
 }
-
 
 .panel-green {
-  border-color: #5cb85c;
+	border-color: #5cb85c;
 }
+
 .panel-green > .panel-heading {
-  border-color: #5cb85c;
-  color: white;
-  background-color: #5cb85c;
+	border-color: #5cb85c;
+	color: white;
+	background-color: #5cb85c;
 }
+
 .panel-green > a {
- 
-  color: #5cb85c;
-  background-color: #5cb85c;
+	color: #5cb85c;
+	background-color: #5cb85c;
 }
 .panel-green > a:hover {
-  color: #3d8b3d;
+  	color: #3d8b3d;
 }
 
-
 .panel-red {
-  border-color: #d9534f;
+  	border-color: #d9534f;
 }
 
 .panel-red > .panel-heading {
-  border-color: #d9534f;
-  color: white;
-  background-color: #d9534f;
+	border-color: #d9534f;
+	color: white;
+	background-color: #d9534f;
 }
 .panel-red > a {
-  color: #d9534f;
+ 	 color: #d9534f;
 }
 .panel-red > a:hover {
-  color: #b52b27;
+  	color: #b52b27;
 }
 .panel-yellow {
-  border-color: #f0ad4e;
+  	border-color: #f0ad4e;
 }
 .panel-yellow > .panel-heading {
-  border-color: #f0ad4e;
-  color: white;
-  background-color: #f0ad4e;
+	border-color: #f0ad4e;
+	color: white;
+	background-color: #f0ad4e;
 }
 .panel-yellow > a {
-  color: #f0ad4e;
+  	color: #f0ad4e;
 }
 .panel-yellow > a:hover {
-  color: #df8a13;
+  	color: #df8a13;
 }
-
-
 
 .panel-red > .panel-heading:hover {
-   background-color: #df706d;
+  	background-color: #df706d;
 }
 .home_vermelho{   
-   color: #d1332e;
+   	color: #d1332e;
 }
 .home_vermelho:hover{   
-   color: #922420;
+   	color: #922420;
 }
 
-
-
 .panel-yellow > .panel-heading:hover {
-   background-color: #f3bd72;
+   	background-color: #f3bd72;
 }
 
 .home_amarelo{   
-   color: #efa743;
+   	color: #efa743;
 }
 .home_amarelo:hover{   
-   color: #a4660e;
+   	color: #a4660e;
 }
-
-
-
-
-
+	
 .panel-green > .panel-heading:hover {
-   background-color: #83c983;
+   	background-color: #83c983;
 }
 .home_verde{   
-   color: #46a046;
+  	 color: #46a046;
 }
 .home_verde:hover{   
-   color: #275927;
+   	color: #275927;
 }
-
-
-
-
 .panel-primary > .panel-heading:hover {
-   background-color: #4c91cd;
+   	background-color: #4c91cd;
 }
 
 /*para o HOME dashboard*/
@@ -224,26 +242,31 @@ a.pdfmaker:hover{
 
 /*para a exibição das tabelas */
 a.list-group-item, .tabela {
-    background-color: #ffffff;
+	background-color: #ffffff;
+}
+a.list-group-item, .tabela h3 {
+	font-family: robotoBold;
 }
 
 .titulo-adm{
-  margin: 1rem .4rem;
+ 	margin: 1rem .4rem;
 }
 .titulo-adm h3{
-  color: #444444;
-  font-size: 3rem;
-  text-transform: uppercase;
-  border-bottom: 1px solid #ff5504;
-  margin-bottom: 0;
-  padding-left: 1rem;
- 
+	color: #444444;
+	font-size: 3rem;
+	text-transform: uppercase;
+	border-bottom: 1px solid #ff5504;
+	margin-bottom: 0;
+	padding-left: 1rem;
+	font-family: robotoBold;
 }
+
 .titulo-adm p{
-  color: #6d6d6d;
-  margin: 0;
-  padding-left: 1rem;
-  font-size: 1.7rem;
-  text-transform: uppercase;
+	color: #6d6d6d;
+	margin: 0;
+	padding-left: 1rem;
+	font-size: 1.7rem;
+	text-transform: uppercase;
+	font-family: roboto;
 }
  

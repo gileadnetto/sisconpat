@@ -9,7 +9,7 @@
     <body>
     <!-- /.row -->
     <div class="row">
-        <div class="col-lg-3 col-md-6">
+        <div class="col-xs-12 col-sm-6 col-md-4">
             <a class ="painel-azul" href="transferencia">
                 <div class="panel panel-primary">
                     <div class="panel-heading">
@@ -32,7 +32,7 @@
                 </div>
             </a>
         </div>
-        <div class="col-lg-3 col-md-6">
+        <div class="col-xs-12 col-sm-6 col-md-4">
             <a class ="painel-verde" href="item">
                
                 <div class="panel panel-green">
@@ -60,7 +60,7 @@
             </a> 
         </div>
 
-        <div class="col-lg-3 col-md-6">
+        <div class="col-xs-12 col-sm-6 col-md-4">
             <a class ="painel-amarelo" href="localidade">
                 <div class="panel panel-yellow">
                     <div class="panel-heading">
@@ -83,7 +83,7 @@
             </a>
         </div>
 
-        <div class="col-lg-3 col-md-6">
+        <div class="col-xs-12 col-sm-6 col-md-4">
             <a class ="painel-red" href="minhas_transferencias">
                 <div class="panel panel-red">
                     <div class="panel-heading">
@@ -109,7 +109,7 @@
         <?php
             if($_SESSION['perfil']==="administrador"){
                 echo '  
-                    <div class="col-lg-3 col-md-6">
+                    <div class="col-xs-12 col-sm-6 col-md-4">
                         <a class ="painel-red" href="administrador">
                             <div class="panel panel-red">
                                 <div class="panel-heading">

@@ -1,5 +1,12 @@
 /* estilo para o menu*/
 
+* {
+	outline: none;
+}
+a:active,
+a:focus { 
+    -moz-outline-style: none; 
+}
 
 html {
 	-ms-touch-action: manipulation;
@@ -66,17 +73,21 @@ ul li ul a{
 }
 
 .menu li a{
-  text-decoration: none;
-  color: #fff;
-  font-size: 150%;
-  display: inline-block;
-  text-transform: uppercase;
-  transition: all .3s ease-out;
-  padding: .5rem;
-  padding-left: .3rem;
-  white-space:nowrap;
+	text-decoration: none;
+	color: #fff;
+	font-size: 150%;
+	display: inline-block;
+	text-transform: uppercase;
+	transition: all .3s ease-out;
+	padding: .5rem;
+	padding-left: .3rem;
+	white-space:nowrap;
 
 }
+.menu li a .ativo{
+  	border-left: inset #f59722;
+}
+
 .menu li a p{
   transform: translate(-500%,0%);
   color: #fff;
@@ -86,6 +97,7 @@ ul li ul a{
   text-transform: uppercase;
   transition: all .3s ease-out;
   opacity: 0;
+  padding: 0 1rem;
 }
 
 .menu li a span, .menu li a img{

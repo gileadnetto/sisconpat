@@ -35,8 +35,8 @@
     <div class="perfil">
         <span class="fa fa-user fa-fw"></span>
         <div>
-            <p><?php  echo $_SESSION['usuario'];?></p>                    
-            <p><?php  echo $_SESSION['perfil'];?></p>
+            <p><?= $_SESSION['usuario']?></p>                    
+            <p> <?= $_SESSION['perfil']?></p>
         </div>
         
         <div class="sair" style="margin-left: 1rem; text-align: center; font-size: 99%; cursor: pointer; user-select: none;">
