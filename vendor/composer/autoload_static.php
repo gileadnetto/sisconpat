@@ -11,7 +11,7 @@ class ComposerStaticInit96857f75c9263e6ad90cbfcf57904f98
         array (
             'SON' => 
             array (
-                0 => 'C:\\xampp\\htdocs\\sisconpat\\vendor',
+                0 => LOCALPROJETO,
             ),
         ),
         'A' => 

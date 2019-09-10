@@ -4,7 +4,6 @@
 
 $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
-
 return array(
     'SON' => array($vendorDir),
     'App' => array($baseDir . '/'),
