@@ -1,0 +1,20 @@
+{
+    "name": "son/mvc",
+    "description": "Breve descrição do que a aplicação se propoe a fazer",
+    "authors": [
+        {
+            "name": "Gilead",
+            "email": "gileadnetto@hotmail.com"
+        }
+    ],
+    "autoload":{
+        "psr-0":{
+            "SON" :"vendor",
+            "App" :"App/"
+        }
+    },
+    
+    "require": {
+        "php": ">=5.3"
+    }
+}

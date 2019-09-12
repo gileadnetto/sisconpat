@@ -1,0 +1,274 @@
+/* estilo para o menu*/
+
+
+html {
+	-ms-touch-action: manipulation;
+  touch-action: manipulation;
+  overflow-x: hidden;
+}
+a{
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+body{
+  padding-left: 55px;
+  padding-top: 70px; 
+}
+
+.barraMenu{
+  position: fixed;
+  top:0;
+  left: 0;
+  z-index: 999;
+}
+.nav{
+  position: relative;
+  display: inline-block;
+}
+
+ul{
+  padding: 0;
+  
+}
+ul li{
+  
+  list-style: none;
+  text-decoration: none;
+}
+ul li ul{
+  padding-left: 10px;
+  display: none;
+  padding: 1rem;
+  font-size: 80%;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+ul li ul a{
+  padding: 0 !important;
+}
+
+.menu{
+  width: 55px;
+  height: 100vh;
+  background: #353535;
+  overflow: hidden;
+  transition: all .3s ease-out;
+  padding-top: 80px;
+  
+}
+.mobile{
+  width: 0;
+}
+
+.menu li a{
+  text-decoration: none;
+  color: #fff;
+  font-size: 150%;
+  display: inline-block;
+  text-transform: uppercase;
+  transition: all .3s ease-out;
+  padding: .5rem;
+  padding-left: .3rem;
+  white-space:nowrap;
+
+}
+.menu li a p{
+  transform: translate(-500%,0%);
+  color: #fff;
+  margin: 0;
+  font-size: 75%;
+  display: inline-block;
+  text-transform: uppercase;
+  transition: all .3s ease-out;
+  opacity: 0;
+}
+
+.menu li a span, .menu li a img{
+  font-size: 139%;
+  color: white;
+  display: inline-block;
+  max-height: 40px;
+  transition: all  .4s ease-out;
+
+}
+
+.menu li a:hover p{
+  color: #f3b43f;
+  
+}
+.menu li a:hover span,.menu li a:hover img{
+  transform: scale(1.1);
+  
+}
+
+.menu.aberto{
+  width: 100%;
+}
+.menu.aberto a p{
+  transform: translate(0, 0%);
+  opacity: 1;
+}
+
+.buttonNav{
+  position: absolute;
+  display: inline-block;
+  top: 13px;
+  left: 7px;
+  background: transparent;
+  width: 40px;
+  height: 25px;
+  
+}
+.buttonNav::after{
+  content: "Menu";
+  display: block;
+  color: #fff;
+  width: 40px;
+  height: 25px;
+  
+}
+.buttonNav a {
+  position: relative;
+  display: block;
+  height: 100%;
+  width: 100%;
+  cursor: pointer;
+}
+
+.buttonNav a span{
+  display: block;
+  position: absolute;
+  left: 3px;
+  height: 2px;
+  width: 82%;
+  background: #fff;
+  border-radius: 15px;
+  transition: all .3s ease-out;
+
+}
+
+.buttonNav a span:nth-child(1){
+  top: 5%;
+}
+.buttonNav a span:nth-child(2){
+	top: 50%;
+}
+
+.buttonNav a span:nth-child(3){
+	top: 100%;
+}
+
+.buttonNav.ativo a span:nth-child(1){
+	top: 50%;
+	transform: rotate(225deg)scale(.8);
+}
+
+.buttonNav.ativo a span:nth-child(2){
+	transform: translateX(200%) scale(0);
+}
+
+.buttonNav.ativo a span:nth-child(3){
+	top: 50%;
+	transform: rotate(-225deg) scale(.8);
+}
+
+.buttonNav.mobile a span{
+	background: #313131;
+}
+.buttonNav.mobile::after{
+	color: #313131;
+	font-size: 102%;
+}
+
+.buttonNav.mobile.ativo a span{
+	background: #ededee;
+}
+.buttonNav.mobile.ativo::after{
+	color: #ededee;
+}
+
+.barraPerfil{
+	width: 100%;
+	height: 60px;
+	position: fixed;
+	top: 0;
+	left: 0;
+	background: #ededee;
+	z-index: 800;
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+}
+
+.barraPerfil img{
+	max-width: 110px !important;
+	display: none;
+	position: absolute;
+	top: 0;
+	left: 50%;
+	transform: translateX(-50%);
+}
+.barraPerfil .perfil{
+	padding-right: .5rem; 
+}
+
+.barraPerfil .infoBar span{
+	max-width: 78px;
+	text-align: center;
+}
+
+.barraPerfil .perfil p{
+  display:block;
+  margin: 0;
+  font-weight: bold;
+  color: #353535;
+  text-transform: uppercase;
+  font-size: 90%;
+}
+.barraPerfil .perfil >div{
+  display:inline-block;
+  
+}
+.barraPerfil .perfil .sair{
+  margin-left: 1rem;
+  text-align: center;
+  font-size: 99%;
+  cursor: pointer;
+  user-select: none;
+}
+.barraPerfil .perfil span{
+  font-size: 187%;
+  border-radius: 50%;
+  padding: 4px 0px;
+  background: #bdb7b7;
+  transform: translateY(-10%);
+
+}
+
+.barraPerfil .perfil .sair i{
+  color:#ffa3a3;
+  transition: all .3s ease-out;
+}
+.barraPerfil .perfil .sair p{
+  transition: all .3s ease-out;
+}
+.barraPerfil .perfil .sair:hover i{
+  color:#e27a7a;
+}
+.barraPerfil .perfil .sair:hover p{
+  color:#e27a7a;
+  font-weight: bold;                
+}
+
+#conteudo{
+    padding:1rem; 
+}
+
+.row{
+  margin: 0 !important;
+}

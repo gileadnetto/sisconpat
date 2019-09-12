@@ -1,0 +1,229 @@
+
+.jumbotron {
+      
+     
+      font-family: Montserrat, sans-serif;
+  }
+
+  .jumbo {     
+    padding: 20px;
+  }
+
+  .alert-fixed {
+    position:fixed; 
+    top: 0px; 
+    right: 0px; 
+    width: 40%;
+    z-index:9999; 
+    border-radius:0px
+}
+
+
+/* estilo para os botoes para transferencia */
+.btn span.glyphicon {         
+  opacity: 0;       
+}
+.btn.active span.glyphicon {        
+  opacity: 1;       
+}
+
+
+
+
+/*para as minhas transferencias*/
+.panel-default>.panel-heading{
+   padding: 17px;
+}
+
+.panel-default>.panel-heading:hover {
+    color: #ffffff;
+   
+     background-color: #80b3ff;
+    border-color: #ddd;
+}
+/*para o PDF*/
+
+a:focus, a:hover{
+    text-decoration: none;
+}
+
+a.list-group-item,.pdfmaker{
+  background-color: #e6e6e6;
+    
+}
+
+a.pdfmaker:hover{
+     color: #ffffff;
+      background-color: #ff5050;
+         
+}
+
+
+.modal-header-success {
+    color:#fff;
+  padding:16px 22px;
+    border-bottom:1px solid #eee;
+    background-color: #5cb85c;
+    -webkit-border-top-left-radius: 5px;
+    -webkit-border-top-right-radius: 5px;
+    -moz-border-radius-topleft: 5px;
+    -moz-border-radius-topright: 5px;
+     border-top-left-radius: 5px;
+     border-top-right-radius: 5px;
+}
+
+.modal-header-warning {
+  color:#fff;
+   padding:16px 22px;
+    border-bottom:1px solid #eee;
+    background-color: #f0ad4e;
+    -webkit-border-top-left-radius: 5px;
+    -webkit-border-top-right-radius: 5px;
+    -moz-border-radius-topleft: 5px;
+    -moz-border-radius-topright: 5px;
+     border-top-left-radius: 5px;
+     border-top-right-radius: 5px;
+}
+.modal-header-danger {
+  color:#fff;
+    padding:16px 22px;
+    border-bottom:1px solid #eee;
+    background-color: #d9534f;
+    -webkit-border-top-left-radius: 5px;
+    -webkit-border-top-right-radius: 5px;
+    -moz-border-radius-topleft: 5px;
+    -moz-border-radius-topright: 5px;
+     border-top-left-radius: 5px;
+     border-top-right-radius: 5px;
+}
+.modal-header-info {
+    color:#fff;
+      padding:16px 22px;
+    border-bottom:1px solid #eee;
+    background-color: #5bc0de;
+    -webkit-border-top-left-radius: 5px;
+    -webkit-border-top-right-radius: 5px;
+    -moz-border-radius-topleft: 5px;
+    -moz-border-radius-topright: 5px;
+     border-top-left-radius: 5px;
+     border-top-right-radius: 5px;
+}
+
+.modal-header-primary {
+  color:#fff;
+   padding:16px 22px;
+    border-bottom:1px solid #eee;
+    background-color: #428bca;
+    -webkit-border-top-left-radius: 5px;
+    -webkit-border-top-right-radius: 5px;
+    -moz-border-radius-topleft: 5px;
+    -moz-border-radius-topright: 5px;
+     border-top-left-radius: 5px;
+     border-top-right-radius: 5px;
+}
+
+
+.panel-green {
+  border-color: #5cb85c;
+}
+.panel-green > .panel-heading {
+  border-color: #5cb85c;
+  color: white;
+  background-color: #5cb85c;
+}
+.panel-green > a {
+ 
+  color: #5cb85c;
+  background-color: #5cb85c;
+}
+.panel-green > a:hover {
+  color: #3d8b3d;
+}
+
+
+.panel-red {
+  border-color: #d9534f;
+}
+
+.panel-red > .panel-heading {
+  border-color: #d9534f;
+  color: white;
+  background-color: #d9534f;
+}
+.panel-red > a {
+  color: #d9534f;
+}
+.panel-red > a:hover {
+  color: #b52b27;
+}
+.panel-yellow {
+  border-color: #f0ad4e;
+}
+.panel-yellow > .panel-heading {
+  border-color: #f0ad4e;
+  color: white;
+  background-color: #f0ad4e;
+}
+.panel-yellow > a {
+  color: #f0ad4e;
+}
+.panel-yellow > a:hover {
+  color: #df8a13;
+}
+
+
+
+.panel-red > .panel-heading:hover {
+   background-color: #df706d;
+}
+.home_vermelho{   
+   color: #d1332e;
+}
+.home_vermelho:hover{   
+   color: #922420;
+}
+
+
+
+.panel-yellow > .panel-heading:hover {
+   background-color: #f3bd72;
+}
+
+.home_amarelo{   
+   color: #efa743;
+}
+.home_amarelo:hover{   
+   color: #a4660e;
+}
+
+
+
+
+
+.panel-green > .panel-heading:hover {
+   background-color: #83c983;
+}
+.home_verde{   
+   color: #46a046;
+}
+.home_verde:hover{   
+   color: #275927;
+}
+
+
+
+
+.panel-primary > .panel-heading:hover {
+   background-color: #4c91cd;
+}
+
+/*para o HOME dashboard*/
+.huge {
+    font-size: 40px;
+}
+
+/*para a exibição das tabelas */
+a.list-group-item, .tabela {
+    background-color: #ffffff;
+}
+ 
