@@ -13,33 +13,29 @@
 	foreach ($itens['results'] as $res) {  
 		$res = (array) $res;
 			    
-   		$html.='<a href="javascript:void(0)" class="list-group-item tabela">';
-        	$html.='<div class="row">';
-				$html.='<div class="col-md-2">';
+   		$html.='<a href="javascript:void(0)" class="produto-item tabela">';
+				$html.='<div class="">';
 					$html.='<center><img src="imagens/produtos/'.$res['FOTO'].'" class="img-responsive" alt="Produto-IMG" width="120" ></center>';
 				$html.='</div>';
 
-				$html.='<div class="col-md-8">';
-					$html  .='<h4 class="list-group-item-heading">'.$res['PRODUTO'].' - <small style="color:#ff6666;" >    Tombamento : '.$res['TOMBAMENTO'].'</small> <small style="float: right;">'.$res['DT_CAD'].'</small> </h4>';
-					$html  .='<p class="list-group-item-text">'.$res['DESCRICAO'].'</p>';
-					$html  .='<p class="list-group-item-text"> Local : '.$res['LOCAL'].'';
+				$html.='<div class="item-descricao">';
+					$html  .='<h4 class="">'.$res['PATRIMONIO'].' - <small style="color:#ff6666;" >    Tombamento : '.$res['TOMBAMENTO'].'</small></h4>';
+					$html  .='<p class="">'.$res['DESCRICAO'].'</p>';
+					$html  .='<p class=""> Local : '.$res['LOCAL'].'';
 				$html .='</div>';
 
-				$html .='<div class="col-md-2">';
-					$html .='<div class="btn-group" data-toggle="buttons" style="float: right;">';
-						$html .='<button type="button"  id="'.$res['TOMBAMENTO'].'" class="btn btn-danger btn-xs  btn_deletar" data-tombamento="'.$res['TOMBAMENTO'].'" style="color: white; font-size: 15px;"><spam class ="glyphicon glyphicon-trash"></spam></button>';
-						$html .='<button type="button"  id="btn_atualizar_'.$res['TOMBAMENTO'].'" class="btn btn-primary btn-xs btn_atualizar" data-tombamento="'.$res['TOMBAMENTO'].'" data-toggle="modal"';
+				$html .='<div style="text-align: -webkit-center;">';
+						$html .='<button type="button"  id="'.$res['TOMBAMENTO'].'" class="btn-edicao danger btn_deletar" data-tombamento="'.$res['TOMBAMENTO'].'"><span class ="glyphicon glyphicon-trash"></span>Remover</button>';
+						$html .='<button type="button"  id="btn_atualizar_'.$res['TOMBAMENTO'].'" class="btn-edicao btn_atualizar" data-tombamento="'.$res['TOMBAMENTO'].'" data-toggle="modal"';
 						$html .='data-target="#modal_atualizacao"  ';
 						$html .='data-tombamento="'.$res['TOMBAMENTO'].'" ';
-						$html .='data-produto="'.$res['PRODUTO'].'" '; 
+						$html .='data-patrimonio="'.$res['PATRIMONIO'].'" '; 
 						$html .='data-descricao="'.$res['DESCRICAO'].'"';
 						$html .='data-local="'.$res['ID_LOCALIDADE'].'" ';
 						$html .='data-foto="'.$res['FOTO'].'" ';
-						$html .='style="color: white; font-size: 15px;"><spam class ="glyphicon glyphicon-pencil"></spam></button>';
+						$html .='><span class="glyphicon glyphicon-pencil"></span>Editar</button>';
 						$html .='</div>'; 
-					$html .='</div>'; 
 				$html .='</div>'; 
-			$html .='</div>';
 		$html .='</a>';
           
 	}

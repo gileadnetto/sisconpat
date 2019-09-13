@@ -29,12 +29,12 @@
 					$html .= ' <td>'.$res['email'].'</td>';
 					$html .= '<td>';
 						$html .= '<div class="btn-group" data-toggle="buttons">';
-							$html .= '<button type="button"  id="btn_deletar_'.$res['id'].'" class="btn btn-danger  btn_deletar" data-id="'.$res['id'].'" style="color: white; font-size: 15px;"><spam class ="glyphicon glyphicon-trash"></spam></button>';
+							$html .= '<button type="button"  id="btn_deletar_'.$res['id'].'" class="btn btn-danger  btn_deletar" data-id="'.$res['id'].'" style="color: white; font-size: 15px;"><span class ="glyphicon glyphicon-trash"></span></button>';
 							$html .= '<button type="button"  id="btn_atualizar_'.$res['id'].'" class="btn btn-primary  btn_atualizar" data-id="'.$res['id'].'"data-target="#modal_atualizacao"  data-toggle="modal"';
 							$html .= 'data-login="'.$res['login'].'"  ';
 							$html .= 'data-perfil="'.$res['perfil'].'"';
 							$html .= 'data-email="'.$res['email'].'"';
-							$html .= 'style="color: white; font-size: 15px;"><spam class ="glyphicon glyphicon-pencil"></spam></button>';
+							$html .= 'style="color: white; font-size: 15px;"><span class ="glyphicon glyphicon-pencil"></span></button>';
 						$html .= '</div>';
 					$html .= '</td>';                            
 				$html .= ' </tr>';

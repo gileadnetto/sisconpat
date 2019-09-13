@@ -55,9 +55,9 @@ Class Action{
 
         }
             
-        else{
+        // else{
 			$this->content($pasta);          
-		}
+		// }
             
 	}
 

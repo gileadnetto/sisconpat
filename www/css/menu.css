@@ -98,6 +98,7 @@ ul li ul a{
   transition: all .3s ease-out;
   opacity: 0;
   padding: 0 1rem;
+  font-family: robotoBold;
 }
 
 .menu li a span, .menu li a img{

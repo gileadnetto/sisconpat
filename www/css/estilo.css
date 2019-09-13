@@ -15,11 +15,6 @@
 	src: url(fonte/Roboto-Regular.ttf);
 }
 
-@font-face {
-	font-family: blabla;
-	src: url(fonte/Welcome.ttf) format('truetype');
-}
-
 h1,h2,h3.h4,p,a{
 	font-family: roboto;
 	-webkit-font-smoothing: antialiased;
@@ -243,9 +238,7 @@ a.pdfmaker:hover{
 /*para a exibição das tabelas */
 a.list-group-item, .tabela {
 	background-color: #ffffff;
-}
-a.list-group-item, .tabela h3 {
-	font-family: robotoBold;
+	
 }
 
 .titulo-adm{
@@ -269,4 +262,111 @@ a.list-group-item, .tabela h3 {
 	text-transform: uppercase;
 	font-family: roboto;
 }
+
+.produto-item{
+	display: flex;
+	background: #f5f5f5;
+	padding: 1rem;
+	margin-bottom: 1rem;
+	align-items: center;
+
+	transition: all .3s ease-in-out;
+}
+.produto-item p{
+	font-size: 115%;
+	margin: 0;
+	line-height: 1;
+	margin-bottom: .5rem;
+}
+.produto-item img{
+	mix-blend-mode: multiply;
+}
+
+.produto-item .item-descricao{
+	flex: 1;
+	padding-left: 1rem;
+}
+.produto-item .item-descricao h4{
+	font-family: robotoBold;
+	color: #313131;
+	font-size: 155%;
+	margin-top: 0;
+}
+
+.produto-item .item-descricao p{
+	font-size: 105%;
+	color: #525252;
+}
+
+.produto-item:hover{
+	transform: translateX(5px);
+    background: #f1f1f1;
+    box-shadow: 0px 0px 16px 0px #d6d6d6;
+}
+
+.btnSisconpat{
+	border: none;
+	background: #428bca;
+	color: #fff;
+	padding: .5rem 2rem;
+	letter-spacing: 1.4px;
+	border-bottom: 2.3px solid rgba(0, 0, 0, 0.5);
+	transition: all .3s ease-in-out;
+	position: relative;
+	overflow: hidden;
+	border-radius: 3px;
+
+}
+
+.btnSisconpat:hover{
+	padding-left: 1rem;
+	padding-right: 3rem;
+	background: #306ca0;
+}
+.btnSisconpat span{
+	position: absolute;
+	right: -40px;
+	color: #fff;
+	transform: translate(-50%, -50%);
+	top: 50%;
+	font-size: 110%;
+	transition: all .3s ease-in-out;
+}
+.btnSisconpat:hover span{
+	right: 1px;
+}
+
+.btn-edicao{
+	background: transparent;
+    border: none;
+    display: block;
+	color: #575757;
+	padding: .4rem;
+	border-radius: 4px;
+	font-size: 91%;
+	font-family: robotoBold;
+
+	transition: all .2s ease-in-out;
+}
+.btn-edicao:nth-child(1){
+	margin-bottom: 1rem;
+}
+.btn-edicao span{
+	font-size: 107%;
+
+	display: block;
+	
+}
+.btn-edicao:hover{
+	color: #383838;
+	background: #eeeeee;
+}
+
+.btn-edicao.danger{
+	color: #b73a3a;
+	
+}
+
+
+
  

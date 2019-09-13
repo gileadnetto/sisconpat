@@ -8,9 +8,10 @@
 			<div class="col-md-12">
 				<div class="row">
 					      
-					<button type="button"  id="btn_cad" class="btn btn-primary btn-sm  btn_cad" data-toggle="modal"
-						data-target="#modal_adicionar" ><i class="fa fa-plus-circle fa-1x"> ADICIONAR</i>
-					</button>
+					<!-- <button type="button"  id="btn_cad" class="btn btn-primary btn-sm  btn_cad" data-toggle="modal" data-target="#modal_adicionar" >
+						<i class="fa fa-plus-circle fa-1x"> </i>  ADICIONAR
+					</button> -->
+					<button id="btn_cad" class=" btn_cad btnSisconpat " data-toggle="modal" data-target="#modal_adicionar">Adicionar<span class="fa fa-plus-circle fa-1x"></span></button>
 					
 					<script language="javascript" type="text/javascript"></script>
 					<br>
@@ -108,7 +109,7 @@
 		<script type="text/javascript">
 			$('#modal_atualizacao').on('show.bs.modal', function (event) {
 				var button = $(event.relatedTarget) // Button that triggered the modal
-				var produto = button.data('produto'); 
+				var produto = button.data('PATRIMONIO'); 
 				var descricao = button.data('descricao') ;
 				var tombamento = button.data('tombamento');
 				var foto = button.data('foto');
