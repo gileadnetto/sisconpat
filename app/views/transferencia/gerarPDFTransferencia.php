@@ -57,12 +57,12 @@ require_once("plugins/fpdf/fpdf.php");
 	foreach ($results as $res) {
 
 		if($res['ativo'] != 0){
-			$pdf->Cell(50,10,utf8_decode($res['PATRIMONIO']),1,0);
+			$pdf->Cell(50,10,utf8_decode($res['produto']),1,0);
 			$pdf->Cell(110,10,utf8_decode($res['descricao']),1,0);
 			$pdf->Cell(30,10,utf8_decode($res['TOMBAMENTO']),1,1);
         }
         else{
-			$pdf->Cell(50,10,utf8_decode($res['PATRIMONIO'])."    - Produto inativo -",1,0);
+			$pdf->Cell(50,10,utf8_decode($res['produto'])."    - Produto inativo -",1,0);
 			$pdf->Cell(110,10,utf8_decode($res['descricao']),1,0);
 			$pdf->Cell(30,10,utf8_decode($res['TOMBAMENTO']),1,1);
 	       

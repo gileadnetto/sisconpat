@@ -1,25 +1,39 @@
 
-// código javascript  
-$(document).ready(function () {
+              // código javascript  
+              $(document).ready( function (){
 
-	carregarConteudo();
+                carregarConteudo();
+    
+           
+              
+            function carregarConteudo(){
 
-	function carregarConteudo() {
+                   $.ajax({
+                //url:'consulta_sql.php',
+                   url:'relatorio_grafico', 
 
-		$.ajax({
-			url: 'relatorio_grafico',
-			success: function (data) {
-				$('#conteudo').html(data);
-			},
-			beforeSend: function () {
-				$('#loader').css({ display: "block" });
-			},
+            success: function(data){
+             $('#conteudo').html(data);
+                          
 
-			complete: function () {
-				$('#loader').css({ display: "none" });
-			}
-		});
+           
+                                                       
+            },
+              //continuação do ajax principal
 
-	} // fim da funcao carregar conteudo
+                              
+                            beforeSend: function (){
+                              $('#loader').css({display:"block"});
 
-});
+
+                            },
+
+                            complete: function(){
+                              $('#loader').css({display:"none"});
+
+                            }
+                            });
+
+      } // fim da funcao carregar conteudo
+
+            });

@@ -27,11 +27,11 @@
                         $html .= '<td>'.$res['DT_CAD'].'</td>';
                         $html .= ' <td>';
                             $html .= '<div class="btn-group" data-toggle="buttons">';
-                                $html .= '<button type="button"  data-id="'.$res['ID'].'" class="btn btn-danger  btn-deletar" data-id_local="'.$res['ID'].'" style="color: white; font-size: 15px;"><span class ="glyphicon glyphicon-trash"></span></button>'; //data- vai guardar i ID do usuario para usar
+                                $html .= '<button type="button"  id="btn_deletar_'.$res['ID'].'" class="btn btn-danger  btn_deletar" data-id_local="'.$res['ID'].'" style="color: white; font-size: 15px;"><spam class ="glyphicon glyphicon-trash"></spam></button>'; //data- vai guardar i ID do usuario para usar
                                 $html .= '<button type="button"  id="btn_atualizar_'.$res['ID'].'" class="btn btn-primary  btn_atualizar" data-id="'.$res['ID'].' "data-target="#modal_atualizacao"  data-toggle="modal"';
                                 $html .= 'data-endereco="'.$res['ENDERECO'].'"';
                                 $html .= 'data-descricao="'.$res['DESCRICAO'].'"';
-                                $html .= 'style="color: white; font-size: 15px;"><span class ="glyphicon glyphicon-pencil"></span></button>';
+                                $html .= 'style="color: white; font-size: 15px;"><spam class ="glyphicon glyphicon-pencil"></spam></button>';
                             $html .= '</div>';
                             $html .= ' <div class="clearfix"></div> ';
                         $html .= '</td>';

@@ -9,12 +9,12 @@
 					<div class='panel panel-default'>
 						<div class="panel-body">
 							<div class="row">
-								<form  id="form_cadastrar"  method="post"  onsubmit="cadastrarLocal()">
+								<form  id="form_cadastrar"  method="post" action="javascript:cadastrar();">
 									<div class="col-md-6">
 										<div class="form-group" id="local_opcoes">
 											<div class="input-group">
 												<span class="input-group-addon">Local</span>
-												<input type="text" name="loc" id="loc" class="form-control" required >
+												<input type="text" name="loc" id="loc" class="form-control" required>
 											</div>
 										</div>
 									</div>
@@ -27,7 +27,7 @@
 											</div>
 										</div>
 										<br>
-										<button class="btn btn-primary" id="btn-cadastrar">Cadastrar</button>
+										<button class="btn btn-primary" id="btn_cadastrar">Cadastrar</button>
 									</div>
 									<br>
 								</form>
@@ -59,7 +59,7 @@
 			</div>
         
 			<!-- Janela Modal para atualização-->
-			<form class="modal fade" id="modal_atualizacao">
+			<form class="modal fade" id="modal_atualizacao" action="javascript:atualizarlocal();">
 				<div class="modal-dialog ">
 				
 					<div class="modal-content">
@@ -90,7 +90,7 @@
 							<button type="button"  class="btn btn-danger"
 								data-dismiss="modal">CANCELAR                            
 							</button>
-									<button type="submit"  id="btn_atualizar_modal" class="btn btn-primary">A T U A L I Z A R                       
+									<button type="submit"  id="btn_atualizar" class="btn btn-primary">A T U A L I Z A R                       
 							</button>
                       	</div>
                   	</div>

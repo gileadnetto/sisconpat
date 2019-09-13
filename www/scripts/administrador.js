@@ -1,150 +1,243 @@
-usuario = function(){
 
-	var conteudo = $('#conteudo').html(data); 
 
-	/**
-	* 
-	* @description funcão responsavel por carregar os locais
-	*/
-	var carregar = function(){
-		$.ajax({
-			url:'getUsuario', 
+              // código javascript  
+              $(document).ready( function (){
 
-			success: function(data){
-				conteudo.html(data);
+                carregarConteudo();
+    
+           
+              
+            function carregarConteudo(){
 
-			},
-	
-			beforeSend: function (){
-				$('#loader').css({display:"block"});
-			},
+                   $.ajax({
+                url:'getUsuario', 
 
-			complete: function(){
-				$('#loader').css({display:"none"});
-			}
-		});
-	}
+            success: function(data){
+             $('#conteudo').html(data); 
 
-	/**
-	 * 
-	 * @param {*integer} id 
-	 * @description funcão responsavel por remover um usuario pelo o seu id
-	 */
-	var remover = function(id){
-		$.ajax({
-			url: 'deletUsuario',
-			method: 'post',
-			data: {id: id},
 
-			success:function(data){
-				$('#alert_msg').html('Deletado');//colocar a msg 
-				$('#alerta').show('fade');
+            //botoes CRUD da tabela
+          $('.btn_deletar').click(function(){
+            var id = $(this).data('id'); //id passada ao criar o botao 
+                      
+                  
+                  $.ajax({
+                    url: 'deletUsuario',
+                    method: 'post',
+                    data: { id: id},
+                    success:function(data){
+                       $('#alert_msg').html('Deletado');//colocar a msg 
+                       $('#alerta').show('fade');
+                        carregarConteudoFora();
 
-				setTimeout(function () {
-					$('#alerta').hide('fade');
-				}, 2000);  
+                                      setTimeout(function () {
+                                          $('#alerta').hide('fade');
+                                      }, 2000);  
 
-				$('#'+id).closest('.tabela').remove();
+                                                   
+                    }
 
-			}
-		});
-	}
+                  });
 
-	var cadastrar = function(formData){   
-		$.ajax({  
-			type: "POST",                       
-			url:'cadastrarUsuario', 
-			data: formData,
-			processData:false,
-			contentType:false,
-	
-			success: function(data){
-				var result = JSON.parse(data);
-				if( !result.erro){
-					$('#erro_tombamento').css({display:"none"});
-					$('#alert_msg').html('Adicionado');//setar a msg de sucesso
-	
-					$('#alerta').show('fade');
-	
-					setTimeout(function () {
-						$('#alerta').hide('fade');
-					}, 2000);
+              }); 
 
-					carregar();
+                                          
+            },
+              //continuação do ajax v
 
-					$('#modal_adicionar [data-dismiss="modal"]').trigger('click');
-					$('#modal_adicionar')[0].reset();
-					
-				}
-				else{
-					$('#erro_tombamento').css({display:"block"});
-					$('#alert_msg_erro').html(result.mensagem);//setar a msg de erro
-					$('#alerta_erro').show('fade');
-	
-					setTimeout(function () {
-						$('#alerta_erro').hide('fade');
-					
-					}, 2000); 
-					
-					//document.location = "produto.php?error=1";;
-				} 
-			},
-		    
-		}); 
-		// window.location.reload();
-	}
+                              //exemplo extra 
+                            beforeSend: function (){
+                              $('#loader').css({display:"block"});
 
-	var atualizar = function(dados){
-		//var dados = $('#modal_atualizacao').serialize();
-		$.ajax({
-			url:'updateUsuario', 
-			method:'post',
-			processData:false,
-			contentType:false,
-			data:dados,
-			success: function(data){
-				var result = JSON.parse(data);
-				
-				if(!result.erro){
-					$('#erro_tombamento').css({display:"none"});
-					$('#alert_msg').html('Atualizado');//setar a msg de sucesso
 
-					$('#alerta').show('fade');
+                            },
 
-					setTimeout(function () {
-					$('#alerta').hide('fade');
-					}, 2000);
+                            complete: function(){
+                              $('#loader').css({display:"none"});
 
-					$('[data-dismiss="modal"]').trigger('click');
+                            }
+                            });
 
-					carregar();
-				}
-				else{
+      } // fim da funcao carregar conterudo
 
-					$('#erro_tombamento').css({display:"block"});
+             
+             
 
-					$('#alert_msg_erro').html('Nao foi Atualizado');//setar a msg de erro
+            });
 
-					$('#alerta_erro').show('fade');
+            function cadastrar(){
+                 
 
-					setTimeout(function () {
-						$('#alerta_erro').hide('fade');
-					}, 2000); 
+               $.ajax({
+                url:'cadastrarUsuario', 
+                method:'post',
+                data:$('#cadastro_form').serialize(), //essa função manda os dados dos formularios q estao dentro do form
 
-				} 
-			},
-			
-		});
-	}
+           success: function(data){
 
-	return{
-		carregar : carregar,
-		cadastrar: cadastrar,
-		atualizar : atualizar,
-		remover : remover,
-	}
-}
+              
+              
+                  var result = $.trim(data);//converter em string a resposta do webservice
+                  //alert(data);
+                 if(result==='true'){
+                   
+                   // $('#erro_tombamento').css({display:"none"});
+                    $('#alert_msg').html('Adicionado');//setar a msg de sucesso
+                 
+                   $('#alerta').show('fade');
 
-usuario  = new Local;
-usuario.carregar();
-   
+                  setTimeout(function () {
+                    $('#alerta').hide('fade');
+                    }, 2000);
+                    carregarConteudoFora() 
+                   
+
+              
+               
+                }else{
+                 
+                  // $('#erro_tombamento').css({display:"block"});
+
+                    $('#alert_msg_erro').html('Nao foi adicionado');//setar a msg de erro
+                
+                    $('#alerta_erro').show('fade');
+
+                  setTimeout(function () {
+                    $('#alerta_erro').hide('fade');
+                    }, 2000); 
+
+                  //document.location = "produto.php?error=1";;
+                 
+                    } 
+
+                                                                       
+           }
+          
+
+          
+          });
+
+              }//FIM DA FUNÇÃO CADASTRAR
+
+
+
+                function atualizarUsuario(){
+                 
+
+               $.ajax({
+                url:'updateUsuario', 
+                method:'post',
+                //data: {id : $('#texto_tweet').val() },
+                //ou assim 
+                data:$('#modal_atualizacao').serialize(), //essa função manda os dados dos formularios q estao dentro do form
+
+           success: function(data){
+                  var result = JSON.parse(data);
+                 if( !result.erro){
+                   
+                    $('#erro_tombamento').css({display:"none"});
+                    $('#alert_msg').html('Atualizado');//setar a msg de sucesso
+                 
+                   $('#alerta').show('fade');
+
+                  setTimeout(function () {
+                    $('#alerta').hide('fade');
+                       location.reload();
+                     //$('##modal_atualizacao').modal('toggle');
+                     // $('#modal_atualizacao').attr({"style":"display: none;"});
+                     // $('body').removeClass('modal-open');
+                    }, 2000);
+
+                   
+                    carregarConteudoFora() 
+                   
+
+              
+               
+                }else{
+                 
+                   $('#erro_tombamento').css({display:"block"});
+
+                    $('#alert_msg_erro').html('Nao foi Atualizado');//setar a msg de erro
+                
+                    $('#alerta_erro').show('fade');
+
+                  setTimeout(function () {
+                    $('#alerta_erro').hide('fade');
+                    }, 2000); 
+
+                  //document.location = "produto.php?error=1";;
+                 
+                    } 
+
+                                                                       
+           }
+          
+
+          
+          });
+
+              }//FIM DA FUNÇÃO ATUALIZAR
+
+
+
+
+
+
+
+
+
+//verificar uma maneira melhor de  atualzar o conteudo cadastrado pois esta funcao é duplicada so que pelo document.reaDY  não é reconhecido
+
+              function carregarConteudoFora(){
+
+                   $.ajax({
+                url:'getUsuario', 
+
+            success: function(data){
+             $('#conteudo').html(data); 
+
+
+            //botoes CRUD da tabela
+          $('.btn_deletar').click(function(){
+            var id = $(this).data('id'); //id passada ao criar o botao 
+                      
+                  
+                  $.ajax({
+                    url: 'deletUsuario',
+                    method: 'post',
+                    data: { id: id},//manda uma variavel data-id do botao do getUsuario  . com o nome de id para ser pego no deletUsuario
+                    success:function(data){
+                       $('#alert_msg').html('Deletado');//colocar a msg 
+                       $('#alerta').show('fade');
+
+                                      setTimeout(function () {
+                                          $('#alerta').hide('fade');
+                                      }, 2000);  
+
+                                        carregarConteudoFora(); //atualizar a pagina apos deletado            
+                    }
+
+                  });
+
+              }); 
+
+                                          
+            },
+              //continuação do ajax v
+
+                              //exemplo extra 
+                            beforeSend: function (){
+                              $('#loader').css({display:"block"});
+
+
+                            },
+
+                            complete: function(){
+                              $('#loader').css({display:"none"});
+
+                            }
+                            });
+
+      } // fim da funcao carregar conterudo
+

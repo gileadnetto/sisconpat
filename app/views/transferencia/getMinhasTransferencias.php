@@ -11,11 +11,11 @@ $html .= '<div class="panel-group" id="accordion">';
 				$html .= '<h4 class="panel-title">';
 					
 					$html .= '<a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse'.$res['ID'].'" aria-expanded="true" aria-controls="collapse'.$res['ID'].' ">';
-						$html .= '<span class="fa fa-angle-double-down detalhes"></span>&nbsp  <Strong> '.$res['origem'].'</Strong> Para  <Strong>'.$res['destino'].'</Strong>&nbsp;-&nbsp; Nº:'.$res['ID'].'';
+						$html .= '<spam class="fa fa-angle-double-down detalhes"></spam>&nbsp  <Strong> '.$res['origem'].'</Strong> Para  <Strong>'.$res['destino'].'</Strong>&nbsp;-&nbsp; Nº:'.$res['ID'].'';
 					
 						$html .= '<p class= "list-group-item-text pull-right">';
 						$html .= '<small style="color:#ff6666;"> QTD Produto(s) '.$res['QUANT'].'</small>';
-						$html .= ' - <span class="data_minha_transferencia">'.$res['DT_MOV'].'</span> </p>';  
+						$html .= ' - <spam class="data_minha_transferencia">'.$res['DT_MOV'].'</spam> </p>';  
 					$html .= '</a>';
 				$html .= '</h4>';
 			$html .= '</div>';
@@ -40,7 +40,7 @@ $html .= '<div class="panel-group" id="accordion">';
 					// 	$resposta  = (array)  $resposta ;
 					// 	//echo "<br>".$resposta->produto;
 					// 	$html .= '<div class="list-group-item">';
-					// 		$html .= '<strong>'.$resposta['PATRIMONIO'].'</strong> - <small style="color:#666666;">'.$resposta['descricao'].'</small> - <small style="color:#ff8080;"> Tombamento: '.$resposta['TOMBAMENTO'].'</small>';
+					// 		$html .= '<strong>'.$resposta['produto'].'</strong> - <small style="color:#666666;">'.$resposta['descricao'].'</small> - <small style="color:#ff8080;"> Tombamento: '.$resposta['TOMBAMENTO'].'</small>';
 					// 		if($resposta['ativo']==="0"){
 					// 			$html .= '<small> - produto inativo</small> ';
 								

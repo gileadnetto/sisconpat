@@ -24,7 +24,7 @@ $html .='<table  class="table table-striped table-bordered table-hover ">';
 			if($res['ATIVO'] != 0){
 				$html .='<tr>';
 						
-					$html .='<td>'.$res['PATRIMONIO'].'</td>';
+					$html .='<td>'.$res['PRODUTO'].'</td>';
 					$html .='<td>'.$res['DESCRICAO'].'</td>';
 					$html .='<td>'.$res['TOMBAMENTO'].'</td>';
 					$html .='<td>';

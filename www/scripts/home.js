@@ -1,45 +1,64 @@
-// código javascript  
-$(document).ready(function () {
+ // código javascript  
+ $(document).ready( function (){
 
-	carregarConteudo();
+  carregarConteudo();
 
-	function carregarConteudo() {
 
-		$.ajax({
-			//url:'consulta_sql.php',
-			url: 'estatisticaHome',
 
-			success: function (data) {
-				$('#conteudo').html(data);
-			},
-			//continuação do ajax principal
+function carregarConteudo(){
 
-			beforeSend: function () {
-				$('#loader').css({ display: "block" });
 
-			},
+$.ajax({
+  //url:'consulta_sql.php',
+     url:'estatisticaHome', 
 
-			complete: function () {
-				$('#loader').css({ display: "none" });
-			}
-		});
+success: function(data){
+$('#conteudo').html(data);  
+                                         
+},
+//continuação do ajax principal
 
-		$.ajax({
-			//url:'consulta_sql.php',
-			url: 'relatorio_grafico',
+                
+              beforeSend: function (){
+                $('#loader').css({display:"block"});
 
-			success: function (data) {
-				$('#relatorio').html(data);
-			},
 
-			beforeSend: function () {
-				$('#loader').css({ display: "block" });
-			},
+              },
 
-			complete: function () {
-				$('#loader').css({ display: "none" });
-			}
-		});
+              complete: function(){
+                $('#loader').css({display:"none"});
 
-	} // fim da funcao carregar conteudo
+              }
+              });
+              
+
+
+$.ajax({
+  //url:'consulta_sql.php',
+     url:'relatorio_grafico', 
+
+success: function(data){
+$('#relatorio').html(data);  
+                                         
+},
+//continuação do ajax principal
+
+                
+              beforeSend: function (){
+                $('#loader').css({display:"block"});
+
+
+              },
+
+              complete: function(){
+                $('#loader').css({display:"none"});
+
+              }
+              });
+
+} // fim da funcao carregar conteudo
+
 });
+
+//   $('.produto').click( function(){
+
