@@ -1,70 +1,84 @@
 var Local = function(){
+	
+	var tableLocalidade;
 	/**
 	 * Função responsavel por carregar o conteudo da listagem de locais.
 	 */
 	var carregarConteudo = function()
 	{
-		$('#dataTableLocalidade').DataTable(
+		tableLocalidade = $('#dataTableLocalidade').DataTable(
     		{
-    			dom: 'Bfrtip',
-    			"processing": true,
-    	        "serverSide": true,
     	        "ajax": "getLocalidade",
-    			columns: [
-    				{ "data": "DESCRICAO" },
-    			    { "data": "ENDERECO" },
+    	        columns: [
+    	        	{ "data": "DESCRICAO"},
+    				{ "data": "ATIVO",
+    					render: function (data, type, row) {
+    						return data ? '<span class="badge badge-success">Ativo</span>' : '<span class="badge badge-danger">Inativo</span>' 
+    					}
+    	        	},
+    				{ "data": "LOCALIDADE"},
+    				{ "data": "CEP"},
+    				{ "data": "LOGRADOURO"},
+    				{ "data": "BAIRRO"},
+    				{ "data": "NUMERO"},
+    				{ "data": "COMPLEMENTO"},
+    				{ "data": "UF"},
     				{ "data": "DT_CAD",
     					render: function (data, type, row) {
     						return moment(data).format("DD/MM/YYYY HH:mm:ss");
     					}
+    				},
+    				{ "data": "Acoes",
+    					render: function (data, type, row) {
+    					var buttons = [{'text' : 'Editar'}];
+    					  return htmlhelper.dropdownAcoesCreate(buttons);
+    					}
         				
     				}
-    	        ]
+    	        ],
+	    		language: {
+	    	        search: "Pesquisa",
+	    	        emptyTable: "Nenhuma localidade cadastrada!",
+	    	        paginate: {
+	    	            "first":      "Inicio",
+	    	            "last":       "Fim",
+	    	            "next":       "Próximo",
+	    	            "previous":   "Anterior"
+	    	        },
+	    	        lengthMenu:"_MENU_",
+	    	        info:           "Mostrando _START_ até _END_ de _TOTAL_ registros",
+	    	        infoEmpty:      "Mostrando 0 até 0 de 0 registros",
+
+	    	    }
     		} 
         );
+				
+		tableLocalidade.on( 'click', 'a', function () {
+    		var data = tableLocalidade.row( $(this).parents('tr') ).data();
+    		
+    		var formAtualizarLocalidade = 'form_atualizar_Localidade';
+    		
+    		var configInputsFormAtualizar = [
+    			{label : 'Descrição', name	: 'descricao', tamanho: 6, 'value' : data['DESCRICAO']},
+    			{label : 'localidade', name : 'localidade' , tamanho: 6,  'value' : data['LOCALIDADE']},
+    			{label : 'CEP', name : 'cep', tamanho: 4,  'value' : data['CEP']},
+    			{label : 'UF', name : 'uf', tamanho: 2,  'value' : data['UF']},
+    			{label : 'Bairro', name : 'bairro', tamanho: 6,  'value' : data['BAIRRO']},
+    			{label : 'Logradouro', name : 'logradouro', tamanho: 12,  'value' : data['LOGRADOURO']},
+    			{label : 'Numero', name : 'numero', tamanho: 4,  'value' : data['NUMERO']},
+    			{label : 'Complemento', name : 'complemento', tamanho: 8,  'value' : data['COMPLEMENTO']},
+    			{label : 'id_atualizacao', name : 'id_atualizacao', 'type':'hidden', 'value' : data['ID']}
+			];
+			
+			var configButtonsFormAtualizar = [
+				{'type' : 'button', 'class' : 'btn btn-danger', 'name' : 'Cancelar', 'id_button' : 'btn-cancelar-localidade', 'fechaModal' : true},
+				{'type' : 'submit', 'class' : 'btn btn-primary', 'name' : 'Atualizar', 'id_button' : 'btn_atualizar', 'onClosureClick' : 'local.atualizarlocal($(\'#' + formAtualizarLocalidade + '\'))'}
+				];
+			
+			modalhelper.modalCreate(formAtualizarLocalidade, 'Atualizar Localidade', htmlhelper.inputCreate(configInputsFormAtualizar), htmlhelper.buttonCreate(configButtonsFormAtualizar));
+		} );
 	}
-	
-	/**
-	 * Função responsavel por deletar o local;
-	 */
-	var deletar = function()
-	{
-		 var id_local = $('#btn_deletar').data('id_local');  
-         //alert(id_local);
-	 	$.ajax({
-	 		url:'deleteLocal',
-	 		method:'post',
-            data: {id_local : id_local},
-            success: function(data){
-            	if(data.success){
-            		$('#alert_msg').html('deletada');
-                    msghelper.showMsgSucess('Local deletado com sucesso.');
-                    setTimeout(function () {
-                    	$('#alerta').hide('fade');
-                     }, 2000); 
-                	carregarConteudo();   
-            	} else {                          
-            		$('#erro_delet').css({display:"block"});
-            		msghelper.showMsgErro('Contem patrimonios cadastrados');
-            		/*$('#alert_msg_erro').html('<strong> contem patrimonios cadastrados </strong>');//setar a msg de erro
-            		$('#alerta_erro').show('fade');
-            		setTimeout(function () {
-        				$('#alerta_erro').hide('fade');
-                     }, 2900); */
-             	} 
-            },
-            error: function(data){
-            	$('#erro_delet').css({display:"block"});
-            	var msg = 'Não foi possivel deletar o local.' + data; 
-            	msghelper.showMsgErro(msg);
-            	/*$('#alert_msg_erro').html('<strong> Não foi possivel deletar o local.</strong>' + data);
-        		$('#alerta_erro').show('fade');
-        		setTimeout(function () {
-    				$('#alerta_erro').hide('fade');
-                 }, 2900);*/
-            }
-       });
-	}
+
 	/**
 	 * Função responsavel por chamar a persistencia de um novo local.
 	 */
@@ -72,35 +86,26 @@ var Local = function(){
 	{
 		var form = $form.serialize();
 		$.ajax({
-			url:'cadastrarLocal', 
-			method:'post',
-			data:form,
-			success: function(data){debugger;
+			type: "POST",                       
+	        url:'cadastrarLocal', 
+	        data: form,
+			success: function(data){
 				var result = JSON.parse(data);
-				if(!result.erro){debugger;        
-					$('#alert_msg').html('Adicionada');//setar a msg de sucesso
-					$('#alerta').show('fade');
-					setTimeout(function () {
-						$('#alerta').hide('fade');
-					}, 2000); 
-					window.location.reload();
-				} else {debugger;
-					$('#alert_msg_erro').html('Nao foi possivel adicionar');//setar a msg de erro
-					$('#alerta_erro').show('fade');
-					setTimeout(function () {
-						$('#alerta_erro').hide('fade');
-					}, 2000); 
+				if(result.sucesso) {  
+					msghelper.showMsgSucess(result.msg);
+				} else {
+					msghelper.showMsgErro('Erro ao cadastrar local. '+ result.constraint);
 				} 
 			},
-			error: function(data){debugger;
-				$('#alert_msg_erro').html('Nao foi possivel adicionar');//setar a msg de erro
-				$('#alerta_erro').show('fade');
-				setTimeout(function () {
-					$('#alerta_erro').hide('fade');
-				}, 2000); 
+			complete: function(data){
+				$(".close").click();
+				//window.location.reload(true);
+			},
+			error: function(data){
+				msghelper.showMsgErro('Erro ao cadastrar local.');
 			}
 		});
-	}//fim funcao cadastrar
+	}
 	
 	/**
 	 * Função responsavel chamar a persistencia dos dados para atualizar o local.
@@ -148,58 +153,11 @@ var Local = function(){
              error: function(e) {}
          });
      }
-     
-	 /**
-	  * Função responsavel por carregar o conteudo fora??
-	  */
-     var carregarConteudoFora = function()
-     {                          
-    	 $.ajax({
-    		 url:'getLocalidade', 
-             success: function(data){
-            	 $('#conteudo').html(data); 
-            	 $('.btn_deletar').click(function(){
-	                 var id_local = $(this).data('id_local'); //id passada ao criar o botao 
-	                 $.ajax({
-	                	 url:'deletLocal',
-	                	 method:'post',
-	                	 data: {id_local : id_local},//mandar a var id_local para outra pagina com o nome da variavel id_local
-	                	 success: function(data){ 
-	                		 data = JSON.parse(data)
-	                		 if(!data.erro){
-	                			 $('#alert_msg').html('deletada');//setar a msg de sucesso
-	                			 $('#alerta').show('fade');
-	                			 setTimeout(function () {
-	                				 $('#alerta').hide('fade');
-	            			 	 }, 2000); 
-	                			 carregarConteudoFora(); //atualizar a pagina apos deletado   
-	                		 } else {       
-	                			 $('#erro_delet').css({display:"block"});
-	                			 $('#alert_msg_erro').html('<strong> contem patrimonios cadastrados </strong>');//setar a msg de erro
-	                			 $('#alerta_erro').show('fade');
-	                             setTimeout(function () {
-	                            	 $('#alerta_erro').hide('fade');
-	                             }, 2900); 
-	                		 } 
-	                	 }
-	                 });
-            	 }); 
-             },
-             beforeSend: function (){
-            	 $('#loader').css({display:"block"});
-         	},
-         	complete: function(){
-         		$('#loader').css({display:"none"});
-         	}
-    	 });    
-     }
 	
 	return {
-		cadastrar : cadastrar,
-		deletar : deletar,
+		cadastrar : cadastrar,		
 		carregarConteudo : carregarConteudo,
-		atualizarlocal : atualizarlocal,
-		carregarConteudoFora : carregarConteudoFora
+		atualizarlocal : atualizarlocal
 	};
 }
 

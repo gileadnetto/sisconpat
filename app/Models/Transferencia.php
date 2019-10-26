@@ -45,7 +45,7 @@ Class Transferencia{
          * Função responsavel por montar a entidade de transferencia.
          * @param array $Transferencia
          */
-        public function exchangeArray($Transferencia) { 
+        public function exchangeArray(array $Transferencia) { 
             $this->idOrigem = $Transferencia['Origem'];
             $this->idDestino = $Transferencia['Destino'];
             $this->idUsuario = $Transferencia['Usuario'];

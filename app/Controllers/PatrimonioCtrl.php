@@ -4,76 +4,84 @@ namespace App\Controllers;
 
 use SON\Controller\Action;
 use SON\Di\Container;
+use App\Models\Patrimonio;
 
 class PatrimonioCtrl extends Action {
 
     /**
-     * FunÁ„o responsavel por retornar a listagem dos Patrimonios.
+     * FunÁ„o responsavel por retornar a listagem dos Patrimonios.     
      */
-    public function getPatrimonio() {
-        $this->view->patrimonio = Container::getDao("PatrimonioDao")->listar();
-        $this->render('getPatrimonio','patrimonio');
+    public function getPatrimonio() 
+    {
+        $patrimonioDao = Container::getDao("PatrimonioDao");
+        $result = $patrimonioDao->getList();
+        echo json_encode(array("recordsTotal" => $result['total'], "data" => $result['results']));
     }
     
     /**
-     * FunÁ„o responsavel por realizar a busca.
+     * FunÁ„o responsavel por retornar a listagem dos Patrimonios.
      */
-    public function buscar() {
-        $query = $_POST['query'];
-        
-        $this->view->itens= Container::getDao("PatrimonioDao")->buscarAll($query);;
-        $this->render('getPatrimonio','patrimonio');
+    public function getAutoCompletePatrimonioList()
+    {
+        $patrimonioDao = Container::getDao("PatrimonioDao");
+        $result = $patrimonioDao->get();
+        echo json_encode([$result['results']]);
     }
     
     /**
      * FunÁ„o responsavel por realizar o processo de cadastro do patrimonio.
      */
     public function cadastrar() {
-        $constraint = array();
         
-        $request = $this->getRequest();
+        $request = $this->getPostData();
+        $constraint = $postData = array();
         
-        if(!$request->post()) return json_encode(['success'=> 0]);
+        $postData = [
+            'patrimonio'    => $request['patrimonio'],
+            'descricao'     => $request['descricao'],
+            'local_inicial' => $request['local_inicial'],
+            'tombamento'    => $request['tombamento'],
+            'foto'          => $request['foto'] ?: "padrao.png"
+        ];
         
-        $patrimonio = $_POST['patrimonio'];
-        $descricao = $_POST['descricao'];
-        $idLocalidade = $_POST['local_inicial'];
-        $tombamento = $_POST['tombamento'];
-        $foto = $_FILES["foto"] ?: $nome_imagem = "padrao.png";
+        $constraint = $this->checkPostData($postData, $constraint);
         
-        $constraint = $this->checkPostData($request);
-        
-        if(count($constraint) >= 1) return json_encode(['success' => 0, 'constraint' => $constraint]);
-        
-        $this->postDataToEntity($request);
-        
-        if(count($constraint) > 0) return $response = json_encode(array("sucesso" => 0));
-        
-		$patrimonioModel = \SON\Di\Container::getClass("Patrimonio"); //instacinado a classe e a conexao banco
-		$patrimonioDao = Container::getDao("PatrimonioDao");
-
-		$patrimonioModel->setPatrimonio($patrimonio);
-		$patrimonioModel->setDescricao($descricao);
-		$patrimonioModel->setTombamento($tombamento);
-		$patrimonioModel->setIdLocalidade($idLocalidade);
-		$patrimonioModel->setFoto($nome_imagem);
-
-		$patrimonioJson = $patrimonioModel->jsonSerialize();
-		$response = $patrimonioDao->cadastrar($patrimonioJson);
-		
-		$response = json_encode($response);
-		unset($patrimonioModel);
-		echo $response; 
+        if(count($constraint) > 0) {
+            echo json_encode(array("constraint" => $constraint , "sucesso" => 0));
+        } else {
+            $patrimonio = Container::getClass("Localidade");
+            $patrimonioDao = Container::getDao("LocalidadeDao");
+            
+            $this->postDataToEntity($patrimonio, $postData);
+            
+            $result = $patrimonioDao->save($patrimonio);
+            
+            if($result['success']){
+                echo json_encode(array("sucesso" => true, "msg" => $patrimonio->getDescricao()." cadastrada com sucesso."));
+            } else {
+                echo json_encode(array("sucesso" => false, "msg" => "Erro ao cadastrar localidade!".$result['msg'] ));
+            }
+            unset($patrimonio);
+        }
 	}
 	
 	/**
 	 * FunÁ„o responsavel por fazer algumas validaÁıes antes da persistencia dos dados do patrimonio.
-	 * @param unknown $request
+	 * @param array $postData
+	 * @param array $constraint
 	 * @return array
 	 */
-	private function checkPostData($request):array
+	private function checkPostData(array $postData, array $constraint):array
 	{
-	    if (!empty($foto["name"])) {
+	    if(!$postData['patrimonio'])       $constraint['patrimonio'] =  "Campo (Patrimonio) invalida!";
+	    if(!$postData['descricao'])        $constraint['descricao'] =  "Campo (Descricao) invalida!";
+	    if(!$postData['local_inicial'])    $constraint['local_inicial'] =  "Campo (Local) invalida!";
+	    if(!$postData['tombamento'])       $constraint['tombamento'] =  "Campo (Tombamento) invalida!";
+	    if(!$postData['foto'])             $constraint['foto'] =  "Campo (Foto) invalida!";
+	    
+	    return $constraint;
+	    
+	    /* if (!empty($postData["foto"])) {
 	        // Largura m√°xima em pixels
 	        $largura = 86150;
 	        // Altura m√°xima em pixels
@@ -133,7 +141,21 @@ class PatrimonioCtrl extends Action {
 	    }//fim do if se a foto foi selecionada
 	    else{
 	        $nome_imagem = "padrao.png";
-	    }
+	    } */
+	}
+	
+	/**
+	 * FunÁ„o responsavel por montar a entidade de patrimonio
+	 * @param Patrimonio $patrimonio
+	 * @param array $postData
+	 */
+	private function postDataToEntity(Patrimonio $patrimonio, array $postData)
+	{
+	    $patrimonio->setPatrimonio($postData['patrimonio']);
+	    $patrimonio->setDescricao($postData['descricao']);
+	    $patrimonio->setTombamento($postData['local_inicial']);
+	    $patrimonio->setIdLocalidade($postData['tombamento']);
+	    $patrimonio->setFoto($postData['foto']);
 	}
     
     public function deletPatrimonio(){
@@ -149,97 +171,31 @@ class PatrimonioCtrl extends Action {
     
     public function atualizarProduto() {
 	       
-        $patrimonio = $_POST['patrimonio_att_modal'];
-        $descricao = $_POST['descricao_att_modal'];
-        $idLocalidade = $_POST['local_inicial'];
-        $tombamento = $_POST['tombamento_att_modal'];
-		$foto = $_FILES["foto_att_modal"];
-		$foto_antiga = $_POST["foto"];
-
-			
-        if (!empty($foto["name"])) {		
-			// Largura m√°xima em pixels
-			$largura = 86150;
-			// Altura m√°xima em pixels
-			$altura = 86180;
-			// Tamanho m√°ximo do arquivo em bytes
-			$tamanho = 6100000;
-
-			$error = array();
-
-			// Verifica se o arquivo √© uma imagem
-			if(!preg_match("/^image\/(pjpeg|jpeg|png|gif|bmp)$/", $foto["type"])){
-			$error[1] = "Arquivo selecionado n√£o √© uma imagem.";
-			} 
-	
-			// Pega as dimens√µes da imagem
-			$dimensoes = getimagesize($foto["tmp_name"]);
-		
-			// Verifica se a largura da imagem √© maior que a largura permitida
-			if($dimensoes[0] > $largura) {
-				$error[2] = "A largura da imagem n√£o deve ultrapassar ".$largura." pixels";
-			}
-
-			// Verifica se a altura da imagem √© maior que a altura permitida
-			if($dimensoes[1] > $altura) {
-				$error[3] = "Altura da imagem n√£o deve ultrapassar ".$altura." pixels";
-			}
-			
-			// Verifica se o tamanho da imagem √© maior que o tamanho permitido
-			if($foto["size"] > $tamanho) {
-				$error[4] = "A imagem deve ter no m√°ximo ".$tamanho." bytes";
-			}
-
-			// Se n√£o houver nenhum erro
-			if (count($error) == 0) {
-			
-				// Pega extens√£o da imagem
-				preg_match("/\.(gif|bmp|png|jpg|jpeg){1}$/i", $foto["name"], $ext);
-
-				// Gera um nome √∫nico para a imagem
-				$nome_imagem = md5(uniqid(time())) . "." . $ext[1];
-
-				// Caminho de onde ficar√° a imagem
-				$caminho_imagem = "imagens/produtos/" . $nome_imagem;
-
-				// Faz o upload da imagem para seu respectivo caminho
-				move_uploaded_file($foto["tmp_name"], $caminho_imagem);		
-			
-			}
-	
-			// Se houver mensagens de erro, exibe-as
-			if (count($error) != 0) {
-				foreach ($error as $erro) {
-					echo $erro . "<br />";
-					die('erro em add foto');
-				}
-			}
-		}//fim do if se a foto foi selecionada
-		else{ //se n√£o for selecionada nenhuma imagem 
-			$nome_imagem = $foto_antiga;
-		}
-
+        $request = $this->getPostData();
+        $constraint = $postData = array();
         
-		$patrimonioModel = \SON\Di\Container::getClass("Patrimonio"); //instacinado a classe e a conexao banco
-		$patrimonioDao = Container::getDao("PatrimonioDao");
-
-		$patrimonioModel->setPatrimonio($patrimonio);
-		$patrimonioModel->setDescricao($descricao);
-		$patrimonioModel->setTombamento($tombamento);
-		$patrimonioModel->setIdLocalidade($idLocalidade);
-		if($nome_imagem){
-		    $patrimonioModel->setFoto($nome_imagem);
-		}
-
-		$itemJson = $patrimonioModel->jsonSerialize();
-       // $produto_json = json_encode($produto);
-         
-		$response = $patrimonioDao->atualizar($itemJson);
-
-		$response = json_encode($response);
-		unset($patrimonioModel);
-		unset($patrimonioDao);
-        echo $response; 
+        $postData = [
+            'patrimonio' => $request['patrimonio_att_modal'],
+            'descricao' => $request['descricao_att_modal'],
+            'local_inicial' => $request['local_inicial'],
+            'tombamento' => $request['tombamento_att_modal'],
+            'foto' => $request['foto'] ?: "padrao.png"
+        ];
+        
+        $constraint = $this->checkPostData($postData, $constraint);
+        
+        if(count($constraint) > 0) {
+            echo json_encode(array("constraint" => $constraint , "sucesso" => 0));
+        } else {
+            $patrimonio = Container::getClass("Localidade");
+            $patrimonioDao = Container::getDao("LocalidadeDao");
+            
+            $this->postDataToEntity($patrimonio, $postData);
+            
+            $response = $patrimonioDao->update($patrimonio);
+            unset($patrimonio);
+            echo json_encode(array("sucesso" => $response ));
+        }
        
     }
     

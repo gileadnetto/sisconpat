@@ -1,17 +1,88 @@
 <?php
 namespace SON\Dao;
-include_once('requisicoes.php');
-include_once('processador.php');
-require_once 'config.php';
+use App\Models\Transferencia;
+use PDO;
+use App\Models\TransferenciaItem;
 
-class TransferenciaDao {    
+class TransferenciaDao{    
 	protected $db;
-	protected $table;  
-  
-	public function __construct(\PDO $db) {
-		$this->db=$db;         
+	protected $table = "TRANSFERENCIA";  
+	
+	/**
+	 * Contrutor padrão para instanciar o PDO
+	 * @param PDO $db
+	 */
+	protected function __construct(PDO $db)
+	{
+	    $this->db = $db;
+	}
+	
+	/**
+	 * Função responsavel por retornar toda a entidade
+	 * @return entidade
+	 */
+	protected function get()
+	{
+	    $sth = $this->db->prepare('SELECT * FROM :TABLE');
+	    
+	    $sth->bindParam(':TABLE', $this->table, PDO::PARAM_STR);
+	    
+	    $result = $sth->execute();
+	    
+	    return  $result->fetchAll();
+	}
+	
+	/**
+	 * Função resposanvel por retornar a entidade pela ID
+	 * @param int $id
+	 * @return entidade
+	 */
+	protected function getById(int $id)
+	{
+	    $sth = $this->db->prepare('SELECT * FROM :TABLE WHERE :ID');
+	    
+	    $sth->bindParam(':TABLE', $this->table, PDO::PARAM_STR);
+	    $sth->bindParam(':ID', $id, PDO::PARAM_INT);
+	    
+	    $result = $sth->execute();
+	    
+	    return  $result->fetchAll();
+	}
+	
+	/**
+	 * Função responsavel por realizar a persistencia da transferencia
+	 * @param Transferencia $transferencia
+	 * @return array
+	 */
+	public function transferir(Transferencia $transferencia) {
+	    
+	    $sth = $this->db->prepare('INSERT INTO transferencia (ID_ORIGEM,ID_DESTINO,QUANT,ID_USUARIO) VALUES(:idOrigem,:idDestino,:quant,:idUsuario);');
+	    
+	    $sth->bindParam(':idOrigem', $this->table, PDO::PARAM_INT);
+	    $sth->bindParam(':idDestino', $this->table, PDO::PARAM_INT);
+	    $sth->bindParam(':quant', $this->table, PDO::PARAM_INT);
+	    $sth->bindParam(':idUsuario', $this->table, PDO::PARAM_INT);
+	    
+	    $result = $sth->execute();
+	    return  $result->fetchAll();
 	}
 
+	/**
+	 * Função responsavel por realizar a persistencia dos itens da transferencia.
+	 * @param TransferenciaItem $transferenciaItem
+	 * @return array
+	 */
+	public function transferir_item(TransferenciaItem $transferenciaItem) {
+	    
+	    $sth = $this->db->prepare('INSERT INTO transferencia_item (id_transferencia,id_item) values(:idItem, :idTransferencia);');
+	    
+	    $sth->bindParam(':idItem', $this->table, PDO::PARAM_INT);
+	    $sth->bindParam(':idTransferencia', $this->table, PDO::PARAM_INT);
+	    
+	    $result = $sth->execute();
+	    return  $result->fetchAll();
+	}  
+	
 	public function getItensTransferencia($local_inicial) {
 
 		$conn = $this->db;
@@ -28,34 +99,12 @@ class TransferenciaDao {
 		return $retorno;
 	}
        
-	public function transferir($trans_json) {
-		$conn = $this->db;
-		$query = 'INSERT INTO transferencia (ID_ORIGEM,ID_DESTINO,QUANT,ID_USUARIO) VALUES('.$trans_json['idOrigem'].','.$trans_json['idDestino'].','.$trans_json['quant'].','.$trans_json['idUsuario'].');';
-		$retorno = \processador\Processador::actionProvider($query, $conn,'Tramitou');
-		
-		//ao tramitar devo atualizar o patrimonio
-		if(!$retorno['erro']){
-			$retornoUltimo = $this->UltimaTransferencia();
-		}
-		return $retornoUltimo;
-	}
 	public function UltimaTransferencia(){
 		$conn = $this->db;	
 		$query = "SELECT * FROM transferencia ORDER BY transferencia.id DESC LIMIT 1";
 		$retorno = \processador\Processador::action($query, $conn);
 		return $retorno;	
     } 
-       
-	public function transferir_item($trans_json) {
-		$idItem = $trans_json['idItem'];
-		$idTransferencia = $trans_json['idTransferencia'];
-		$conn = $this->db;
-
-		$query = 'INSERT INTO transferencia_item (id_transferencia,id_item) values('.$idTransferencia.', '.$idItem.');';
-		$retorno = \processador\Processador::actionProvider($query, $conn);
-	
-		return $retorno;
-	}       
        
 	public function gerarPDF($idTransferencia) {
 		$conn = $this->db;

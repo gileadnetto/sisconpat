@@ -8,9 +8,17 @@ var MonetarioHelper = function()
 	{
 		
 	}
+	/**
+	 * return float valor - 27.199,90
+	 */
+	var usaToBr = function(valor)
+	{
+		return valor;
+	}
 		
 	return {
-		formatToBr : formatToBr
+		formatToBr : formatToBr,
+		usaToBr : usaToBr
 	};
 }
 

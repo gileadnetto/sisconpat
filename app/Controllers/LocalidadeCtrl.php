@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Models\Localidade;
 use SON\Controller\Action;
 use SON\Di\Container;
+use App\Models\Endereco;
 
 class LocalidadeCtrl extends Action{
    
@@ -12,84 +13,83 @@ class LocalidadeCtrl extends Action{
      * Função responsavel por retornar a listagem de locais.
      */
     public function getLocalidade() {
-        $localidadeDao = Container::getDao("LocalidadeDao"); 
+        
+        $localidadeDao = Container::getDao("LocalidadeDao");
         $result = $localidadeDao->getList();
         echo json_encode(array("recordsTotal" => $result['total'], "data" => $result['results']));
     }
     
     /**
-     * Função responsavel por realizar o processo de deletar um local.
+     * Função responsavel por retornar a listagem dos Patrimonios.
      */
-    public function deleteLocal() {
-        $request = $this->getRequest();
-        $constraint = $postData = array();
+    public function getAutoCompleteLocalidadeList()
+    {
+        $request = $this->getPostData();
         
-        $postData = [
-            'id_local' => $request['id_local']
-        ];
-        
-        //$this->checkPostData($postData, $constraint);
-        
-        if(count($constraint) > 1) {
-            echo array('success' => 0,'constraint' => $constraint);
-        } else {
-            $localidadeDao = Container::getDao("LocalidadeDao");
-            $response = $localidadeDao->deletar($postData['id_local']);
-                 
-            $result = array_merge(array('success' => 1), $response);
-            $response = json_encode($result);
-        	unset($localidadeDao);
-        	
-        	echo $response;
-        }
+        $localidadeDao = Container::getDao("LocalidadeDao");
+        $result = $localidadeDao->get();
+        echo json_encode([$result['results']]);
     }
     
     /**
      * Função responsavel por realizar o processo de cadastro de local.
-     * @return number[][]|string
+     * @return json
      */
-    public function cadastrarLocal() {
-        $request = $this->getRequest();
+    public function cadastrarLocal()
+    {
+        $request = $this->getPostData();
         $constraint = $postData = array();
         
         $postData = [
-            'localidade' => $request['localidade'],
-            'endereco' => $request['endereco']
-        ];
+            'localidade'    => $request['localidade'],
+            'descricao'     => $request['descricao'],
+            'cep'           => $request['cep'],
+            'uf'            => $request['uf'],
+            'bairro'        => $request['bairro'],
+            'logradouro'    => $request['logradouro'],
+            'numero'        => $request['numero'],
+            'complemento'   => $request['complemento']
+         ];
         
-        $this->checkPostData($postData, $constraint);
+        $constraint = $this->checkPostData($postData, $constraint);
            
         if(count($constraint) > 0) {
-            echo explode(',', $constraint);
+            echo json_encode(array("constraint" => $constraint , "sucesso" => 0));
         } else {
             $localidade = Container::getClass("Localidade");
             $localidadeDao = Container::getDao("LocalidadeDao");
+            $endereco = Container::getClass("endereco");
             
             $this->postDataToEntity($localidade, $postData);
-           
-            $local = $localidade->jsonSerialize();    
+            $this->postDataToEntityEndereco($endereco, $postData);
             
-            $response = $localidadeDao->cadastrar($local);
-            $response = json_encode($response);
+            $result = $localidadeDao->save($localidade, $endereco);
+            
+            if($result['success']){
+                echo json_encode(array("sucesso" => true, "msg" => $localidade->getDescricao()." cadastrada com sucesso."));
+            } else {
+                echo json_encode(array("sucesso" => false, "msg" => "Erro ao cadastrar localidade!".$result['msg'] ));
+            }
             unset($localidade);
-            echo $response;   
+            unset($endereco);
         }
     }
     
     /**
-     * Função responsavel por fazer o check dos valores do post
+     * Função responsavel por fazer a verificação dos valores do post
      * @param array $postData
      * @param array $constraint
      * @return number
      */
-    private function checkPostData(array $postData, array &$constraint)
+    private function checkPostData(array $postData, array $constraint)
     {
-        //if($postData['id_local']) $constraint['id_local'] = 'ID Local invalido!';
-        
-        if(!$postData['localidade']) $constraint['localidade'] = 'Localidade invalida!';
-        
-        if(!$postData['endereco']) $constraint['endereco'] = 'Endereço invalido!';
-        
+        if(!$postData['localidade']) $constraint['localidade'] =  "Campo (Localidade) invalida!";
+        if(!$postData['descricao']) $constraint['descricao'] =  "Campo (Descricao) invalida!";
+        if(!$postData['cep']) $constraint['cep'] =  "Campo (Cep) invalida!";
+        if(!$postData['logradouro']) $constraint['logradouro'] =  "Campo (Logradouro) invalida!";
+        if(!$postData['numero']) $constraint['numero'] =  "Campo (Número) invalida!";
+        if(!$postData['complemento']) $constraint['complemento'] =  "Campo (Complemento) invalida!";
+               
         return $constraint;
     }
     
@@ -100,10 +100,27 @@ class LocalidadeCtrl extends Action{
      */
     private function postDataToEntity(Localidade $entity, array $postData)
     {
-        $entity->setDescricao($postData['localidade']);
-        $entity->setEndereco($postData['endereco']);
-        $entity->setAtivo(1);
+        $entity->setDescricao($postData['descricao']);
+        $entity->setAtivo($postData['ativo'] ?? 1);
     }
+    
+    /**
+     * Função responsavel por preencher a entidade de endereco com os dados do post.
+     * @param Endereco $entity
+     * @param array $postData
+     */
+    private function postDataToEntityEndereco(Endereco $entity, array $postData)
+    {
+        $entity->setLocalidade($postData['localidade']);
+        $entity->setCep($postData['cep']);
+        $entity->setLogradouro($postData['logradouro']);
+        $entity->setBairro($postData['bairro']);
+        $entity->setNumero($postData['numero']);
+        $entity->setComplemento($postData['complemento']);        
+        $entity->setUf($postData['uf']);        
+    }
+    
+    
     
     /**
      * Função responsavel por retornar a listagem de locais.

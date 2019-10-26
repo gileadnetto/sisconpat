@@ -25,6 +25,17 @@ Class TransferenciaItem{
 	public function jsonSerialize() {
         return get_object_vars($this);
     }
+    
+    /**
+     * Função responsavel por montar a entidade de transferencia.
+     * @param array $arrTransferenciaItem
+     */
+    public function exchangeArray(array $arrTransferenciaItem) {
+        $this->idOrigem = $arrTransferenciaItem['Origem'];
+        $this->idDestino = $arrTransferenciaItem['Destino'];
+        $this->idUsuario = $arrTransferenciaItem['Usuario'];
+        $this->quant = $arrTransferenciaItem['Quantidade'];
+    }
 
 }
 

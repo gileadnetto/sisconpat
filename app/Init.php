@@ -20,6 +20,7 @@ Class Init extends Bootstrap{
 
             //rotas de Localidade
             $ar["getLocalidade"]        =array( "route" =>'/getLocalidade' ,    "controller" =>"LocalidadeCtrl" ,   "action" =>"getLocalidade");
+            $ar["getAutoCompleteLocalidadeList"]        =array( "route" =>'/getAutoCompleteLocalidadeList' ,     "controller" =>"LocalidadeCtrl" ,   "action" =>"getAutoCompleteLocalidadeList");
             $ar["DeletarLocalidade"]    =array( "route" =>'/deleteLocal' ,       "controller" =>"LocalidadeCtrl" ,   "action" =>"deleteLocal");
             $ar["AdicionarLocalidade"]  =array( "route" =>'/cadastrarLocal' ,   "controller" =>"LocalidadeCtrl" ,   "action" =>"cadastrarLocal");
             $ar["OptionLocalidade"]     =array( "route" =>'/getOptionLocal' ,   "controller" =>"LocalidadeCtrl" ,   "action" =>"getOptionLocal");
@@ -28,8 +29,8 @@ Class Init extends Bootstrap{
 			$ar["atualizarLocal"]     	=array( "route" =>'/updateLocal' ,    "controller" =>"LocalidadeCtrl" ,   "action" =>"atualizarLocal");
             
             //rotas de Patrimonio
-            $ar["getpatrimonio"]             =array( "route" =>'/getPatrimonio' ,         "controller" =>"PatrimonioCtrl" ,   "action" =>"getPatrimonio");
-            $ar["Buscarpatrimonio"]          =array( "route" =>'/buscaPatrimonio' ,     "controller" =>"PatrimonioCtrl" ,   "action" =>"buscar");
+            $ar["getPatrimonio"]             =array( "route" =>'/getPatrimonio' ,         "controller" =>"PatrimonioCtrl" ,   "action" =>"getPatrimonio");
+            $ar["getAutoCompletePatrimonioList"]        =array( "route" =>'/getAutoCompletePatrimonioList' ,     "controller" =>"PatrimonioCtrl" ,   "action" =>"getAutoCompletePatrimonioList");
             $ar["Cadastrarpatrimonio"]       =array( "route" =>'/cadastrarPatrimonio' , "controller" =>"PatrimonioCtrl" ,   "action" =>"cadastrar");
             $ar["Deletarpatrimonio"]         =array( "route" =>'/deletPatrimonio' ,     "controller" =>"PatrimonioCtrl" ,   "action" =>"deletPatrimonio");
             $ar["atualizarPatrimonio"]     =array( "route" =>'/updatePatrimonio' ,    "controller" =>"PatrimonioCtrl" ,   "action" =>"atualizarPatrimonio");
@@ -58,54 +59,6 @@ Class Init extends Bootstrap{
 			$ar["updateUsuario"]        =array("route" =>'/updateUsuario' ,     "controller" =>"UsuarioCtrl" ,   "action" =>"updateUsuario");
 
 			$this->setRoutes($ar);   
-			
-			/** 
-		$ar =array(
-			'index' => array(
-				'route'=> '/',
-				'controller'=> 'index',
-				'action'=> 'index',
-			),
-
-			'localidade' => array(
-				'route'=> '/localidade',
-				'controller'=> 'index',
-				'action'=> 'LocalidadeIndex',
-			),
-
-			'home' => array(
-				'route'=> '/home',
-				'controller'=> 'index',
-				'action'=> 'homeIndex',
-			),
-
-			'erro' => array(
-				'route'=> '/erro',
-				'controller'=> 'index',
-				'action'=> 'erro',
-			),
-
-			'itens' => array(
-				'route'=> '/item',
-				'controller'=> 'index',
-				'action'=> 'itemIndex',
-			),
-
-			'transferencia' => array(
-				'route'=> '/transferencia',
-				'controller'=> 'index',
-				'action'=> 'transferenciaIndex',
-			),
-
-			'transferencia' => array(
-				'route'=> '/transferencia',
-				'controller'=> 'index',
-				'action'=> 'transferenciaIndex',
-			),
-
-			
-		);
-		*/
         }
              
         
@@ -119,7 +72,7 @@ Class Init extends Bootstrap{
 			
 			return $db;
 			
-		} catch (PDOException $e) {
+		} catch (\PDOException $e) {
 			echo "Erro :" . $e->getMessage();
 			
 		}

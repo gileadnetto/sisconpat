@@ -14,31 +14,31 @@ Class Index extends Action{
     }
     
     public function homeIndex() {
-        $this->render('home');
+        $this->render('home','index', true, '','home');
     }
     
      public function LocalidadeIndex() {           
-        $this->render('localidade');
+         $this->render('localidade','index', true, 'Local', 'local');
     }
     
     public function patrimonioIndex() {           
-        $this->render('patrimonio');
+        $this->render('patrimonio','index', true, 'Patrimonio', 'patrimonio');
     }
     
      public function transferenciaIndex() {           
-        $this->render('transferencia');
+         $this->render('transferencia','index', true, 'Transferencia', 'transferencias');
     }
     
     public function minhastransferenciasIndex() {           
-        $this->render('minhas_transferencias');
+        $this->render('minhas_transferencias','index', true, 'Minhas Transferencia', 'minha_transferencias');
     }
     
      public function relatorioIndex() {           
-        $this->render('relatorio');
+         $this->render('relatorio','index', true, 'Relatorio', 'relatorio');
     }
     
     public function administradorIndex() {           
-        $this->render('administrador');
+        $this->render('administrador','index', true, 'Administrador', 'administrador');
     }
     
     

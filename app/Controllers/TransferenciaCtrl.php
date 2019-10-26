@@ -4,6 +4,9 @@ namespace App\Controllers;
 
 use SON\Controller\Action;
 use SON\Di\Container;
+use App\Models\Transferencia;
+use App\Models\TransferenciaItem;
+use App\Models\Patrimonio;
 
 class TransferenciaCtrl extends Action {
     private $transferenciaDao;
@@ -20,61 +23,113 @@ class TransferenciaCtrl extends Action {
     }
     
     /**
-     * * função responsavel por montar a entidade com os dados do post
-     * @param array $post
+     * Função responsavel por realizar o processo de transferencia, transferencia item e a localização dos produtos.
+     * @return array
      */
-    public function postDataToEntity() {
-        return $this->transferenciaModel->exchangeArray($_POST);        
-    }
-    
-    public function transferir(){
-        $getPost = $_POST; //Recupera o post
+    public function transferir()
+    {
+        $postData = $this->getPostData();
         
-        //Inicialização dos models e DAO
-        $this->transferenciaModel = Container::getClass("Transferencia");
-        $this->transferenciaDao = Container::getDao("TransferenciaDao");
+        $constraint = $this->checkPostData($postData);
         
-        $constraint = $this->transferenciaModel->checkConstraint($getPost);
-        
-        if($constraint.lenght > 1) {
-            return $constraint;
+        if(count($constraint) > 0) echo $constraint;
+
+        try{
+            $this->realizarTransferencia($postData);
+            $this->realizaTransferenciaItens();
+            $this->atualizaLocaisPatrimonio();          
+        } catch (\Exception $e){
+            echo $e->getMessage();   
         }
         
-        $entity = $this->postDataToEntity($getPost);
-        
-        $entity = $entity->jsonSerialize();
-        
-        $response = $this->transferenciaDao->transferir($entity); 
-
-        $this->transferenciaItemModel = Container::getClass("TransferenciaItem");
-
-		//adicionar os itens na tabela item transferencia
-        
-
-	 	foreach($_checkbox as $_patrimonio_id){
-
-	 	    $idItem = intval($_patrimonio_id);//pegando id dos produtos escolhidos
-			$trans_item->setId_transferencia($response['results'][0]['ID']);
-			$trans_item->setId_item($idItem);
-			$transItem =  $trans_item->jsonSerialize();
-			
-			$transferenciaDAO->transferir_item($transItem); 
-		
-		}
-		
-		//Atualizar os locais dos produtos
-		$patrimonio = Container::getClass("Patrimonio"); //instacinado a classe e a conexao banco
-		$patrimonioDao = Container::getDao("PatrimonioDao");
-		foreach($_checkbox as $_patrimonio_id){
-		    $idPatrimonio = intval($_patrimonio_id);
-		    $patrimonio->setId($idPatrimonio);
-		    $patrimonio->setIdLocalidade($loc_destino);
-		    $patrimonioJson =  $patrimonio->jsonSerialize();					        
-		    $patrimonioDao->atualizarLocalPatrimonio($patrimonioJson); 
-			
-		}
-		echo $response['results'][0]['ID'];
-		}
+        echo ['sucesso' => 1, 'msg' => 'Transferencia realizada com sucesso!' ];
+	}
+	
+	/**
+	 * Função responsavel por verificar os dados do post
+	 * @param array $postData
+	 * @return array
+	 */
+	private function checkPostData(array $postData)
+	{
+	    $constraint = [];
+	    return $constraint;
+	}
+	
+	/**
+	 * Função responsavel por realizar o processo de transferencia
+	 * @param array $arrData
+	 */
+	private function realizarTransferencia(array $arrData)
+	{
+	    $entityTransferencia = Container::getClass("Transferencia");
+	    $daoTransferenca = Container::getDao("TransferenciaDao");
+	    
+	    $this->fillEntityTransferencia($entityTransferencia, $arrData);
+	    
+	    $daoTransferenca->transferir($entityTransferencia);
+	}	
+	
+	/**
+	 * função responsavel por montar a entidade com os dados do post
+	 * @param Transferencia $entidadeTransferencia
+	 * @param array $arrData
+	 */
+	private function fillEntityTransferencia(Transferencia $entidadeTransferencia, array $arrData) 
+	{
+	    $entidadeTransferencia->exchangeArray($arrData);
+	}
+	
+	/**
+	 * Função responsavel por atualizar a localização dos patrimonios
+	 * @param array $arrData
+	 */
+	private function atualizaLocalizacaoPatrimonio(array $arrData)
+	{
+	    $entityPatrimonio = Container::getClass("Patrimonio");
+	    $patrimonioDao = Container::getDao("PatrimonioDao");
+	    
+	    foreach($_checkbox as $_patrimonio_id){
+	        $patrimonio = $patrimonioDao->getById($_patrimonio_id);
+	        $patrimonio->setIdLocalidade($ID);
+	        $patrimonioDao->atualizarLocalPatrimonio($entityPatrimonio);
+	    }
+	}
+	
+	/**
+	 * Função responsavel por preencher a entidade de patrimonio
+	 * @param Patrimonio $entityPatrimonio
+	 * @param array $arrData
+	 */
+	private function fillEntityPatrimonio(Patrimonio $entityPatrimonio, array $arrData)
+	{
+	    $entityPatrimonio->exchangeArray($arrData);
+	}
+	
+	/**
+	 * Função responsavel pore realizar o processo de transferencia dos itens
+	 * @param array $arrData
+	 */
+	private function realizaTransferenciaItem(array $arrData)
+	{
+	    $entityTransferenciaItem = Container::getClass("TransferenciaItem");
+	    $transferenciaDao = Container::getDao("TransferenciaDao");
+	    
+	    foreach($_checkbox as $_patrimonio_id){
+	        $this->fillEntityTransferenciaItem($entityTransferenciaItem, $arrData);
+	        $transferenciaDao->transferir_item($entityTransferenciaItem);
+	    }
+	}
+	
+	/**
+	 * função responsavel por montar a entidade de transferencia item com os dados do post
+	 * @param array $arrData
+	 * @param TransferenciaItem $entidadeTransferenciaItem
+	 */
+	private function fillEntityTransferenciaItem(TransferenciaItem &$entidadeTransferenciaItem, array $arrData)
+	{
+	    $entidadeTransferenciaItem->exchangeArray($arrData);
+	}
     
     public function getMinhasTransferencias() {
 		session_start(); 
