@@ -33,7 +33,6 @@
 		<script type="text/javascript" src="css/jquery.form.js"></script>
 		<script type="text/javascript" src="./scripts/{SCRIPT}.js"></script>
         <script type="text/javascript" src="./scripts/highcharts.js"></script>
-        <script type="text/javascript" src="./scripts/menu.js"></script>
 
 		<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>-->
 		<link rel="stylesheet" type="text/css" href="css/bootstrap/css/bootstrap.min.css">

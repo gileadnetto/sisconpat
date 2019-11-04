@@ -90,13 +90,18 @@ var Patrimonio = function(){
 	/**
 	 * Função responsavel por chamar a persistencia de um novo local.
 	 */
-	var cadastrar = function($form)
+	var cadastrar = function($form, $modal)
 	{debugger;
-		var form = $form.serialize();
+		var dataAutocomplete = autocompleteHelper.getSelectedData();
+		var dataSelect = [{name: 'id_localidade', value: dataAutocomplete[0]['id']}];
+		
+		var form = $form.serializeArray();
+		var data = form.concat(dataSelect);
+		
 		$.ajax({
 			type: "POST",                       
-	        url:'Cadastrarpatrimonio', 
-	        data: form,
+	        url:'cadastrarPatrimonio', 
+	        data: data,
 			success: function(data){
 				var result = JSON.parse(data);
 				if(result.sucesso) {  
@@ -121,6 +126,6 @@ var Patrimonio = function(){
 	};
 }
 
-var patrimonio = new Patrimonio();	
+var patrimonio = new Patrimonio();
 
     

@@ -6,7 +6,8 @@ Class Localidade
 	protected $table = "localidade";
 	private $descricao;
 	private $id_endereco;
-	private $ativo;	
+	private $ativo;
+	private $id_user_session;
 
     public function getTable()
     {
@@ -27,6 +28,11 @@ Class Localidade
     {
         return $this->ativo;
     }
+    
+    public function getId_User_Session()
+    {
+        return $this->id_user_session;
+    }
 
     public function setTable($table)
     {
@@ -46,6 +52,11 @@ Class Localidade
     public function setAtivo($ativo)
     {
         $this->ativo = $ativo;
+    }
+    
+    public function setId_User_Session($id_user_session)
+    {
+        $this->id_user_session = $id_user_session;
     }
 
     public function jsonSerialize()

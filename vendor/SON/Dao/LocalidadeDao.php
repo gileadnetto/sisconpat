@@ -23,11 +23,12 @@ class LocalidadeDao extends baseDao{
 	        
 	        $lastInsertId = $this->db->lastInsertId();
 	        
-	        $sth = $this->db->prepare('INSERT INTO LOCALIDADE (DESCRICAO, ID_ENDERECO, ATIVO) VALUES(:descricao, :idendereco, :ativo);');
+	        $sth = $this->db->prepare('INSERT INTO LOCALIDADE (DESCRICAO, ID_ENDERECO, ATIVO, ID_USER_SESSION) VALUES(:descricao, :idendereco, :ativo, :id_user_session);');
 	        
-	        $sth->bindParam(':descricao',  $localidade->getDescricao(),    PDO::PARAM_STR);
-	        $sth->bindParam(':idendereco', $lastInsertId,                  PDO::PARAM_STR);
-	        $sth->bindParam(':ativo',      $localidade->getAtivo(),        PDO::PARAM_BOOL);
+	        $sth->bindParam(':descricao',          $localidade->getDescricao(),        PDO::PARAM_STR);
+	        $sth->bindParam(':idendereco',         $lastInsertId,                      PDO::PARAM_STR);
+	        $sth->bindParam(':ativo',              $localidade->getAtivo(),            PDO::PARAM_BOOL);
+	        $sth->bindParam(':id_user_session',    $localidade->getId_User_Session(),  PDO::PARAM_INT);
 	        
 	        $sth->execute();
 	        $this->db->commit();
@@ -98,6 +99,22 @@ class LocalidadeDao extends baseDao{
 	public function getList()
 	{
 	    $sth = $this->db->prepare("SELECT *  FROM ".$this->table." INNER JOIN ENDERECO E ON E.ID = ID_ENDERECO");
+	    $sth->execute();
+	    
+	    return parent::returnResult($sth);
+	}
+	
+	/**
+	 * Função responsavel por retornar a listagem das localidades para o autocomplete
+	 * @return
+	 */
+	public function getAutoCompleteList($param = false)
+	{
+	    $sql = "SELECT * FROM ".$this->table." L";
+	    
+	    if($param) $sql = $sql . " WHERE L.DESCRICAO like '%" . $param['term'] . "%'";
+	   	    
+	    $sth = $this->db->prepare($sql);
 	    $sth->execute();
 	    
 	    return parent::returnResult($sth);

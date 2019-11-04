@@ -33,7 +33,7 @@
             </a>
         </div>
         <div class="col-lg-3 col-md-6">
-            <a class ="painel-verde" href="item">
+            <a class ="painel-verde" href="patrimonio">
                
                 <div class="panel panel-green">
                     <div class="panel-heading">
@@ -44,7 +44,7 @@
                             </div>
 
                             <div class="col-xs-9 text-right">
-                                <div class="huge"> <?php echo $res['QTD_PRODUTO']; ?> </div>
+                                <div class="huge"> <?php echo $res['QTD_PATRIMONIO']; ?> </div>
                                 <div>PATRIMONIOS</div>
                             </div>
 

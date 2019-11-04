@@ -2,38 +2,126 @@
 
 namespace App\Controllers;
 
+use SON\Controller\Action;
 use SON\Di\Container;
-////
-class autenticar {
-	public function validar() {    
-		session_start();
+use Exception;
+use App\Controllers\Helpers\Validadores;
+use App\Models\Usuario;
+use App\Models\UserSession;
 
-		$usuarioDao = Container::getDao("UsuarioDao"); //instacinado a classe e a conexao banco
-        $login = $_POST['usuario'];
-		$senha = md5($_POST['senha']);
+class autenticar extends Action{
+    
+    /**
+     * Função reponsavel por realizar o processo de validação de usuario
+     */
+    public function validar() {    
+        session_start();
 		
-		$response = $usuarioDao->autenticar($login, $senha);
-		//$resultado  =  (array) json_decode($response);
-
-		if( $response['total'] != 1){
-			header('Location: autenticar');
-		}
-
-        foreach ($response['results'] as $res) {  
-			$res = (array) $res;
-
-			if(isset($res['login'] )){
-				//super global session
-				$_SESSION['usuario'] = $res['login'];
-				$_SESSION['email'] = $res['email'];
-				$_SESSION['perfil'] = $res['perfil'];		             
-				$_SESSION['id_usuario'] =$res['id'];
-
-				header('Location: home');
-			}
-			else{
-				header('Location: autenticar');
-			}
+        $constraint = [];
+        $postData = $this->getPostData();
+		
+        $constraint = $this->checkPostData($postData);
+		
+        if(count($constraint) > 0){
+    	    header('Location: autenticar');
+    	    echo $constraint;
+    	}
+    	
+    	$usuarioDao = Container::getDao("UsuarioDao");
+    	$usuario = Container::getClass("Usuario");
+    	
+    	$this->postDataToEntity($usuario, $postData);
+    
+    	$response = $usuarioDao->autenticar($usuario);
+    
+    	if( $response['total'] != 1){
+    		header('Location: autenticar');
+    		return;
+    	}
+    
+        if($this->saveLoginSession($response)){
+    	    header('Location: home');
+        } else {
+    	    header('Location: autenticar');
         }
-     }
+    }
+    
+    /**
+     * Função responsavel por verificar os dados vindos do post
+     * @param array $postData
+     * @return array
+     */
+    private function checkPostData(array $postData):array
+    {
+        $constraint = [];
+         
+        Validadores::validar($postData, 'usuario', validadores::TYPE_STRING, $constraint, 25);
+         
+        return $constraint;
+    }
+     
+    /**
+     * Função repsonsavel por preencher a entidade de usuario com os dados do post.
+     * @param Usuario $usuario
+     * @param array $postData
+     */
+    private function postDataToEntity(Usuario $usuario, array $postData)
+    {
+        $usuario->setLogin($postData['usuario']);
+        $usuario->setSenha(md5($postData['senha']));
+    }   
+     
+    /**
+    * Função responsavel por salvar algumas informações do login na sessão
+    * @param array $response
+    * @return bool
+    */
+    private function saveLoginSession(array $response):bool
+    {
+        $dadosUsuario = [];
+        foreach ($response['results'] as $res) {
+            $res = (array) $res;
+                $dadosUsuario = [
+                    'usuario' => $res['login'],
+                    'email' => $res['email'],
+                    'perfil' => $res['perfil'],
+                    'id_usuario' => $res['id']
+                ];
+        }
+        
+        $userSession = Container::getClass("UserSession");
+        $usuarioDao = Container::getDao("UsuarioDao");
+        
+        $this->fillEntityUserSession($userSession, $dadosUsuario);
+        
+        try {
+            $result = $usuarioDao->saveUserSession($userSession);
+        } catch (Exception $e) {
+            return false;
+        }
+        
+        if($result['success']){
+            $_SESSION['usuario'] = $dadosUsuario['usuario'];
+            $_SESSION['email'] = $dadosUsuario['email'];
+            $_SESSION['perfil'] = $dadosUsuario['perfil'];
+            $_SESSION['id_usuario'] = $dadosUsuario['id_usuario'];
+            $_SESSION['id_user_session'] = $userSession->getId();
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    /**
+     * Função responsavel por preencher a entidade de user session
+     * @param UserSession $userSession
+     * @param array $response
+     */
+    private function fillEntityUserSession(UserSession $userSession, array $response)
+    {
+        $userSession->setId_usuario($response['id_usuario']);
+        $userSession->setLogin($response['usuario']);
+        $userSession->setIp($_SERVER['REMOTE_ADDR']);
+        $userSession->setNavegador($_SERVER['HTTP_USER_AGENT']);
+    }
 }

@@ -24,34 +24,37 @@
      
 	</div>
 </div>
-
 <script type="text/javascript">
 var formAdicionarPatrimonio = 'form_adicionar_Patrimonio';
 patrimonio.carregarConteudo();
-	
-$('#btn_cad').on('click', function(){
-	var configInputsFormCadastrar = [
-		//{label : 'Foto', name	: 'descricao', tamanho: 6},
-		{label : 'Patrimonio', name : 'patrimonio' , tamanho: 12},
-		{label : 'Descricao', name : 'descricao', tamanho: 12},
-		{label : 'Tombamento', name : 'tombamento', tamanho: 4},
-		{label : 'Valor', name : 'valor', tamanho: 4},
-		{label : 'Vida Util (Anos)', name : 'vidautil', tamanho: 4},
-		{label : 'Localidade', name : 'id_localidade', tamanho: 6, type: 'select', url:'getAutoCompleteLocalidadeList', classe:'select2'}
+
+var configInputsFormCadastrar = [
+	{label : 'Patrimonio', name : 'patrimonio' , tamanho: 12},
+	{label : 'Descricao', name : 'descricao', tamanho: 12},
+	{label : 'Tombamento', name : 'tombamento', tamanho: 4},
+	{label : 'Valor', name : 'valor', tamanho: 4},
+	{label : 'Vida Util (Anos)', name : 'vidautil', tamanho: 4},
+	{label : 'Localidade', name : 'id_localidade', tamanho: 6, type: 'select', url:'getAutoCompleteLocalidadeList', classe:'select2'}
+];
+
+var configButtonsFormCadastrar = [
+	{'type' : 'button', 'class' : 'btn btn-default', 'name' : 'Cancelar', 'id_button' : 'btn-cancelar-patrimonio', 'fechaModal' : true},
+	{'type' : 'button', 'class' : 'btn btn-primary', 'name' : 'Cadastrar', 'id_button' : 'btn-cadastrar-patrimonio'}
 	];
 
-	var onclickClosure = 'patrimonio.cadastrar($(\'#' + formAdicionarPatrimonio + '\'))';
-	
-	var configButtonsFormCadastrar = [
-		{'type' : 'button', 'class' : 'btn btn-danger', 'name' : 'Cancelar', 'id_button' : 'btn-cancelar-localidade', 'fechaModal' : true},
-		{'type' : 'button', 'class' : 'btn btn-primary', 'name' : 'Cadastrar', 'id_button' : 'btn-cadastrar-localidade', 'onClosureClick' : onclickClosure}
-		];
+var $modal = modalhelper.modalCreate(formAdicionarPatrimonio, 'Adicionar Patrimonio', htmlhelper.createElementsByType(configInputsFormCadastrar), htmlhelper.createElementsByType(configButtonsFormCadastrar));
 
-	var $modal = modalhelper.modalCreate(formAdicionarPatrimonio, 'Adicionar Patrimonio', htmlhelper.inputCreate(configInputsFormCadastrar), htmlhelper.buttonCreate(configButtonsFormCadastrar));
+$modal.appendTo('body');
 
-	setTimeout(function(){ autocompleteHelper.createAutoComplete(); }, 1000);
-});  
-	
+$('#btn_cad').on('click', function(){
+	$($modal).modal('show');
+	autocompleteHelper.createAutoComplete();
+});	
+
+$('#btn-cadastrar-patrimonio').on('click', function(){
+	patrimonio.cadastrar($("#"+formAdicionarPatrimonio), $modal);
+});
+
 </script>
 
 

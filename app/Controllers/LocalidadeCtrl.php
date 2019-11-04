@@ -24,10 +24,10 @@ class LocalidadeCtrl extends Action{
      */
     public function getAutoCompleteLocalidadeList()
     {
-        $request = $this->getPostData();
+        $query = $this->getPostData();
         
         $localidadeDao = Container::getDao("LocalidadeDao");
-        $result = $localidadeDao->get();
+        $result = $localidadeDao->getAutoCompleteList(['term' => $query['q']]);
         echo json_encode([$result['results']]);
     }
     
@@ -100,8 +100,10 @@ class LocalidadeCtrl extends Action{
      */
     private function postDataToEntity(Localidade $entity, array $postData)
     {
+        $id_user_session = parent::getUserSession();
         $entity->setDescricao($postData['descricao']);
         $entity->setAtivo($postData['ativo'] ?? 1);
+        $entity->setId_User_Session($id_user_session);
     }
     
     /**
@@ -119,9 +121,7 @@ class LocalidadeCtrl extends Action{
         $entity->setComplemento($postData['complemento']);        
         $entity->setUf($postData['uf']);        
     }
-    
-    
-    
+   
     /**
      * Função responsavel por retornar a listagem de locais.
      */

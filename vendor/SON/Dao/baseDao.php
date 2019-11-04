@@ -35,18 +35,22 @@ class baseDao {
      * @return entidade
      */
     public function getById(int $id)
-    {
+    {            
         $sth = $this->db->prepare("SELECT * FROM ".$this->table." WHERE :ID");
         
-        $sth->bindParam(':TABLE', $this->table, PDO::PARAM_STR);
         $sth->bindParam(':ID', $id, PDO::PARAM_INT);
         
         $sth->execute();
         
-        return $this->returnResult($sth);
+        return $sth->fetch(PDO::FETCH_ASSOC);
     }
     
-    protected function returnResult(\PDOStatement $sth)
+    /**
+     * Função responsavel por montar um retorno padrão
+     * @param \PDOStatement $sth
+     * @return array
+     */
+    protected function returnResult(\PDOStatement $sth):array
     {
         return [
             'total' => $sth->rowCount(),

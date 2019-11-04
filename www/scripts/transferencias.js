@@ -1,205 +1,80 @@
+var Transferencia = function(){
+	
+	var tableTransferencia;
+	/**
+	 * Função responsavel por carregar o conteudo da listagem de locais.
+	 */
+	var carregarConteudo = function()
+	{
+		tableTransferencia = $('#dataTableTransferencia').DataTable(
+    		{
+    	        "ajax": "getTransferencia",
+    	        columns: [
+    	        	{ "data": "ORIGEM"},
+    				{ "data": "DESTINO"},
+    				{ "data": "QUANT"},
+    				{ "data": "DATA",
+    					render: function (data, type, row) {
+    						return moment(data).format("DD/MM/YYYY");
+    					}
+    				},
+    				{ "data": "USUARIO"},
+    				{ "data": "Acoes",
+    					render: function (data, type, row) {
+    					var buttons = [{'text' : 'Editar'}];
+    					  return htmlhelper.dropdownAcoesCreate(buttons);
+    					}
+        				
+    				}
+    	        ],
+	    		language: {
+	    	        search: "Pesquisa",
+	    	        emptyTable: "Nenhuma transferencia localizada!",
+	    	        paginate: {
+	    	            "first":      "Inicio",
+	    	            "last":       "Fim",
+	    	            "next":       "Próximo",
+	    	            "previous":   "Anterior"
+	    	        },
+	    	        lengthMenu:"_MENU_",
+	    	        info:           "Mostrando _START_ até _END_ de _TOTAL_ registros",
+	    	        infoEmpty:      "Mostrando 0 até 0 de 0 registros",
 
- // código javascript  
- $(document).ready( function (){
-
-
-  $('#local_opcoes_busca').change( function(){
-
-   //var local_inicial = document.getElementById('local_id_inicial').value;
-   var local_inicial = document.getElementsByName("local_inicial")[0].value ;
-    //alert(local_inicial[0].value );
-    
-        //controle do dropdown                    
-   // var selecionado_inicio = $("select option[value='" + local_inicial +"']");
-  //  selecionado_inicio.prop('disabled', true); //disable local inicio select
-   // $('select[name ="local_inicial"]').change(function () {
-   // selecionado_inicio.prop('disabled', false); //enable when value do local inicial select is changed
-            
-//  });
-        carregarConteudo(local_inicial);
-  
-
-   });
-
-
-  
-  carregarConteudo(1);//carrega os produtos do galpao id 1 
-
-
-
-function carregarConteudo(local_inicial){
-
-     $.ajax({
-  url:'getProdutoTransferencia', 
-  method: 'post',
-  data: { local_inicial: local_inicial},
-success: function(data){
-$('#conteudo').html(data); 
-
-
-
-                            
-},
-//continuação do ajax v
-
-                //exemplo extra 
-              beforeSend: function (){
-                $('#loader').css({display:"block"});
-
-
-              },
-
-              complete: function(){
-                $('#loader').css({display:"none"});
-
-              }
-              });
-
-} // fim da funcao carregar conteudo
-
-// chamada das opçoes de locais no dropdown
-$.ajax({
-  url:'getOptionTransferencia', 
-  //url:'getOptionLocal', 
-
-success: function(data){
-$('#local_opcoes_busca').html(data);
-
-                              
-}              
-});
-
-$.ajax({
-  url:'getOptionDestino', 
- // url:'getOptionLocal', 
-
-success: function(data){
-$('#local_opcoes_destino').html(data);
-
-                              
-}              
-});
-
-    
-});
-
-        
-   
-    
-function tramitar(){                  
-
- $.ajax({
-  url:'cadastrarTransferencia',
-  method:'post',
-  data:$('#tramitar_id_form').serialize(),
-
-success: function(data){debugger;
-//alert(data);
-  
-var result = $.trim(data);//converter em string a resposta do webservice
-
-if(result==='erro locais'){                     
-     
-      $('#alert_msg_erro').html('impossivel realizar transação para o mesmo estabelecimento');//setar a msg de sucesso
-   
-     $('#alerta_erro').show('fade');
-
-    setTimeout(function () {
-      $('#alerta_erro').hide('fade');
-      }, 2500);
-                                                                        
-}
-        
-else if(result==='erro vazio'){                   
-    
-      $('#alert_msg_erro').html('Nenhum Produto foi selecionado para transferencia');//setar a msg de sucesso
-   
-     $('#alerta_erro').show('fade');
-
-    setTimeout(function () {
-      $('#alerta_erro').hide('fade');
-      }, 2500);
-  }
-
-else if(result==='inicial incorreto'){                   
-    
-      $('#alert_msg_erro').html('Local Inicial Incorreto');//setar a msg de sucesso
-   
-     $('#alerta_erro').show('fade');
-
-    setTimeout(function () {
-      $('#alerta_erro').hide('fade');
-      }, 2500);
-  }
-       
-else if(result==='destino incorreto'){                   
-    
-      $('#alert_msg_erro').html('Destino incorreto ');//setar a msg de sucesso
-   
-     $('#alerta_erro').show('fade');
-
-    setTimeout(function () {
-      $('#alerta_erro').hide('fade');
-      }, 2500);
-       
-      
-     
-
-                                                         
-}
-else{
- $('#alert_msg').html('Transferencia realizada com sucesso');//setar a msg de sucesso
-   
-     $('#alerta').show('fade');
-      carregarConteudoFora(document.getElementsByName("local_inicial")[0].value);
-
-    setTimeout(function () {
-      $('#alerta').hide('fade');
-      window.open('gerarPDFTransferencia?idTransferencia='+data, '_blank');//gerar pdf para imprimir
-      }, 2000);
-      
-      //window.open('gerarPDFTransferencia.php?idTransferencia='+data, '_blank'); //abrir em um nova aba
-      // window.location.href = 'gerarPDFTransferencia.php?idTransferencia='+data;
-       
-}
+	    	    }
+    		} 
+        );
+	}	
+	
+	var transferir = function($form)
+	{
+		var data = $form.serializeArray();
+		
+		$.ajax({
+			type: "POST",                       
+	        url:'transferir', 
+	        data: {data},
+			success: function(data){
+				var result = JSON.parse(data);
+				if(result.sucesso) {  
+					msghelper.showMsgSucess('Transferencia cadastrado com sucesso.');
+				} else {
+					msghelper.showMsgErro('Erro ao Transferir os patrimonio. '+ result.constraint);
+				} 
+			},
+			complete: function(data){
+				$(".close").click();
+				window.location.reload(true);
+			},
+			error: function(data){
+				msghelper.showMsgErro('Erro ao realizar a transferencia.');
+			}
+		});
+	}
+	
+	return {
+		carregarConteudo : carregarConteudo,
+		transferir		 : transferir
+	};
 }
 
-
-});
-}//fim funcao tramitar
-
-
-function carregarConteudoFora(local_inicial){
-
-     $.ajax({
-  url:'getProdutoTransferencia', 
-  method: 'post',
-  data: { local_inicial: local_inicial},
-success: function(data){
-$('#conteudo').html(data); 
-
-
-
-                            
-},
-//continuação do ajax v
-
-                //exemplo extra 
-              beforeSend: function (){
-                $('#loader').css({display:"block"});
-
-
-              },
-
-              complete: function(){
-                $('#loader').css({display:"none"});
-
-              }
-              });
-
-} // fim da funcao carregar conteudofora
-
-
-
-
-
+var transferencia = new Transferencia();

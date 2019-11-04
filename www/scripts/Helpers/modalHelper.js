@@ -27,8 +27,6 @@ var modalHelper = function(){
 		
 		var modal = modalHtml.join(''); 
 		
-		$(modal).modal('show');
-		
 		return $(modal); 
 	}
 	return {

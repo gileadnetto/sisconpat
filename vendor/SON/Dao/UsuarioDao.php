@@ -1,33 +1,75 @@
 <?php
 namespace SON\Dao;
+use App\Models\Usuario;
+use PDO;
+use App\Models\UserSession;
+
 include('requisicoes.php');
 include_once('processador.php');
 require_once 'config.php';
 
-class UsuarioDao {    
-  protected $db;
-  protected $table;  
+class UsuarioDao extends baseDao{    
+    protected $db;
+    protected $table = "USUARIO";
   
-	public function __construct(\PDO $db) {
-		$this->db=$db;         
-	}
-  
-	public function getUsuario() {
-		$conn = $this->db;	   
-		$query   =  "SELECT * from usuario;";
-		$retorno = \processador\Processador::action($query, $conn);
-			 
- 		return $retorno;	
-	}
-
-	public function autenticar($login , $senha) {
-		$conn = $this->db;	   	   
-		$query   =  "SELECT * from usuario WHERE login='$login' AND senha='$senha' ;";
-		$retorno = \processador\Processador::action($query, $conn);
-
-		return $retorno;
+    /**
+     * Função responsavel por recuperar todos os usuarios
+     * @return array
+     */
+	public function getUsuario():array {
+	    $sth = $this->db->prepare('SELECT * from usuario;');
+	    
+	    $sth->execute();
+	    
+	    return  PARENT::returnResult($sth);
 	}
 
+	/**
+	 * Função responsavel por autenticar o usuario que esta logando existe.
+	 * @param Usuario $usuario
+	 * @return array
+	 */
+	public function autenticar(Usuario $usuario):array {
+	    $sth = $this->db->prepare('SELECT * from usuario WHERE login = :login AND senha = :senha;');
+	    
+	    $sth->bindParam(':login', $usuario->getLogin(),   PDO::PARAM_STR);
+	    $sth->bindParam(':senha', $usuario->getSenha(),   PDO::PARAM_STR);
+	    
+	    $sth->execute();
+	    
+	    return  PARENT::returnResult($sth);
+	}
+
+	/**
+	 * Função responsavel por salvar o user session
+	 * @param UserSession $userSession
+	 * @return array
+	 */
+	public function saveUserSession(UserSession $userSession)
+	{
+	    try {
+    	    $this->db->beginTransaction();
+    	    $sth = $this->db->prepare('INSERT INTO USER_SESSION(ID_USUARIO, LOGIN, IP, NAVEGADOR) VALUES (:ID_USUARIO,:LOGIN,:IP,:NAVEGADOR)');
+    	    
+    	    $sth->bindParam(':ID_USUARIO', $userSession->getId_usuario(),  PDO::PARAM_INT);
+    	    $sth->bindParam(':LOGIN',      $userSession->getLogin(),       PDO::PARAM_STR);
+    	    $sth->bindParam(':IP',         $userSession->getIp(),          PDO::PARAM_STR);
+    	    $sth->bindParam(':NAVEGADOR',  $userSession->getNavegador(),   PDO::PARAM_STR);
+    	    
+    	    $sth->execute();
+    	    $lastInsertId = $this->db->lastInsertId();
+    	    $this->db->commit();
+    	  
+    	    $userSession->setId($lastInsertId);
+    	    
+    	    return ['success' => true];
+	    } catch (\Exception $e) {
+	        $this->db->rollBack();
+	        return ['success' => false, 'msg' => $e->getMessage()];
+	    }
+	    
+	}
+	
 	public function deletUsuario($id){
 		$conn = $this->db;	   	   
 		$query   =  "DELETE from usuario WHERE ID =$id;";
@@ -37,8 +79,7 @@ class UsuarioDao {
 	}
        
 	public function cadastrarUsuario($usuario_json){
-		$conn = $this->db;	   	
-	//	print('<pre>'.$usuario_json.'</pre>');
+		$conn = $this->db;
 		$data = array(
 			'PERFIL' => $usuario_json['perfil'] ,
 			'EMAIL' => $usuario_json['email'] ,

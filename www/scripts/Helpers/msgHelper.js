@@ -12,8 +12,8 @@ var msgHelper = function(){
 		
 		$(html).appendTo('body').show('fade');
 		setTimeout(function () {
-			$(html).hide('fade');
-         }, 2900);
+			$("#alerta").hide('fade');
+         }, 3000);
 	}
 	
 	var showMsgErro = function(msg)

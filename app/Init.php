@@ -4,7 +4,7 @@ namespace App;
 use \SON\Init\Bootstrap;
 
 Class Init extends Bootstrap{       
-           
+    public static $instance;       
     protected function initRoutes(){
             $ar["index"] =            array(   "route" =>'/' ,             "controller" =>"index" ,           "action" =>"index");
             $ar["localidade"] =       array(   "route" =>'/localidade' ,   "controller" =>"index" ,           "action" =>"LocalidadeIndex");
@@ -31,7 +31,7 @@ Class Init extends Bootstrap{
             //rotas de Patrimonio
             $ar["getPatrimonio"]             =array( "route" =>'/getPatrimonio' ,         "controller" =>"PatrimonioCtrl" ,   "action" =>"getPatrimonio");
             $ar["getAutoCompletePatrimonioList"]        =array( "route" =>'/getAutoCompletePatrimonioList' ,     "controller" =>"PatrimonioCtrl" ,   "action" =>"getAutoCompletePatrimonioList");
-            $ar["Cadastrarpatrimonio"]       =array( "route" =>'/cadastrarPatrimonio' , "controller" =>"PatrimonioCtrl" ,   "action" =>"cadastrar");
+            $ar["cadastrarPatrimonio"]       =array( "route" =>'/cadastrarPatrimonio' , "controller" =>"PatrimonioCtrl" ,   "action" =>"cadastrarPatrimonio");
             $ar["Deletarpatrimonio"]         =array( "route" =>'/deletPatrimonio' ,     "controller" =>"PatrimonioCtrl" ,   "action" =>"deletPatrimonio");
             $ar["atualizarPatrimonio"]     =array( "route" =>'/updatePatrimonio' ,    "controller" =>"PatrimonioCtrl" ,   "action" =>"atualizarPatrimonio");
      
@@ -40,10 +40,10 @@ Class Init extends Bootstrap{
             $ar["estatisticaHome"]       =array("route" =>'/estatisticaHome' ,     "controller" =>"HomeCtrl" ,   "action" =>"estatisticaHome");
            
             //rotas transferencia
+            $ar["getTransferencia"]         =array("route" =>'/getTransferencia' , "controller" =>"TransferenciaCtrl" ,   "action" =>"getTransferencia");
             $ar["getItensTransferencia"]   =array("route" =>'/getProdutoTransferencia' , "controller" =>"TransferenciaCtrl" ,   "action" =>"getItensTransferencia");
-            $ar["getMinhasTransferencias"] =array("route" =>'/getMinhasTransferencias' , "controller" =>"TransferenciaCtrl" ,   "action" =>"getMinhasTransferencias");
             $ar["gerarPDF"]                =array("route" =>'/gerarPDF'                , "controller" =>"TransferenciaCtrl" ,   "action" =>"gerarPDF");
-            $ar["transferir"]              =array("route" =>'/cadastrarTransferencia'  , "controller" =>"TransferenciaCtrl" ,   "action" =>"transferir");
+            $ar["transferir"]              =array("route" =>'/transferir'  , "controller" =>"TransferenciaCtrl" ,   "action" =>"transferir");
             $ar[" gerarPDFTransferencia"]  =array("route" =>'/gerarPDFTransferencia'  , "controller" =>"TransferenciaCtrl" ,   "action" =>"gerarPDFTransferencia");
             $ar[" gerarPDFEmprestimo"]  =array("route" =>'/gerarPDFEmprestimo'  , "controller" =>"TransferenciaCtrl" ,   "action" =>"gerarPDFEmprestimo");
             
@@ -63,19 +63,18 @@ Class Init extends Bootstrap{
              
         
     public function getDB(){
-
-		try {
-			$db_nome = "root";
-			$db_senha = "";
-			$db = new \PDO('mysql:host=localhost;dbname=patrimonio', $db_nome, $db_senha, array(\PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'"));
-			$db->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION ); 
-			
-			return $db;
-			
-		} catch (\PDOException $e) {
-			echo "Erro :" . $e->getMessage();
-			
-		}
+        if (!isset(self::$instance)) {
+    		try {
+    			$db_nome = "root";
+    			$db_senha = "";
+    			self::$instance = new \PDO('mysql:host=localhost;dbname=patrimonio', $db_nome, $db_senha, array(\PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'"));
+    			self::$instance->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION ); 
+    		} catch (\PDOException $e) {
+    			echo "Erro :" . $e->getMessage();
+    			
+    		}
+        }
+        return self::$instance;
 
     }
 }

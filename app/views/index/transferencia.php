@@ -1,94 +1,70 @@
-<?php
-	session_start();
-	if(!isset($_SESSION['usuario'])){
-		header('Location: autenticar');;
-	}
-	$error = isset($_GET['error'])? $_GET['error']:0;
-?>
-
-<!DOCTYPE html>
-<html>
-	<head>
-		<title>Transferencia - SISCONPAT</title>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-
-		<!-- favicon -->
-		<link rel="apple-touch-icon" sizes="180x180" href="css/favicon/apple-touch-icon.png">
-		<link rel="icon" type="image/png" sizes="32x32" href="css/favicon/favicon-32x32.png">
-		<link rel="icon" type="image/png" sizes="16x16" href="css/favicon/favicon-16x16.png">
-		<link rel="manifest" href="css/favicon/manifest.json">
-		<link rel="mask-icon" href="css/favicon/safari-pinned-tab.svg" color="#5bbad5">
-		<meta name="theme-color" content="#ffffff">
-
-		<link rel="stylesheet" type="text/css" href="css/bootstrap/css/bootstrap.min.css">
-		<script type="text/javascript" src="./scripts/jquery3.2.1.js"></script>
-		<link rel="stylesheet" type="text/css" href="css/estilo.css">
-		<link rel="stylesheet" href="css/font-awesome-4.7.0/css/font-awesome.min.css">
-		<script type="text/javascript" src="css/jquery.form.js"></script>
-		<script type="text/javascript" src="./scripts/transferencias.js"></script>
-	
-		<link rel="stylesheet" type="text/css" href="css/menu.css">
-		<script type="text/javascript" src="./scripts/menu.js"></script>
-			
-	</head>
-
-    <body>
-		<?php
-			include '../app/menu.php';
-		?>
-
-        <div class="row">
-			<div class="col-md-12">
-              
-				<form id="tramitar_id_form" name="tramitar_form" method="post" action="javascript:tramitar();">  
-					<div class="row">
-						<h3>Transferencia</h3>
-						<div class="panel panel-default">
-							<div class="panel-body"> 
-									<div class="col-md-6">                             
-										<div class="form-group dropup" id="local_opcoes_busca">
-											<label >Origem:</label>
-											<select  class="form-control" name="local_inicial" id="local_inicial"></select>
-										</div>
-									</div>
-
-									<div class="col-md-6">                             
-										<div class="form-group" id="local_opcoes_destino">
-											<label >Destino:</label>
-											<select  class="form-control" name="local_destino" id="local_destino"></select>
-										</div>
-										<!--  <button type="submit" class="btn btn-primary" id="btn_cadastrar">Tramitar</button> -->
-										</div>
-									<!-- </form>-->
-							</div>
-						</div>
-					</div> <!-- fim row -->
-
-					<!--Conteudo principal-->
-					<!-- <form method="post" action="escolhasTransferencias.php"> -->
-					<div id="conteudo" class="list-group">
-						<!--//imagens de carregamento-->
-						<center><img  src="imagens/inicio.gif" style="display: none;" id="loader"></center>
-						<div class="panel-body">               
-						</div>
-					</div>
-					<button type="submit" class="btn btn-danger" id="btn_tramitar" style="float:right;">Tramitar</button>
-				</form>
+<div class="row">
+	<div class="col-md-12">
+	<h2 style="margin-top:0px;">Gerenciamento de Transferencias</h2>
+		<div class="row">
+			<div class="col-sm-9">
+				<button type="button" id="btn_cad" class="btn btn-primary">Nova transferencia</button>
 			</div>
-		</div><!-- fim conteiner -->
-		<!--//Alerta sucesso-->
-		<div  id="alerta" class="alert alert-success alert-fixed collapse">
-			<a id="linkClose" href="#" class="close">&times;</a>
-			<center><strong>Sucesso!</strong> <span id='alert_msg'></span> !!!</center>
-		</div>
+		</div><br>
+		<table id="dataTableTransferencia" class="table table-striped table-bordered table-hover display" width="100%">
+			<thead>
+                <tr>
+                    <th>Origem</th>
+                    <th>Destino</th>
+                    <th>Quantidade de itens</th>
+                    <th>Data</th>
+                    <th>Usuario</th>
+                    <th>Acoes</th>
+            </thead>
+		</table>
+     
+	</div>
+</div>
+<script type="text/javascript">
+var formAdicionarTransferencia = 'form_adicionar_Transferencia';
+transferencia.carregarConteudo();
 
-		<!--//Alerta Erro-->
-		<div  id="alerta_erro" class="alert alert-danger alert-fixed collapse">
-			<a id="linkClose" href="#" class="close">&times;</a>
-			<center><strong>Erro!</strong>  <span id='alert_msg_erro'></span> !!!</center>
-		</div>
-  
-		<script src="./scripts/bootstrap.min.js"></script>
-	</body>
-</html>
+var configInputsFormTransferir = [
+	{label : 'Origem', name : 'id_localidade_origem', tamanho: 12, type: 'select', url:'getAutoCompleteLocalidadeList', classe:'select2'},
+	{label : 'Destino', name : 'id_localidade_destino', tamanho: 12, type: 'select', url:'getAutoCompleteLocalidadeList', classe:'select2'},
+	{label : 'Data', name : 'data', tamanho: 4},
+	{label : 'Patrimonios', name : 'ids_Patrimonios', tamanho: 12, type: 'select', url:'getAutoCompletePatrimonioList', classe:'select2',multiple:true},
+];
+
+var onclickClosure = 'transferencia.transferir($(\'#' + formAdicionarTransferencia + '\'))';
+
+var configButtonsFormTransferir = [
+	{'type' : 'button', 'class' : 'btn btn-default', 'name' : 'Cancelar', 'id_button' : 'btn-cancelar-transferencia', 'fechaModal' : true},
+	{'type' : 'button', 'class' : 'btn btn-primary', 'name' : 'Transferir', 'id_button' : 'btn-cadastrar-transferencia', 'onClosureClick' : onclickClosure}
+	];
+
+var $modal = modalhelper.modalCreate(formAdicionarTransferencia, 'Realizar Transferencia', htmlhelper.createElementsByType(configInputsFormTransferir), htmlhelper.createElementsByType(configButtonsFormTransferir));
+
+$modal.appendTo('body');
+
+$('#btn_cad').on('click', function(){
+	$($modal).modal('show');
+	autocompleteHelper.createAutoComplete();
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

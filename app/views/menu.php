@@ -3,12 +3,7 @@
         <div class="menu">
             <ul>
                 <li><a href="home"><img src="./imagens/iconPainel2.png"/><p>Dashboard</p></a></li>
-                <li><a href=""><img src="./imagens/iconCarro.png"/><p>Transferencia</p></a>
-                    <ul>
-                        <li><a href="transferencia"><p>Transferir</p></a></li>
-                        <li><a href="minhas_transferencias"><p>Minhas Transferencias</p></a></li>
-                    </ul>
-                </li>
+                <li><a href="transferencia"><img src="./imagens/iconCarro.png"/><p>Transferencia</p></a></li>
                 <li><a href="patrimonio"><img src="./imagens/icon-caixa.svg"/><p>Patrimonios</p></a></li>
                 <li><a href="localidade"><img src="./imagens/iconLocal.png"/><p>Locais</p></a></li>
                 <li><a href="relatorio"><img src="./imagens/icon-estatisticas.png"/><p>Relatório</p></a></li>

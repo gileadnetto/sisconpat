@@ -29,27 +29,31 @@
 var formAdicionarLocalidade = 'form_adicionar_Localidade';
 local.carregarConteudo();
 
-$('#btn_cad').on('click', function(){
-	var configInputsFormCadastrar = [
-		{label : 'Descrição', name	: 'descricao', tamanho: 6},
-		{label : 'localidade', name : 'localidade' , tamanho: 6},
-		{label : 'CEP', name : 'cep', tamanho: 4},
-		{label : 'UF', name : 'uf', tamanho: 2},
-		{label : 'Bairro', name : 'bairro', tamanho: 6},
-		{label : 'Logradouro', name : 'logradouro', tamanho: 12},
-		{label : 'Numero', name : 'numero', tamanho: 4},
-		{label : 'Complemento', name : 'complemento', tamanho: 8},	
+var configInputsFormCadastrar = [
+	{label : 'Descrição', name	: 'descricao', tamanho: 6},
+	{label : 'localidade', name : 'localidade' , tamanho: 6},
+	{label : 'CEP', name : 'cep', tamanho: 4},
+	{label : 'UF', name : 'uf', tamanho: 2},
+	{label : 'Bairro', name : 'bairro', tamanho: 6},
+	{label : 'Logradouro', name : 'logradouro', tamanho: 12},
+	{label : 'Numero', name : 'numero', tamanho: 4},
+	{label : 'Complemento', name : 'complemento', tamanho: 8},	
+];
+
+var onclickClosure = 'local.cadastrar($(\'#' + formAdicionarLocalidade + '\'))';
+
+var configButtonsFormCadastrar = [
+	{'type' : 'button', 'class' : 'btn btn-default', 'name' : 'Cancelar', 'id_button' : 'btn-cancelar-localidade', 'fechaModal' : true},
+	{'type' : 'button', 'class' : 'btn btn-primary', 'name' : 'Cadastrar', 'id_button' : 'btn-cadastrar-localidade', 'onClosureClick' : onclickClosure}
 	];
 
-	var onclickClosure = 'local.cadastrar($(\'#' + formAdicionarLocalidade + '\'))';
-	
-	var configButtonsFormCadastrar = [
-		{'type' : 'button', 'class' : 'btn btn-danger', 'name' : 'Cancelar', 'id_button' : 'btn-cancelar-localidade', 'fechaModal' : true},
-		{'type' : 'button', 'class' : 'btn btn-primary', 'name' : 'Cadastrar', 'id_button' : 'btn-cadastrar-localidade', 'onClosureClick' : onclickClosure}
-		];
-	
-	var $modal = modalhelper.modalCreate(formAdicionarLocalidade, 'Adicionar Localidade', htmlhelper.inputCreate(configInputsFormCadastrar), htmlhelper.buttonCreate(configButtonsFormCadastrar));
-});
+var $modal = modalhelper.modalCreate(formAdicionarLocalidade, 'Adicionar Localidade', htmlhelper.createElementsByType(configInputsFormCadastrar), htmlhelper.createElementsByType(configButtonsFormCadastrar));
+
+$modal.appendTo('body');
+
+$('#btn_cad').on('click', function(){
+	$($modal).modal('show');
+});	
 </script>
 
 

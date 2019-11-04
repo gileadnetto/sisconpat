@@ -3,6 +3,27 @@
  */
 var HtmlHelper = function()
 {
+	var createElementsByType = function(array){
+		var html = [];
+		array.some(function(key){
+			switch(key['type']){
+			case 'text':
+				html += inputCreate(key);
+				break;
+			case 'select':
+				html += inputSelectCreate(key);
+				break;
+			case 'button':
+				html += buttonCreate(key);
+				break;
+			default:
+				html += inputCreate(key);
+			}
+		});
+		
+		return html;
+	}
+	
 	/**
 	 * Responsavel pela criação de input group
 	 * array[
@@ -12,40 +33,50 @@ var HtmlHelper = function()
 	 */
 	var inputCreate = function(array){
 		var html = [];
-		var htmlInputs = [];
-		var type, label, name, value, tamanho, disabled;
+		var tamanho, classe, type, label, name, value, disabled;
 		
-		array.some(function(key){
-			tamanho = (key['tamanho'] ? " col-sm-" + key['tamanho'] : "");
-			classe = (key['classe'] ? key['classe'] : "");
-			
-			if(key['type'] != "select"){
-				type = (key['type'] ? 'type="' + key['type'] + '"' : 'type="text"');
-				label = (key['type'] == 'hidden' ? '' :' <label>'+ key["label"] +'</label>');
-				name = key["name"];
-				value = (key['value'] ? 'value="' + key['value'] + '"' : '');
-				disabled = (key['disabled'] ? "disabled" : "");
-				
-				
-				html = [
-					'<div class="form-group'+ tamanho +'">',
-						label,
-						'<input ' + type + ' class="form-control' + classe + '" name="' + name + '" id="' + name + '"' + value + disabled + '>',
-					'</div>',				
-				];
-			} else {
-				html = [
-					'<div class="form-group'+ tamanho +'">',
-						'<label>'+ key["label"] +'</label>',
-						'<select  class="form-control ' + classe + '" data-url="' + key["url"] + '"></select>',
-					'</div>'
-					];
-			}
+		tamanho = (array['tamanho'] ? " col-sm-" + array['tamanho'] : "");
+		classe = (array['classe'] ? array['classe'] : "");
+		type = (array['type'] ? 'type="' + array['type'] + '"' : 'type="text"');
+		label = (array['type'] == 'hidden' ? '' :' <label>'+ array["label"] +'</label>');
+		name = array["name"];
+		value = (array['value'] ? 'value="' + array['value'] + '"' : '');
+		disabled = (array['disabled'] ? "disabled" : "");
+		
+		
+		html = [
+			'<div class="form-group'+ tamanho +'">',
+				label,
+				'<input ' + type + ' class="form-control' + classe + '" name="' + name + '" id="' + name + '"' + value + disabled + '>',
+			'</div>',				
+		];
 
-			htmlInputs += html.join('');
-		});	
-
-		return htmlInputs;
+		return html.join('');
+	}
+	
+	var inputSelectCreate = function(array){
+		var html = [];
+		var htmlInputs = [];
+		var tamanho, classe, label, url;
+		
+		tamanho = (array['tamanho'] ? " col-sm-" + array['tamanho'] : "");
+		classe = (array['classe'] ? array['classe'] : "");
+		label = array["label"];
+		url = array["url"];
+		multiple = (array['multiple'] ? "multiple='multiple'" : "");
+		
+		html = [
+			'<div class="form-group'+ tamanho +'">',
+				'<div>',
+				'<label>'+ label,
+				'</div>',
+				'<div>',
+				'<select ' + multiple + ' name="'+label+'"class="form-control ' + classe + '" data-url="' + url + '"></select></label>',
+				'</div>',
+			'</div>'
+			];
+		
+		return html.join('');
 	}
 	
 	/**
@@ -55,27 +86,22 @@ var HtmlHelper = function()
 	 * 			...
 	 * 		  ]
 	 */
-	var buttonCreate = function(array){		
+	var buttonCreate = function(array){
 		var html = [];
-		var htmlButtons = [];
 		var type, classe, name, id_button, onClosureClick, fechaModal;
 		
-		array.some(function(key){
-			type = (key["type"] || 'submit');
-			classe = (key["class"] || 'btn btn-default');
-			name = key["name"];
-			id_button = (key["id_button"] || 'btn');
-			onClosureClick = (key["onClosureClick"] ? 'onclick="' + key["onClosureClick"] + '"' : '');
-			fechaModal = (key["fechaModal"] ? 'data-dismiss="modal"' : '' );
-				
-			html = [
-				'<button type="' + type + '"' + fechaModal + ' class="' + classe + '" id="'+ id_button +'"' + onClosureClick + '>' + name + '</button>',
-			];
+		type = (array["type"] || 'submit');
+		classe = (array["class"] || 'btn btn-default');
+		name = array["name"];
+		id_button = (array["id_button"] || 'btn');
+		onClosureClick = (array["onClosureClick"] ? 'onclick="' + array["onClosureClick"] + '"' : '');
+		fechaModal = (array["fechaModal"] ? 'data-dismiss="modal"' : '' );
 			
-			htmlButtons += html.join('');
-		});	
+		html = [
+			'<button type="' + type + '"' + fechaModal + ' class="' + classe + '" id="'+ id_button +'"' + onClosureClick + '>' + name + '</button>',
+		];
 		
-		return htmlButtons;
+		return html.join('');
 	}
 	
 	/**
@@ -112,8 +138,7 @@ var HtmlHelper = function()
 	}
 	
 	return {
-		inputCreate 	: inputCreate,
-		buttonCreate	: buttonCreate,
+		createElementsByType	:	createElementsByType,
 		dropdownAcoesCreate	:	dropdownAcoesCreate
 	};
 }

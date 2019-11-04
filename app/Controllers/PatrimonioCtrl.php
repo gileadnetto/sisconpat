@@ -23,15 +23,17 @@ class PatrimonioCtrl extends Action {
      */
     public function getAutoCompletePatrimonioList()
     {
+        $query = $this->getPostData();
+        
         $patrimonioDao = Container::getDao("PatrimonioDao");
-        $result = $patrimonioDao->get();
+        $result = $patrimonioDao->getAutoCompleteList(['term' => $query['q']]);
         echo json_encode([$result['results']]);
     }
     
     /**
      * Função responsavel por realizar o processo de cadastro do patrimonio.
      */
-    public function cadastrar() {
+    public function cadastrarPatrimonio() {
         
         $request = $this->getPostData();
         $constraint = $postData = array();
@@ -39,8 +41,10 @@ class PatrimonioCtrl extends Action {
         $postData = [
             'patrimonio'    => $request['patrimonio'],
             'descricao'     => $request['descricao'],
-            'local_inicial' => $request['local_inicial'],
+            'id_localidade' => $request['id_localidade'],
             'tombamento'    => $request['tombamento'],
+            'valor'         => $request['valor'],
+            'vidautil'      => $request['vidautil'],
             'foto'          => $request['foto'] ?: "padrao.png"
         ];
         
@@ -49,8 +53,8 @@ class PatrimonioCtrl extends Action {
         if(count($constraint) > 0) {
             echo json_encode(array("constraint" => $constraint , "sucesso" => 0));
         } else {
-            $patrimonio = Container::getClass("Localidade");
-            $patrimonioDao = Container::getDao("LocalidadeDao");
+            $patrimonio = Container::getClass("Patrimonio");
+            $patrimonioDao = Container::getDao("PatrimonioDao");
             
             $this->postDataToEntity($patrimonio, $postData);
             
@@ -75,7 +79,7 @@ class PatrimonioCtrl extends Action {
 	{
 	    if(!$postData['patrimonio'])       $constraint['patrimonio'] =  "Campo (Patrimonio) invalida!";
 	    if(!$postData['descricao'])        $constraint['descricao'] =  "Campo (Descricao) invalida!";
-	    if(!$postData['local_inicial'])    $constraint['local_inicial'] =  "Campo (Local) invalida!";
+	    if(!$postData['id_localidade'])    $constraint['id_localidade'] =  "Campo (Local) invalida!";
 	    if(!$postData['tombamento'])       $constraint['tombamento'] =  "Campo (Tombamento) invalida!";
 	    if(!$postData['foto'])             $constraint['foto'] =  "Campo (Foto) invalida!";
 	    
@@ -151,11 +155,15 @@ class PatrimonioCtrl extends Action {
 	 */
 	private function postDataToEntity(Patrimonio $patrimonio, array $postData)
 	{
+	    $id_user_session = parent::getUserSession();
 	    $patrimonio->setPatrimonio($postData['patrimonio']);
 	    $patrimonio->setDescricao($postData['descricao']);
-	    $patrimonio->setTombamento($postData['local_inicial']);
-	    $patrimonio->setIdLocalidade($postData['tombamento']);
+	    $patrimonio->setTombamento($postData['tombamento']);
+	    $patrimonio->setValor($postData['valor']);
+	    $patrimonio->setVidautil($postData['vidautil']);
+	    $patrimonio->setIdLocalidade($postData['id_localidade']);
 	    $patrimonio->setFoto($postData['foto']);
+	    $patrimonio->setId_User_Session($id_user_session);
 	}
     
     public function deletPatrimonio(){

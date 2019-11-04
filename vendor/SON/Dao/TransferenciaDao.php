@@ -4,84 +4,73 @@ use App\Models\Transferencia;
 use PDO;
 use App\Models\TransferenciaItem;
 
-class TransferenciaDao{    
+class TransferenciaDao extends baseDao{
 	protected $db;
 	protected $table = "TRANSFERENCIA";  
 	
 	/**
-	 * Contrutor padrão para instanciar o PDO
-	 * @param PDO $db
-	 */
-	protected function __construct(PDO $db)
-	{
-	    $this->db = $db;
-	}
-	
-	/**
-	 * Função responsavel por retornar toda a entidade
-	 * @return entidade
-	 */
-	protected function get()
-	{
-	    $sth = $this->db->prepare('SELECT * FROM :TABLE');
-	    
-	    $sth->bindParam(':TABLE', $this->table, PDO::PARAM_STR);
-	    
-	    $result = $sth->execute();
-	    
-	    return  $result->fetchAll();
-	}
-	
-	/**
-	 * Função resposanvel por retornar a entidade pela ID
-	 * @param int $id
-	 * @return entidade
-	 */
-	protected function getById(int $id)
-	{
-	    $sth = $this->db->prepare('SELECT * FROM :TABLE WHERE :ID');
-	    
-	    $sth->bindParam(':TABLE', $this->table, PDO::PARAM_STR);
-	    $sth->bindParam(':ID', $id, PDO::PARAM_INT);
-	    
-	    $result = $sth->execute();
-	    
-	    return  $result->fetchAll();
-	}
-	
-	/**
 	 * Função responsavel por realizar a persistencia da transferencia
 	 * @param Transferencia $transferencia
+	 * @param array[Patrimonio] $patrimonio
 	 * @return array
 	 */
-	public function transferir(Transferencia $transferencia) {
-	    
-	    $sth = $this->db->prepare('INSERT INTO transferencia (ID_ORIGEM,ID_DESTINO,QUANT,ID_USUARIO) VALUES(:idOrigem,:idDestino,:quant,:idUsuario);');
-	    
-	    $sth->bindParam(':idOrigem', $this->table, PDO::PARAM_INT);
-	    $sth->bindParam(':idDestino', $this->table, PDO::PARAM_INT);
-	    $sth->bindParam(':quant', $this->table, PDO::PARAM_INT);
-	    $sth->bindParam(':idUsuario', $this->table, PDO::PARAM_INT);
-	    
-	    $result = $sth->execute();
-	    return  $result->fetchAll();
+	public function transferir(Transferencia $transferencia, array $patrimonios) 
+	{
+	    try {
+    	    $this->db->beginTransaction();
+    	    
+    	    $sth = $this->db->prepare('INSERT INTO transferencia (ID_ORIGEM,ID_DESTINO,DT_MOV,QUANT,ID_USER_SESSION) VALUES(:idOrigem,:idDestino,:data, :quant,:idUserSession);');
+    	    
+    	    $sth->bindParam(':idOrigem', $transferencia->getIdOrigem(), PDO::PARAM_INT);
+    	    $sth->bindParam(':idDestino', $transferencia->getIdDestino(), PDO::PARAM_INT);
+    	    $sth->bindParam(':data', $transferencia->getDtMov());
+    	    $sth->bindParam(':quant', $transferencia->getQuant(), PDO::PARAM_INT);
+    	    $sth->bindParam(':idUserSession', $transferencia->getId_user_session(), PDO::PARAM_INT);
+    	    
+    	    $sth->execute();
+    	    
+    	    $lastInsertId = $this->db->lastInsertId();
+    	    
+    	    foreach ($patrimonios as $key){
+    	        $sth = $this->db->prepare('INSERT INTO transferencia_item (ID_TRANSFERENCIA,ID_ITEM) VALUES(:idTransferencia,:idItem);');
+    	        $sth->bindParam(':idTransferencia', $lastInsertId, PDO::PARAM_INT);
+    	        $sth->bindParam(':idItem', $key, PDO::PARAM_INT);
+    	        $sth->execute();
+    	        
+    	        $sth = $this->db->prepare('UPDATE PATRIMONIO SET ID_LOCALIDADE = :idLocalidade WHERE ID = :idPatrimonio');
+    	        $sth->bindParam(':idLocalidade', $transferencia->getIdDestino(), PDO::PARAM_INT);
+    	        $sth->bindParam(':idPatrimonio', $key, PDO::PARAM_INT);
+    	        $sth->execute();
+    	    }
+    	    
+    	    $this->db->commit();
+    	    return ['success' => true];
+	    } catch (\Exception $e) {
+	        $this->db->rollBack();
+	        return ['success' => false, 'msg' => $e->getMessage()];
+	    }
 	}
-
+	
 	/**
-	 * Função responsavel por realizar a persistencia dos itens da transferencia.
-	 * @param TransferenciaItem $transferenciaItem
-	 * @return array
+	 * Função responsavel por retornar a listagem das localidades
+	 * @return
 	 */
-	public function transferir_item(TransferenciaItem $transferenciaItem) {
+	public function getList()
+	{
+	    $sth = $this->db->prepare("
+            SELECT 
+                (SELECT L.DESCRICAO FROM LOCALIDADE L WHERE L.ID = T.ID_ORIGEM) AS ORIGEM,
+                (SELECT L.DESCRICAO FROM LOCALIDADE L WHERE L.ID = T.ID_DESTINO) AS DESTINO,
+                T.QUANT,                 
+                T.DT_MOV AS DATA,
+                U.LOGIN AS USUARIO  
+            FROM ".$this->table." T 
+            INNER JOIN USER_SESSION U ON U.ID = T.ID_USER_SESSION
+        ");
+	    $sth->execute();
 	    
-	    $sth = $this->db->prepare('INSERT INTO transferencia_item (id_transferencia,id_item) values(:idItem, :idTransferencia);');
-	    
-	    $sth->bindParam(':idItem', $this->table, PDO::PARAM_INT);
-	    $sth->bindParam(':idTransferencia', $this->table, PDO::PARAM_INT);
-	    
-	    $result = $sth->execute();
-	    return  $result->fetchAll();
-	}  
+	    return parent::returnResult($sth);
+	}
 	
 	public function getItensTransferencia($local_inicial) {
 
@@ -94,7 +83,7 @@ class TransferenciaDao{
 	public function getMinhasTransferencias($idUsuario) {
 		$conn = $this->db;
 
-		$query = 'SELECT t.ID,t.ID_ORIGEM,t.ID_DESTINO,t.ID_USUARIO, t.QUANT,t.DT_MOV,l.DESCRICAO as destino, l2.DESCRICAO as origem FROM transferencia t join localidade l on l.id = t.ID_DESTINO join localidade l2 on l2.id = t.ID_ORIGEM where t.ID_USUARIO = '.$idUsuario.' order by(t.DT_MOV)desc';
+		$query = 'SELECT t.ID,t.ID_ORIGEM,t.ID_DESTINO,t.ID_USER_SESSION, t.QUANT,t.DT_MOV,l.DESCRICAO as destino, l2.DESCRICAO as origem FROM transferencia t join localidade l on l.id = t.ID_DESTINO join localidade l2 on l2.id = t.ID_ORIGEM where t.ID_USER_SESSION = '.$idUsuario.' order by(t.DT_MOV)desc';
 		$retorno = \processador\Processador::action($query, $conn);
 		return $retorno;
 	}

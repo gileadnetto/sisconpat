@@ -15,11 +15,10 @@ class UsuarioCtrl extends Action {
         $this->view->resultado=$response;
 		$this->render('getUsuario','administrador');
 		unset($usuarioDao);
-         
     }
     
 	public function deletUsuario() {     
-        $id =$_POST['id'];
+        $id = $_POST['id'];
         $usuarioDao = Container::getDao("UsuarioDao"); //instacinado a classe e a conexao banco
 		$response = $usuarioDao->deletUsuario($id);
 		$response = json_encode($response);

@@ -19,7 +19,10 @@ class HomeDao {
 		(SELECT COUNT(id)FROM   localidade) AS QTD_LOCAL,
 		(SELECT COUNT(id)FROM   patrimonio) AS QTD_PATRIMONIO ,
 		(SELECT COUNT(id)FROM   transferencia) AS QTD_TRANSFERENCIA,
-		(SELECT COUNT(id)FROM   transferencia where ID_USUARIO = $id_Usuario ) AS MINHAS_TRANSFERENCIAS";
+		(SELECT COUNT(t.id)FROM   transferencia t 
+            inner join user_session us on us.id = t.id_user_session
+            inner join usuario u on u.id = us.id_usuario  
+            where u.id = $id_Usuario ) AS MINHAS_TRANSFERENCIAS";
 	
 		$response = \processador\Processador::action($query, $conn);
 		return $response;

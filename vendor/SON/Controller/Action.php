@@ -25,9 +25,7 @@ Class Action
     public  function render($action, $pasta = 'index', $layout = false, $titulo = '', $script = ''  ) {
         $this->action = $action;
         
-        if (session_status() == PHP_SESSION_NONE) {
-            session_start();
-        }
+        $this->checkSessionStart();
         
         //para cada interacao irei verificar se  o usuario esta autenticado
         if( $this->action != 'autenticar' && $this->action != 'sair' && $this->action != 'index' ){
@@ -48,26 +46,33 @@ Class Action
             $menu = $this->requireToVar('../App/views/menu.php');
             $template->set("MENU", $menu);
             $template->set("SCRIPT", $script);
-            //$conteudo = file_get_contents('../App/views/'.$pasta.'/'.$this->action.'.php');
             $conteudo = $this->requireToVar('../App/views/'.$pasta.'/'.$this->action.'.php');
             //$conteudo = include_once '../App/views/'.$pasta.'/'.$this->action.'.php';
             $template->set("CONTEUDO", $conteudo);
             echo $template->processar();
-            
-        }
-        
-        else{
+        } else {
             $this->content($pasta);
         }
-        
     }
     
-    /* public  function render($action,$pasta = "index")  //$layout=true
+    /**
+     * FunÁ„o responsavel por verificar se a sess„o esta iniciada
+     * @return bool
+     */
+    private function checkSessionStart():bool
     {
-        $this->action = $action;
-        $this->content($pasta);          
-            
-    } */
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+            return true;
+        }
+        return false;
+    }
+
+    public function getUserSession()
+    {
+        if($this->checkSessionStart()) return $_SESSION['id_user_session'];
+    }
+    
     public function content($pasta) {
         $atual = get_Class($this);
         $singleClassName = strtolower(str_replace("App\\Controllers\\","",$atual));
@@ -81,12 +86,14 @@ Class Action
      */
     public function getPostData()
     {
-        return $_SERVER['REQUEST_METHOD'] === 'POST' ? $_POST : $_GET;
+        if($_SERVER['REQUEST_METHOD'] === 'POST')
+            return $_POST;
+        else if($_SERVER['REQUEST_METHOD'] === 'GET')
+            return $_GET;
     }
     
-    function requireToVar($file)
+    private function requireToVar($file)
     {
-        
         // Inicializa o buffer e bloqueia qualquer sa√≠da para o navegador
         ob_start();
         // Executamos o include () normalmente
@@ -98,7 +105,6 @@ Class Action
         // J√° podemos encerrar o buffer e limpar tudo que h√° nele
         ob_end_clean();
         
-        return $resultado;
-        
+        return $resultado;       
     }
 }

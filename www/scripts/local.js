@@ -99,7 +99,7 @@ var Local = function(){
 			},
 			complete: function(data){
 				$(".close").click();
-				//window.location.reload(true);
+				window.location.reload(true);
 			},
 			error: function(data){
 				msghelper.showMsgErro('Erro ao cadastrar local.');
