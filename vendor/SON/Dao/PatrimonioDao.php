@@ -8,7 +8,7 @@ class PatrimonioDao extends baseDao{
     protected $table = "PATRIMONIO";   
           
 	/**
-	 * Função responsavel por persistir o patrimonio
+	 * Funï¿½ï¿½o responsavel por persistir o patrimonio
 	 * @param Patrimonio $patrimonio
 	 * @return array
 	 */
@@ -18,14 +18,14 @@ class PatrimonioDao extends baseDao{
 	        
     		$sth = $this->db->prepare('INSERT INTO PATRIMONIO (PATRIMONIO, DESCRICAO, ID_LOCALIDADE, TOMBAMENTO, FOTO, VALOR, VIDAUTIL, ID_USER_SESSION) VALUES (:patrimonio, :descricao, :idLocalidade, :tombamento, :foto, :valor, :vidautil, :idusersession);');
     		
-    		$sth->bindParam(':patrimonio',    $patrimonio->getPatrimonio(),       PDO::PARAM_STR);
-    		$sth->bindParam(':descricao',     $patrimonio->getDescricao(),        PDO::PARAM_STR);
-    		$sth->bindParam(':idLocalidade',  $patrimonio->getIdLocalidade(),     PDO::PARAM_INT);
-    		$sth->bindParam(':tombamento',    $patrimonio->getTombamento(),       PDO::PARAM_INT);
-    		$sth->bindParam(':foto',          $patrimonio->getFoto());
-    		$sth->bindParam(':valor',         $patrimonio->getValor());
-    		$sth->bindParam(':vidautil',      $patrimonio->getVidautil(),         PDO::PARAM_INT);
-    		$sth->bindParam(':idusersession', $patrimonio->getId_user_session(),  PDO::PARAM_INT);
+    		$sth->bindValue(':patrimonio',    $patrimonio->getPatrimonio(),       PDO::PARAM_STR);
+    		$sth->bindValue(':descricao',     $patrimonio->getDescricao(),        PDO::PARAM_STR);
+    		$sth->bindValue(':idLocalidade',  $patrimonio->getIdLocalidade(),     PDO::PARAM_INT);
+    		$sth->bindValue(':tombamento',    $patrimonio->getTombamento(),       PDO::PARAM_INT);
+    		$sth->bindValue(':foto',          $patrimonio->getFoto());
+    		$sth->bindValue(':valor',         $patrimonio->getValor());
+    		$sth->bindValue(':vidautil',      $patrimonio->getVidautil(),         PDO::PARAM_INT);
+    		$sth->bindValue(':idusersession', $patrimonio->getId_user_session(),  PDO::PARAM_INT);
     		
     		
     		$sth->execute();
@@ -38,7 +38,7 @@ class PatrimonioDao extends baseDao{
 	}
       
 	/**
-	 * Função responsavel por persistir a atualização do patrimonio
+	 * Funï¿½ï¿½o responsavel por persistir a atualizaï¿½ï¿½o do patrimonio
 	 * @param Patrimonio $patrimonio
 	 * @return array
 	 */
@@ -63,7 +63,7 @@ class PatrimonioDao extends baseDao{
 	}
 	
 	/**
-	 * Função responsavel por retornar a listagem dos patrimonio
+	 * Funï¿½ï¿½o responsavel por retornar a listagem dos patrimonio
 	 * @return array
 	 */
 	public function getList() {
@@ -76,7 +76,7 @@ class PatrimonioDao extends baseDao{
 	}
 	
 	/**
-	 * Função responsavel por retornar a listagem das patrimonios para o autocomplete
+	 * Funï¿½ï¿½o responsavel por retornar a listagem das patrimonios para o autocomplete
 	 * @return
 	 */
 	public function getAutoCompleteList($param = false)

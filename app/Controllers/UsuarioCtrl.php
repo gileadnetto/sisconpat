@@ -8,13 +8,11 @@ use SON\Di\Container;
 class UsuarioCtrl extends Action {
    
 	public function getUsuario() {        
-       
-		$usuarioDao = Container::getDao("UsuarioDao"); //instacinado a classe e a conexao banco
-		$response = $usuarioDao->getUsuario();
-		       
-        $this->view->resultado=$response;
-		$this->render('getUsuario','administrador');
-		unset($usuarioDao);
+
+		$usuarioDao = Container::getDao("UsuarioDao");
+        $result = $usuarioDao->getList();
+        echo json_encode(array("recordsTotal" => $result['total'], "data" => $result['results']));
+      
     }
     
 	public function deletUsuario() {     
@@ -26,28 +24,37 @@ class UsuarioCtrl extends Action {
 		unet($usuarioDao);
 	}
      
-	public function cadastrarUsuario() {      
+	public function cadastrarUsuario() {  
+		
+		$request = $this->getPostData();
+        $constraint = $postData = array();
+		
+        $postData = [
+            'login'    => $request['login'],
+            'senha'    => md5($request['senha']),
+            'email'    => $request['email'],
+            'perfil'   => $request['perfil'],
+         ];
         
-        $nome = $_POST['nome'];
-        $email = $_POST['email'];
-        $senha = md5($_POST['senha']);
-        $perfil = $_POST['perfil'];
-                 
-        $user = Container::getClass("Usuario");
-        $usuarioDao = Container::getDao("UsuarioDao");
-        
-        $user->setEmail($email);
-        $user->setLogin($nome);
-        $user->setSenha($senha);
-        $user->setPerfil($perfil);
-
-		$usuarios = $user->jsonSerialize(); 
-        //instacinado a classe e a conexao banco
-        $response = $usuarioDao->cadastrarUsuario($usuarios);
-
-		print_r($response);   
-		unset($user);
-		unset($usuarioDao);
+        $constraint = $this->checkPostData($postData, $constraint);
+           
+        if(count($constraint) > 0) {
+            echo json_encode(array("constraint" => $constraint , "sucesso" => 0));
+        } else {
+            $usuario = Container::getClass("Usuario");
+			$usuarioDao = Container::getDao("UsuarioDao");
+			
+            $this->postDataToEntity($usuario, $postData);
+            
+            $result = $usuarioDao->save($usuario);
+            
+            if($result['success']){
+                echo json_encode(array("sucesso" => true, "msg" => $usuario->getLogin()." cadastrado com sucesso."));
+            } else {
+                echo json_encode(array("sucesso" => false, "msg" => "Erro ao cadastrar o usuario!".$result['msg'] ));
+            }
+            unset($usuario);
+		}
         
 	}
      
@@ -75,4 +82,36 @@ class UsuarioCtrl extends Action {
 		unset($user);
 		unset($usuarioDao);
 	}
+
+	/**
+     * Fun��o responsavel por fazer a verifica��o dos valores do post
+     * @param array $postData
+     * @param array $constraint
+     * @return number
+     */
+    private function checkPostData(array $postData, array $constraint)
+    {
+		!$postData['login'] && $constraint['login'] = "Campo (login) invalido!";
+		!$postData['senha'] && $constraint['senha'] = "Campo (senha) invalido!";
+		!$postData['perfil'] && $constraint['perfil'] = "Campo (perfil) invalido!";
+		!$postData['email'] && $constraint['email'] = "Campo (email) invalido!";
+
+		return $constraint;
+    }
+    
+    /**
+     * Fun��o responsavel por preencher a entidde com os dados do post.
+     * @param Localidade $entity
+     * @param array $postData
+     */
+    private function postDataToEntity( $entity, array $postData)
+    {
+        $entity->setLogin($postData['login']);
+        $entity->setSenha($postData['senha']);
+		$entity->setEmail($postData['email']);
+		$entity->setPerfil($postData['perfil']);
+
+    }
 }
+
+

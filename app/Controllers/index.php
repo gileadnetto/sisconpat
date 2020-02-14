@@ -14,7 +14,7 @@ Class Index extends Action{
     }
     
     public function homeIndex() {
-        $this->render('home','index', true, '','home');
+        $this->render('home','index', true, 'Home','home');
     }
     
      public function LocalidadeIndex() {           

@@ -9,7 +9,7 @@ class TransferenciaDao extends baseDao{
 	protected $table = "TRANSFERENCIA";  
 	
 	/**
-	 * Função responsavel por realizar a persistencia da transferencia
+	 * Funï¿½ï¿½o responsavel por realizar a persistencia da transferencia
 	 * @param Transferencia $transferencia
 	 * @param array[Patrimonio] $patrimonio
 	 * @return array
@@ -21,11 +21,11 @@ class TransferenciaDao extends baseDao{
     	    
     	    $sth = $this->db->prepare('INSERT INTO transferencia (ID_ORIGEM,ID_DESTINO,DT_MOV,QUANT,ID_USER_SESSION) VALUES(:idOrigem,:idDestino,:data, :quant,:idUserSession);');
     	    
-    	    $sth->bindParam(':idOrigem', $transferencia->getIdOrigem(), PDO::PARAM_INT);
-    	    $sth->bindParam(':idDestino', $transferencia->getIdDestino(), PDO::PARAM_INT);
-    	    $sth->bindParam(':data', $transferencia->getDtMov());
-    	    $sth->bindParam(':quant', $transferencia->getQuant(), PDO::PARAM_INT);
-    	    $sth->bindParam(':idUserSession', $transferencia->getId_user_session(), PDO::PARAM_INT);
+    	    $sth->bindValue(':idOrigem', $transferencia->getIdOrigem(), PDO::PARAM_INT);
+    	    $sth->bindValue(':idDestino', $transferencia->getIdDestino(), PDO::PARAM_INT);
+    	    $sth->bindValue(':data', $transferencia->getDtMov());
+    	    $sth->bindValue(':quant', $transferencia->getQuant(), PDO::PARAM_INT);
+    	    $sth->bindValue(':idUserSession', $transferencia->getId_user_session(), PDO::PARAM_INT);
     	    
     	    $sth->execute();
     	    
@@ -33,13 +33,13 @@ class TransferenciaDao extends baseDao{
     	    
     	    foreach ($patrimonios as $key){
     	        $sth = $this->db->prepare('INSERT INTO transferencia_item (ID_TRANSFERENCIA,ID_ITEM) VALUES(:idTransferencia,:idItem);');
-    	        $sth->bindParam(':idTransferencia', $lastInsertId, PDO::PARAM_INT);
-    	        $sth->bindParam(':idItem', $key, PDO::PARAM_INT);
+    	        $sth->bindValue(':idTransferencia', $lastInsertId, PDO::PARAM_INT);
+    	        $sth->bindValue(':idItem', $key, PDO::PARAM_INT);
     	        $sth->execute();
     	        
     	        $sth = $this->db->prepare('UPDATE PATRIMONIO SET ID_LOCALIDADE = :idLocalidade WHERE ID = :idPatrimonio');
-    	        $sth->bindParam(':idLocalidade', $transferencia->getIdDestino(), PDO::PARAM_INT);
-    	        $sth->bindParam(':idPatrimonio', $key, PDO::PARAM_INT);
+    	        $sth->bindValue(':idLocalidade', $transferencia->getIdDestino(), PDO::PARAM_INT);
+    	        $sth->bindValue(':idPatrimonio', $key, PDO::PARAM_INT);
     	        $sth->execute();
     	    }
     	    
@@ -52,7 +52,7 @@ class TransferenciaDao extends baseDao{
 	}
 	
 	/**
-	 * Função responsavel por retornar a listagem das localidades
+	 * Funï¿½ï¿½o responsavel por retornar a listagem das localidades
 	 * @return
 	 */
 	public function getList()
@@ -96,10 +96,15 @@ class TransferenciaDao extends baseDao{
     } 
        
 	public function gerarPDF($idTransferencia) {
-		$conn = $this->db;
-		$query = "SELECT  t.id as idT , t.ID_USUARIO ,p.patrimonio, p.TOMBAMENTO ,p.descricao,p.ativo ,t.dt_mov, t.quant, l.descricao as destino, l2.descricao as origem from transferencia t join localidade l on l.id = t.id_destino join localidade l2 on l2.id = t.id_origem join transferencia_item ti on t.id = ti.id_transferencia join patrimonio p on p.id = ti.id_item and t.ID=$idTransferencia";
-		$retorno = \processador\Processador::action($query, $conn);
-		return $retorno;
+		$sth = $this->db->prepare("SELECT  t.id as idT , t.ID_USER_SESSION ,p.patrimonio, p.TOMBAMENTO ,p.descricao,p.ativo ,t.dt_mov, t.quant, l.descricao as destino, l2.descricao as origem from transferencia t join localidade l on l.id = t.id_destino join localidade l2 on l2.id = t.id_origem join transferencia_item ti on t.id = ti.id_transferencia join patrimonio p on p.id = ti.id_item and t.ID=$idTransferencia");
+		$sth->execute();
+	
+		return parent::returnResult($sth);
+
+		// $conn = $this->db;
+		// $query = "SELECT  t.id as idT , t.ID_USUARIO ,p.patrimonio, p.TOMBAMENTO ,p.descricao,p.ativo ,t.dt_mov, t.quant, l.descricao as destino, l2.descricao as origem from transferencia t join localidade l on l.id = t.id_destino join localidade l2 on l2.id = t.id_origem join transferencia_item ti on t.id = ti.id_transferencia join patrimonio p on p.id = ti.id_item and t.ID=$idTransferencia";
+		// $retorno = \processador\Processador::action($query, $conn);
+		// return $retorno;
 	}
        
 }

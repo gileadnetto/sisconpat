@@ -56,11 +56,11 @@
 	$pdf->Cell(0,10,utf8_decode("MOVIMENTAÇÂO PATRIMONIAL"),0,1,'C');
 	//$pdf->MultiCell( 0, 40, "reportSubtitle", 1,'C');
 
-	$pdf->Cell(100,10,"Data:".$results['results'][0]->dt_mov ,1,0);
+	$pdf->Cell(100,10,"Data:".$results['results'][0]['dt_mov'] ,1,0);
                 
-	$pdf->Cell(0,10,utf8_decode("Movimentação nº:  ".$results['results'][0]->idT ),1,1);
-	$pdf->Cell(0,10,utf8_decode("Remetente (local Inicial):  ".$results['results'][0]->origem),1,1);
-	$pdf->Cell(0,10,utf8_decode("Destinatario (local Final):  ".$results['results'][0]->destino),1,1);
+	$pdf->Cell(0,10,utf8_decode("Movimentação nº:  ".$results['results'][0]['idT'] ),1,1);
+	$pdf->Cell(0,10,utf8_decode("Remetente (local Inicial):  ".$results['results'][0]['origem']),1,1);
+	$pdf->Cell(0,10,utf8_decode("Destinatario (local Final):  ".$results['results'][0]['destino']),1,1);
 
 	//$pdf->Ln(8);//espaço
 
@@ -72,18 +72,18 @@
 	$pdf->setFont("Arial","",8);
 
 	foreach ($results['results'] as $res) {
-        if($res->ativo != 0){
+        if($res['ativo'] != 0){
         
-			$pdf->Cell(50,10,utf8_decode($res->patrimonio),1,0);
-			$pdf->Cell(110,10,utf8_decode($res->descricao),1,0);
-			$pdf->Cell(30,10,utf8_decode($res->TOMBAMENTO),1,1);
+			$pdf->Cell(50,10,utf8_decode($res['patrimonio']),1,0);
+			$pdf->Cell(110,10,utf8_decode($res['descricao']),1,0);
+			$pdf->Cell(30,10,utf8_decode($res['TOMBAMENTO']),1,1);
 		}
 
 		else{
 			$inativo = desenha_vermelho($pdf, $inativo ) ;//cria uma listra colorida em cima  para ter uma aparencia de background colorido
-			$pdf->Cell(50,10,utf8_decode($res->patrimonio),1,0);
-			$pdf->Cell(110,10,utf8_decode($res->descricao),1,0);
-			$pdf->Cell(30,10,utf8_decode($res->TOMBAMENTO),1,1);
+			$pdf->Cell(50,10,utf8_decode($res['patrimonio']),1,0);
+			$pdf->Cell(110,10,utf8_decode($res['descricao']),1,0);
+			$pdf->Cell(30,10,utf8_decode($res['TOMBAMENTO']),1,1);
 			
 		}
 	}
@@ -97,7 +97,7 @@
 	$pdf->MultiCell(0,5,utf8_decode("Declaro ter recebido os bens patrimoniais acima descritos , desde já , assumo inteira responsabilidade por sua guarda e conservação , usando-os de maneira adequada para não diminuir sua vida útil."),1,1,'C',1);
 
 	//$end_final   = "Transferencia_".date('d/m/Y').".pdf";
-	$end_final   = "Transferencia_".$results['results'][0]->idT;
+	$end_final   = "Transferencia_".$results['results'][0]['idT'];
 	$tipo_pdf	=  "I"; //D é para download
 	$pdf->Output($end_final, $tipo_pdf);
 

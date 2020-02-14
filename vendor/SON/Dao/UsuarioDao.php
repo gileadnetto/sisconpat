@@ -13,7 +13,7 @@ class UsuarioDao extends baseDao{
     protected $table = "USUARIO";
   
     /**
-     * Função responsavel por recuperar todos os usuarios
+     * Funï¿½ï¿½o responsavel por recuperar todos os usuarios
      * @return array
      */
 	public function getUsuario():array {
@@ -25,7 +25,7 @@ class UsuarioDao extends baseDao{
 	}
 
 	/**
-	 * Função responsavel por autenticar o usuario que esta logando existe.
+	 * Funï¿½ï¿½o responsavel por autenticar o usuario que esta logando existe.
 	 * @param Usuario $usuario
 	 * @return array
 	 */
@@ -41,7 +41,7 @@ class UsuarioDao extends baseDao{
 	}
 
 	/**
-	 * Função responsavel por salvar o user session
+	 * Funï¿½ï¿½o responsavel por salvar o user session
 	 * @param UserSession $userSession
 	 * @return array
 	 */
@@ -77,20 +77,33 @@ class UsuarioDao extends baseDao{
 			 
  		return $retorno;  
 	}
-       
-	public function cadastrarUsuario($usuario_json){
-		$conn = $this->db;
-		$data = array(
-			'PERFIL' => $usuario_json['perfil'] ,
-			'EMAIL' => $usuario_json['email'] ,
-			'LOGIN' => $usuario_json['login'] ,
-			'SENHA' => $usuario_json['senha'] ,
-
-		);
-		$tabela = $usuario_json['table'];
-		
-		$retorno = \processador\Processador::providerAction($data, $conn,$tabela, 'Cadastrar usuario');
-		return $retorno;
+	   
+	
+		/**
+	 * Funï¿½ï¿½o responsavel por persistir a localidade junto com o endereï¿½o
+	 * @param Localidade $localidade
+     * @param Endereco $endereco
+	 * @return array
+	 */
+	public function save(Usuario $usuario)
+	{
+	    try {
+	        $this->db->beginTransaction();
+	        
+	        $sth = $this->db->prepare('INSERT INTO usuario (login, email, senha, perfil) VALUES(:login, :email, :senha, :perfil);');
+	        
+	        $sth->bindValue(':login',          	$usuario->getLogin(),       PDO::PARAM_STR);
+	        $sth->bindValue(':email',         	$usuario->getEmail(),       PDO::PARAM_STR);
+	        $sth->bindValue(':senha',           $usuario->getSenha(),       PDO::PARAM_STR);
+	        $sth->bindValue(':perfil',    		$usuario->getPerfil(),  	PDO::PARAM_STR);
+	        
+	        $sth->execute();
+	        $this->db->commit();
+	        return ['success' => true];
+	    } catch (\Exception $e) {
+	        $this->db->rollBack();
+	        return ['success' => false, 'msg' => $e->getMessage()];
+	    }
 	}
 
 	public function updateUsuario($usuario_json){
@@ -100,4 +113,12 @@ class UsuarioDao extends baseDao{
 			 
  		return $retorno;	
 	}
+
+	public function getList()
+	{
+	    $sth = $this->db->prepare("SELECT *  FROM ".$this->table);
+	    $sth->execute();
+	    return parent::returnResult($sth);
+	}
+
 }

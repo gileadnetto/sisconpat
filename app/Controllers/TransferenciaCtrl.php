@@ -10,13 +10,15 @@ use App\Models\TransferenciaItem;
 use App\Models\Patrimonio;
 use App\Controllers\Helpers\dateHelper;
 
+use Spipu\Html2Pdf\Html2Pdf;
+
 class TransferenciaCtrl extends Action {
     private $transferenciaDao;
     private $transferenciaModel;
     private $transferenciaItemModel;
     
     /**
-     * Função responsavel por retornar a listagem de transferencias.
+     * Funï¿½ï¿½o responsavel por retornar a listagem de transferencias.
      */
     public function getTransferencia() {
         $transferenciaDao = Container::getDao("TransferenciaDao");
@@ -25,7 +27,7 @@ class TransferenciaCtrl extends Action {
     }
     
     /**
-     * Função responsavel por realizar o processo de transferencia, transferencia item e a localização dos produtos.
+     * Funï¿½ï¿½o responsavel por realizar o processo de transferencia, transferencia item e a localizaï¿½ï¿½o dos produtos.
      * @return array
      */
     public function transferir()
@@ -37,7 +39,7 @@ class TransferenciaCtrl extends Action {
         $constraint = $this->checkPostData($data);
         
         if(count($constraint) > 0) {
-            echo ['sucesso' => false, 'msg' => $constraint ];;
+            echo ['sucesso' => false, 'msg' => $constraint ];
             return;
         }
 
@@ -45,9 +47,9 @@ class TransferenciaCtrl extends Action {
             $this->realizarTransferencia($data);
         } catch (\Exception $e){
             echo $e->getMessage();   
-        }
+		}
         
-        echo ['sucesso' => 1, 'msg' => 'Transferencia realizada com sucesso!' ];
+        echo json_encode(['sucesso' => 1, 'msg' => 'Transferencia realizada com sucesso!' ]);
 	}
 	
 	private function buildArrayPostData($idsPatrimonio)
@@ -67,7 +69,7 @@ class TransferenciaCtrl extends Action {
 	}
 	
 	/**
-	 * Função responsavel por verificar os dados do post
+	 * Funï¿½ï¿½o responsavel por verificar os dados do post
 	 * @param array $postData
 	 * @return array
 	 */
@@ -84,7 +86,7 @@ class TransferenciaCtrl extends Action {
 	}
 	
 	/**
-	 * Função responsavel por realizar o processo de transferencia
+	 * Funï¿½ï¿½o responsavel por realizar o processo de transferencia
 	 * @param array $arrData
 	 */
 	private function realizarTransferencia(array $arrData)
@@ -98,7 +100,7 @@ class TransferenciaCtrl extends Action {
 	}	
 	
 	/**
-	 * função responsavel por montar a entidade com os dados do post
+	 * funï¿½ï¿½o responsavel por montar a entidade com os dados do post
 	 * @param Transferencia $entidadeTransferencia
 	 * @param array $arrData
 	 */
@@ -110,7 +112,7 @@ class TransferenciaCtrl extends Action {
 	}
 	
 	/**
-	 * Função responsavel por preencher a entidade de patrimonio
+	 * Funï¿½ï¿½o responsavel por preencher a entidade de patrimonio
 	 * @param Patrimonio $entityPatrimonio
 	 * @param array $arrData
 	 */
@@ -131,24 +133,28 @@ class TransferenciaCtrl extends Action {
     
 	public function gerarPDF() {
 		$idTransferencia = intval($_GET['idTransferencia']); 
+		// $transferenciaDao = Container::getDao("TransferenciaDao");
+		// $response = $transferenciaDao->gerarPDF($idTransferencia);
+
+		//$idTransferencia = 9;
 		$transferenciaDao = Container::getDao("TransferenciaDao");
 		$response = $transferenciaDao->gerarPDF($idTransferencia);
+
 		
-		$response  = json_encode($response);
+		// $response  = json_encode($response);
 		$this->view->resultado=$response;
-		$this->render('gerarPDF','transferencia');
+		$this->render('pdf','transferencia');
+		//$this->render('gerarPDFTransferencia','transferencia');
     }
      
     public function gerarPDFTransferencia() {
-        
-		$idTransferencia = (int) ($_GET['idTransferencia']);
+        $idTransferencia = intval($_GET['idTransferencia']); 
+		// $idTransferencia = 22;
 		$transferenciaDao = Container::getDao("TransferenciaDao");
 		$response = $transferenciaDao->gerarPDF($idTransferencia);
-	
-		//$resultado  = json_encode($response);
-	
+		
 		$this->view->resultado=$response;
-		$this->render('gerarPDFTransferencia','transferencia');
+		$this->render('pdf','transferencia');
          
     }
     

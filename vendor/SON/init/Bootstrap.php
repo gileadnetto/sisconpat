@@ -17,11 +17,14 @@ abstract Class Bootstrap{
             
         }
         
-        protected function run($url) { // verificar se a url é exite
-            array_walk($this->routes, function($route) use ($url){  //echo "/sisconpat/public".$route['route']."<br>";
+        protected function run($url) { 
+            // verificar se a url é exite
+            array_walk($this->routes, function($route) use ($url){  
+                //echo "/sisconpat/public".$route['route']."<br>";
                 if($url == "/sisconpat/www".$route['route']){
-                    //echo 'encontrou!!!';
-                    $class = "App\\Controllers\\".ucfirst($route['controller']);//
+                   
+                    $class = "App\\Controllers\\".ucfirst($route['controller']);
+
                     $controller = new $class;
                     $action = $route['action'];
                     $controller->$action();

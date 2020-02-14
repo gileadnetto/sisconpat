@@ -9,14 +9,14 @@ use App\Controllers\Helpers\Validadores;
 use App\Models\Usuario;
 use App\Models\UserSession;
 
-class autenticar extends Action{
+class Autenticar extends Action{
     
     /**
-     * Função reponsavel por realizar o processo de validação de usuario
+     * Funï¿½ï¿½o reponsavel por realizar o processo de validaï¿½ï¿½o de usuario
      */
     public function validar() {    
         session_start();
-		
+
         $constraint = [];
         $postData = $this->getPostData();
 		
@@ -47,7 +47,7 @@ class autenticar extends Action{
     }
     
     /**
-     * Função responsavel por verificar os dados vindos do post
+     * Funï¿½ï¿½o responsavel por verificar os dados vindos do post
      * @param array $postData
      * @return array
      */
@@ -61,7 +61,7 @@ class autenticar extends Action{
     }
      
     /**
-     * Função repsonsavel por preencher a entidade de usuario com os dados do post.
+     * Funï¿½ï¿½o repsonsavel por preencher a entidade de usuario com os dados do post.
      * @param Usuario $usuario
      * @param array $postData
      */
@@ -72,7 +72,7 @@ class autenticar extends Action{
     }   
      
     /**
-    * Função responsavel por salvar algumas informações do login na sessão
+    * Funï¿½ï¿½o responsavel por salvar algumas informaï¿½ï¿½es do login na sessï¿½o
     * @param array $response
     * @return bool
     */
@@ -113,7 +113,7 @@ class autenticar extends Action{
     }
     
     /**
-     * Função responsavel por preencher a entidade de user session
+     * Funï¿½ï¿½o responsavel por preencher a entidade de user session
      * @param UserSession $userSession
      * @param array $response
      */

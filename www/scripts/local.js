@@ -8,7 +8,8 @@ var Local = function(){
 	{
 		tableLocalidade = $('#dataTableLocalidade').DataTable(
     		{
-    	        "ajax": "getLocalidade",
+				"ajax": "getLocalidade",
+				"bDestroy": true,
     	        columns: [
     	        	{ "data": "DESCRICAO"},
     				{ "data": "ATIVO",
@@ -85,6 +86,10 @@ var Local = function(){
 	var cadastrar = function($form)
 	{
 		var form = $form.serialize();
+
+		// Limpando os erros de inputs
+		$($form).find('.invalid-input').html('');
+		
 		$.ajax({
 			type: "POST",                       
 	        url:'cadastrarLocal', 
@@ -94,12 +99,29 @@ var Local = function(){
 				if(result.sucesso) {  
 					msghelper.showMsgSucess(result.msg);
 				} else {
-					msghelper.showMsgErro('Erro ao cadastrar local. '+ result.constraint);
+
+					// Percorrendo os erros e inserindo os inputs 
+					if(result.constraint){
+						var erros = result.constraint;
+						for (var index in erros){
+							$($form).find('input#'+index).after('<small class="invalid-input">'+ erros[index] +'</small>');
+						}
+					}
+
+					// se temos msg de erro devo exibir
+					if(result.msg){
+						msghelper.showMsgErro(result.msg);
+					}
 				} 
 			},
 			complete: function(data){
-				$(".close").click();
-				window.location.reload(true);
+				var result = JSON.parse(data.responseText);
+				if(result.sucesso) { 
+					$(".close").click();
+					tableLocalidade.ajax.reload();
+					$($form).find('input').val('');
+					$($form).find('.invalid-input ').html('');
+				}
 			},
 			error: function(data){
 				msghelper.showMsgErro('Erro ao cadastrar local.');

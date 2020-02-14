@@ -1,25 +1,33 @@
-<div class="row">
-	<div class="col-md-12">
-	<h2 style="margin-top:0px;">Gerenciamento de Transferencias</h2>
-		<div class="row">
-			<div class="col-sm-9">
-				<button type="button" id="btn_cad" class="btn btn-primary">Nova transferencia</button>
-			</div>
-		</div><br>
-		<table id="dataTableTransferencia" class="table table-striped table-bordered table-hover display" width="100%">
-			<thead>
-                <tr>
-                    <th>Origem</th>
-                    <th>Destino</th>
-                    <th>Quantidade de itens</th>
-                    <th>Data</th>
-                    <th>Usuario</th>
-                    <th>Acoes</th>
-            </thead>
-		</table>
-     
+
+<!-- Page Header-->
+<header class="page-header">
+	<div class="container-fluid">
+		<h2 class="no-margin-bottom">Gerenciamento de Transferencias</h2>
+	</div>
+</header>
+
+<div class="container-fluid mt-3">
+	<div class="row mb-5">
+		<div class="col-12">
+	
+			<button type="button" id="btn_cad" class="btn btn-primary m-2">Nova transferencia</button>
+
+			<table id="dataTableTransferencia" class="table table-striped table-bordered table-hover display">
+				<thead>
+					<tr>
+						<th>Origem</th>
+						<th>Destino</th>
+						<th>Quantidade de itens</th>
+						<th>Data</th>
+						<th>Usuario</th>
+						<th>Acoes</th>
+					</tr>
+				</thead>
+			</table>
+		</div>
 	</div>
 </div>
+
 <script type="text/javascript">
 var formAdicionarTransferencia = 'form_adicionar_Transferencia';
 transferencia.carregarConteudo();

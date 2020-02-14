@@ -1,27 +1,32 @@
-<div class="row">
-	<div class="col-md-12">
-	<h2 style="margin-top:0px;">Gerenciamento de Patrimonio</h2>
-		<div class="row">
-			<div class="col-sm-9">
-				<button type="button" id="btn_cad" class="btn btn-primary">Novo</button>
-			</div>
-		</div><br>
-		<table id="dataTablePatrimonio" class="table table-striped table-bordered table-hover display" width="100%">
-			<thead>
-                <tr>
-                    <!-- <th>Foto</th> -->
-                	<th>Patrimonio</th>
-                	<th>Descricao</th>
-                	<th>Tombamento</th>
-                	<th>Localidade</th>
-                	<th>Valor</th>
-                	<th>Vida Util(Anos)</th>
-                	<th>Valor de depreciação(Meses)</th>
-                	<th>Data do cadastro</th>
-                    <th>Acoes</th>
-            </thead>
-		</table>
-     
+<!-- Page Header-->
+<header class="page-header">
+	<div class="container-fluid">
+		<h2 class="no-margin-bottom">Gerenciamento de Patrimonio</h2>
+	</div>
+</header>
+
+<div class="container-fluid mt-3">
+	<div class="row mb-5">
+		<div class="col-12">
+			<button type="button" id="btn_cad" class="btn btn-primary m-2">Novo</button>
+			
+			<table id="dataTablePatrimonio" class="table table-striped table-bordered table-hover display" width="100%">
+				<thead>
+					<tr>
+						<th>Foto</th>
+						<th>Patrimonio</th>
+						<th>Descricao</th>
+						<th>Tombamento</th>
+						<th>Localidade</th>
+						<th>Valor</th>
+						<th>Vida Util(Anos)</th>
+						<th>Valor de depreciaÃ§ao(Meses)</th>
+						<th>Data do cadastro</th>
+						<th>Acoes</th>
+					</tr>
+				</thead>
+			</table>
+		</div>
 	</div>
 </div>
 <script type="text/javascript">
@@ -39,7 +44,7 @@ var configInputsFormCadastrar = [
 
 var configButtonsFormCadastrar = [
 	{'type' : 'button', 'class' : 'btn btn-default', 'name' : 'Cancelar', 'id_button' : 'btn-cancelar-patrimonio', 'fechaModal' : true},
-	{'type' : 'button', 'class' : 'btn btn-primary', 'name' : 'Cadastrar', 'id_button' : 'btn-cadastrar-patrimonio'}
+	{'type' : 'button', 'class' : 'btn btn-primary ml-2', 'name' : 'Cadastrar', 'id_button' : 'btn-cadastrar-patrimonio'}
 	];
 
 var $modal = modalhelper.modalCreate(formAdicionarPatrimonio, 'Adicionar Patrimonio', htmlhelper.createElementsByType(configInputsFormCadastrar), htmlhelper.createElementsByType(configButtonsFormCadastrar));

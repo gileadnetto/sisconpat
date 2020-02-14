@@ -9,7 +9,7 @@ class LocalidadeDao extends baseDao{
 	protected $table = "LOCALIDADE";
 
 	/**
-	 * Função responsavel por persistir a localidade junto com o endereço
+	 * Funï¿½ï¿½o responsavel por persistir a localidade junto com o endereï¿½o
 	 * @param Localidade $localidade
      * @param Endereco $endereco
 	 * @return array
@@ -18,18 +18,18 @@ class LocalidadeDao extends baseDao{
 	{
 	    try {
 	        $this->db->beginTransaction();
-	        
+
 	        $this->saveEndereco($endereco);
-	        
+
 	        $lastInsertId = $this->db->lastInsertId();
-	        
+
 	        $sth = $this->db->prepare('INSERT INTO LOCALIDADE (DESCRICAO, ID_ENDERECO, ATIVO, ID_USER_SESSION) VALUES(:descricao, :idendereco, :ativo, :id_user_session);');
-	        
-	        $sth->bindParam(':descricao',          $localidade->getDescricao(),        PDO::PARAM_STR);
-	        $sth->bindParam(':idendereco',         $lastInsertId,                      PDO::PARAM_STR);
-	        $sth->bindParam(':ativo',              $localidade->getAtivo(),            PDO::PARAM_BOOL);
-	        $sth->bindParam(':id_user_session',    $localidade->getId_User_Session(),  PDO::PARAM_INT);
-	        
+	        // bindParam
+	        $sth->bindValue(':descricao',          $localidade->getDescricao(),        PDO::PARAM_STR);
+	        $sth->bindValue(':idendereco',         $lastInsertId,                      PDO::PARAM_STR);
+	        $sth->bindValue(':ativo',              $localidade->getAtivo(),            PDO::PARAM_BOOL);
+	        $sth->bindValue(':id_user_session',    $localidade->getId_User_Session(),  PDO::PARAM_INT);
+
 	        $sth->execute();
 	        $this->db->commit();
 	        return ['success' => true];
@@ -38,9 +38,9 @@ class LocalidadeDao extends baseDao{
 	        return ['success' => false, 'msg' => $e->getMessage()];
 	    }
 	}
-	
+
 	/**
-	 * Função responsavel por persistir a localidade
+	 * Funï¿½ï¿½o responsavel por persistir a localidade
 	 * @param Localidade $localidade
 	 * @return array
 	 */
@@ -53,19 +53,19 @@ class LocalidadeDao extends baseDao{
                                     BAIRRO = ":bairro", NUMERO = ":numero", COMPLEMENTO = ":complemento", UF = :uf where ID = :id');
 	        $sth->bindParam(':id',         $endereco->getId(),             PDO::PARAM_INT);
 	    }
-	    
-	    $sth->bindParam(':localidade',     $endereco->getLocalidade(),     PDO::PARAM_STR);
-	    $sth->bindParam(':cep',            $endereco->getCep(),            PDO::PARAM_STR);
-	    $sth->bindParam(':logradouro',     $endereco->getLogradouro(),     PDO::PARAM_STR);
-	    $sth->bindParam(':bairro',         $endereco->getBairro(),         PDO::PARAM_STR);
-	    $sth->bindParam(':numero',         $endereco->getNumero(),         PDO::PARAM_INT);
-	    $sth->bindParam(':complemento',    $endereco->getComplemento(),    PDO::PARAM_STR);
-	    $sth->bindParam(':uf',             $endereco->getUf(),             PDO::PARAM_STR);
+		// bindParam
+	    $sth->bindValue(':localidade',     $endereco->getLocalidade(),     PDO::PARAM_STR);
+	    $sth->bindValue(':cep',            $endereco->getCep(),            PDO::PARAM_STR);
+	    $sth->bindValue(':logradouro',     $endereco->getLogradouro(),     PDO::PARAM_STR);
+	    $sth->bindValue(':bairro',         $endereco->getBairro(),         PDO::PARAM_STR);
+	    $sth->bindValue(':numero',         $endereco->getNumero(),         PDO::PARAM_INT);
+	    $sth->bindValue(':complemento',    $endereco->getComplemento(),    PDO::PARAM_STR);
+	    $sth->bindValue(':uf',             $endereco->getUf(),             PDO::PARAM_STR);
 	    $sth->execute();
 	}
-	
+
 	/**
-	 * Função responsavel por persistir a atualização da localidade
+	 * Funï¿½ï¿½o responsavel por persistir a atualizaï¿½ï¿½o da localidade
 	 * @param Localidade $localidade
 	 * @return array
 	 */
@@ -73,50 +73,50 @@ class LocalidadeDao extends baseDao{
 	{
 	    try {
     	    $this->db->beginTransaction();
-    	    
+
     	    $sth = $this->db->prepare('UPDATE LOCALIDADE set DESCRICAO = ":descricao" , ID_ENDERECO = ":idendereco", ATIVO = :ativo where ID = :id');
-    	    
+
     	    $sth->bindParam(':descricao',  $localidade->getDescricao(),    PDO::PARAM_STR);
     	    $sth->bindParam(':idendereco', $localidade->getId_endereco(),  PDO::PARAM_STR);
     	    $sth->bindParam(':ativo',      $localidade->getAtivo(),        PDO::PARAM_BOOL);
     	    $sth->bindParam(':id',         $localidade->getId(),           PDO::PARAM_BOOL);
-    	    
+
     	    $sth->execute();
-    	    
+
     	    $this->saveEndereco($endereco);
-    	    
+
     	    return $this->db->commit();
 	    }  catch (\Exception $e) {
 	        $this->db->rollBack();
 	        return $e->getMessage();
 	    }
 	}
-	
+
 	/**
-	 * Função responsavel por retornar a listagem das localidades
-	 * @return 
+	 * Funï¿½ï¿½o responsavel por retornar a listagem das localidades
+	 * @return
 	 */
 	public function getList()
 	{
 	    $sth = $this->db->prepare("SELECT *  FROM ".$this->table." INNER JOIN ENDERECO E ON E.ID = ID_ENDERECO");
 	    $sth->execute();
-	    
+
 	    return parent::returnResult($sth);
 	}
-	
+
 	/**
-	 * Função responsavel por retornar a listagem das localidades para o autocomplete
+	 * Funï¿½ï¿½o responsavel por retornar a listagem das localidades para o autocomplete
 	 * @return
 	 */
 	public function getAutoCompleteList($param = false)
 	{
 	    $sql = "SELECT * FROM ".$this->table." L";
-	    
+
 	    if($param) $sql = $sql . " WHERE L.DESCRICAO like '%" . $param['term'] . "%'";
-	   	    
+
 	    $sth = $this->db->prepare($sql);
 	    $sth->execute();
-	    
+
 	    return parent::returnResult($sth);
 	}
 }

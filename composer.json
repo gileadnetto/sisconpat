@@ -1,19 +1,23 @@
 {
-    "name": "son/mvc",
-    "description": "Breve descrição do que a aplicação se propoe a fazer",
+    "name": "Sisconpat",
+    "description": "Sistema de Controle patrimonial",
     "authors": [
         {
             "name": "Gilead",
             "email": "gileadnetto@hotmail.com"
+        },
+        {
+            "name": "Douglas",
+            "email": "douglas@hotmail.com"
         }
     ],
-    "autoload":{
-        "psr-0":{
-            "SON" :"vendor",
-            "App" :"App/"
-        }
-    },
-    
+
+    "autoload": {
+        "psr-4": {
+         "SON\\" : "vendor/",
+         "App\\" : ""
+        }  
+      },
     "require": {
         "php": ">=5.3"
     }

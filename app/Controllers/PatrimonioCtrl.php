@@ -9,7 +9,7 @@ use App\Models\Patrimonio;
 class PatrimonioCtrl extends Action {
 
     /**
-     * Função responsavel por retornar a listagem dos Patrimonios.     
+     * Funï¿½ï¿½o responsavel por retornar a listagem dos Patrimonios.     
      */
     public function getPatrimonio() 
     {
@@ -19,7 +19,7 @@ class PatrimonioCtrl extends Action {
     }
     
     /**
-     * Função responsavel por retornar a listagem dos Patrimonios.
+     * Funï¿½ï¿½o responsavel por retornar a listagem dos Patrimonios.
      */
     public function getAutoCompletePatrimonioList()
     {
@@ -31,7 +31,7 @@ class PatrimonioCtrl extends Action {
     }
     
     /**
-     * Função responsavel por realizar o processo de cadastro do patrimonio.
+     * Funï¿½ï¿½o responsavel por realizar o processo de cadastro do patrimonio.
      */
     public function cadastrarPatrimonio() {
         
@@ -45,7 +45,7 @@ class PatrimonioCtrl extends Action {
             'tombamento'    => $request['tombamento'],
             'valor'         => $request['valor'],
             'vidautil'      => $request['vidautil'],
-            'foto'          => $request['foto'] ?: "padrao.png"
+            'foto'          => isset($request['foto']) ? $request['foto'] : "padrao.png"
         ];
         
         $constraint = $this->checkPostData($postData, $constraint);
@@ -70,7 +70,7 @@ class PatrimonioCtrl extends Action {
 	}
 	
 	/**
-	 * Função responsavel por fazer algumas validações antes da persistencia dos dados do patrimonio.
+	 * Funï¿½ï¿½o responsavel por fazer algumas validaï¿½ï¿½es antes da persistencia dos dados do patrimonio.
 	 * @param array $postData
 	 * @param array $constraint
 	 * @return array
@@ -149,7 +149,7 @@ class PatrimonioCtrl extends Action {
 	}
 	
 	/**
-	 * Função responsavel por montar a entidade de patrimonio
+	 * Funï¿½ï¿½o responsavel por montar a entidade de patrimonio
 	 * @param Patrimonio $patrimonio
 	 * @param array $postData
 	 */

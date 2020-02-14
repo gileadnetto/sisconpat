@@ -8,13 +8,14 @@ var Patrimonio = function(){
 	{
 		tablePatrimonio = $('#dataTablePatrimonio').DataTable(
     		{
-    			"ajax": "getPatrimonio",
+				"ajax": "getPatrimonio",
+				"bDestroy": true,
     	        columns: [
-    	        	/*{ "data": "FOTO",
+    	        	{ "data": "FOTO",
     					render: function (data, type, row) {
     						return '<center><img src="imagens/patrimonio/'+data+'" class="img-responsive" alt="Patrimonio-IMG" width="120" ></center>';    						
     					}
-    	        	},*/
+    	        	},
     				{ "data": "PATRIMONIO"},
     				{ "data": "DESCRICAO"},
     				{ "data": "TOMBAMENTO"},
@@ -91,12 +92,15 @@ var Patrimonio = function(){
 	 * Função responsavel por chamar a persistencia de um novo local.
 	 */
 	var cadastrar = function($form, $modal)
-	{debugger;
+	{
 		var dataAutocomplete = autocompleteHelper.getSelectedData();
 		var dataSelect = [{name: 'id_localidade', value: dataAutocomplete[0]['id']}];
 		
 		var form = $form.serializeArray();
 		var data = form.concat(dataSelect);
+
+		// Limpando os erros de inputs
+		$($form).find('.invalid-input').html('');
 		
 		$.ajax({
 			type: "POST",                       
@@ -107,12 +111,29 @@ var Patrimonio = function(){
 				if(result.sucesso) {  
 					msghelper.showMsgSucess('Patrimonio cadastrado com sucesso.');
 				} else {
-					msghelper.showMsgErro('Erro ao cadastrar patrimonio. '+ result.constraint);
+
+					// Percorrendo os erros e inserindo os inputs 
+					if(result.constraint){
+						var erros = result.constraint;
+						for (var index in erros){
+							$($form).find('input#'+index).after('<small class="invalid-input">'+ erros[index] +'</small>');
+						}
+					}
+
+					// se temos msg de erro devo exibir
+					if(result.msg){
+						msghelper.showMsgErro(result.msg);
+					}
 				} 
 			},
 			complete: function(data){
-				$(".close").click();
-				window.location.reload(true);
+				var result = JSON.parse(data.responseText);
+				if(result.sucesso) { 
+					$(".close").click();
+					tablePatrimonio.ajax.reload();
+					$($form).find('input').val('');
+				}
+			
 			},
 			error: function(data){
 				msghelper.showMsgErro('Erro ao cadastrar local.');

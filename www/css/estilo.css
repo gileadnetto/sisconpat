@@ -1,14 +1,4 @@
 
-.jumbotron {
-      
-     
-      font-family: Montserrat, sans-serif;
-  }
-
-  .jumbo {     
-    padding: 20px;
-  }
-
   .alert-fixed {
     position:fixed; 
     top: 0px; 
@@ -26,38 +16,6 @@
 .btn.active span.glyphicon {        
   opacity: 1;       
 }
-
-
-
-
-/*para as minhas transferencias*/
-.panel-default>.panel-heading{
-   padding: 17px;
-}
-
-.panel-default>.panel-heading:hover {
-    color: #ffffff;
-   
-     background-color: #80b3ff;
-    border-color: #ddd;
-}
-/*para o PDF*/
-
-a:focus, a:hover{
-    text-decoration: none;
-}
-
-a.list-group-item,.pdfmaker{
-  background-color: #e6e6e6;
-    
-}
-
-a.pdfmaker:hover{
-     color: #ffffff;
-      background-color: #ff5050;
-         
-}
-
 
 .modal-header-success {
     color:#fff;
@@ -123,100 +81,6 @@ a.pdfmaker:hover{
 }
 
 
-.panel-green {
-  border-color: #5cb85c;
-}
-.panel-green > .panel-heading {
-  border-color: #5cb85c;
-  color: white;
-  background-color: #5cb85c;
-}
-.panel-green > a {
- 
-  color: #5cb85c;
-  background-color: #5cb85c;
-}
-.panel-green > a:hover {
-  color: #3d8b3d;
-}
-
-
-.panel-red {
-  border-color: #d9534f;
-}
-
-.panel-red > .panel-heading {
-  border-color: #d9534f;
-  color: white;
-  background-color: #d9534f;
-}
-.panel-red > a {
-  color: #d9534f;
-}
-.panel-red > a:hover {
-  color: #b52b27;
-}
-.panel-yellow {
-  border-color: #f0ad4e;
-}
-.panel-yellow > .panel-heading {
-  border-color: #f0ad4e;
-  color: white;
-  background-color: #f0ad4e;
-}
-.panel-yellow > a {
-  color: #f0ad4e;
-}
-.panel-yellow > a:hover {
-  color: #df8a13;
-}
-
-
-
-.panel-red > .panel-heading:hover {
-   background-color: #df706d;
-}
-.home_vermelho{   
-   color: #d1332e;
-}
-.home_vermelho:hover{   
-   color: #922420;
-}
-
-
-
-.panel-yellow > .panel-heading:hover {
-   background-color: #f3bd72;
-}
-
-.home_amarelo{   
-   color: #efa743;
-}
-.home_amarelo:hover{   
-   color: #a4660e;
-}
-
-
-
-
-
-.panel-green > .panel-heading:hover {
-   background-color: #83c983;
-}
-.home_verde{   
-   color: #46a046;
-}
-.home_verde:hover{   
-   color: #275927;
-}
-
-
-
-
-.panel-primary > .panel-heading:hover {
-   background-color: #4c91cd;
-}
-
 /*para o HOME dashboard*/
 .huge {
     font-size: 40px;
@@ -226,4 +90,29 @@ a.pdfmaker:hover{
 a.list-group-item, .tabela {
     background-color: #ffffff;
 }
+
+.invalid-input{
+  color: #b52b27;
+}
  
+.modal-content{
+ border-radius: 7px !important;
+}
+
+.fade.in {
+  opacity: 1;
+}
+.modal.in .modal-dialog {
+  -webkit-transform: translate(0, 0);
+  -o-transform: translate(0, 0);
+  transform: translate(0, 0);
+}
+
+.modal-backdrop .fade .in {
+  opacity: 0.5 !important;
+}
+
+
+.modal-backdrop.fade {
+    opacity: 0.5 !important;
+}

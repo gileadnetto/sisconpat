@@ -10,7 +10,7 @@ use App\Models\Endereco;
 class LocalidadeCtrl extends Action{
    
     /**
-     * Função responsavel por retornar a listagem de locais.
+     * Funï¿½ï¿½o responsavel por retornar a listagem de locais.
      */
     public function getLocalidade() {
         
@@ -20,7 +20,7 @@ class LocalidadeCtrl extends Action{
     }
     
     /**
-     * Função responsavel por retornar a listagem dos Patrimonios.
+     * Funï¿½ï¿½o responsavel por retornar a listagem dos Patrimonios.
      */
     public function getAutoCompleteLocalidadeList()
     {
@@ -32,7 +32,7 @@ class LocalidadeCtrl extends Action{
     }
     
     /**
-     * Função responsavel por realizar o processo de cadastro de local.
+     * Funï¿½ï¿½o responsavel por realizar o processo de cadastro de local.
      * @return json
      */
     public function cadastrarLocal()
@@ -64,8 +64,8 @@ class LocalidadeCtrl extends Action{
             $this->postDataToEntityEndereco($endereco, $postData);
             
             $result = $localidadeDao->save($localidade, $endereco);
-            
-            if($result['success']){
+
+            if($result['success'] === true){
                 echo json_encode(array("sucesso" => true, "msg" => $localidade->getDescricao()." cadastrada com sucesso."));
             } else {
                 echo json_encode(array("sucesso" => false, "msg" => "Erro ao cadastrar localidade!".$result['msg'] ));
@@ -76,7 +76,7 @@ class LocalidadeCtrl extends Action{
     }
     
     /**
-     * Função responsavel por fazer a verificação dos valores do post
+     * Funï¿½ï¿½o responsavel por fazer a verificaï¿½ï¿½o dos valores do post
      * @param array $postData
      * @param array $constraint
      * @return number
@@ -87,14 +87,14 @@ class LocalidadeCtrl extends Action{
         if(!$postData['descricao']) $constraint['descricao'] =  "Campo (Descricao) invalida!";
         if(!$postData['cep']) $constraint['cep'] =  "Campo (Cep) invalida!";
         if(!$postData['logradouro']) $constraint['logradouro'] =  "Campo (Logradouro) invalida!";
-        if(!$postData['numero']) $constraint['numero'] =  "Campo (Número) invalida!";
+        if(!$postData['numero']) $constraint['numero'] =  "Campo (Nï¿½mero) invalida!";
         if(!$postData['complemento']) $constraint['complemento'] =  "Campo (Complemento) invalida!";
                
         return $constraint;
     }
     
     /**
-     * Função responsavel por preencher a entidde com os dados do post.
+     * Funï¿½ï¿½o responsavel por preencher a entidde com os dados do post.
      * @param Localidade $entity
      * @param array $postData
      */
@@ -107,7 +107,7 @@ class LocalidadeCtrl extends Action{
     }
     
     /**
-     * Função responsavel por preencher a entidade de endereco com os dados do post.
+     * Funï¿½ï¿½o responsavel por preencher a entidade de endereco com os dados do post.
      * @param Endereco $entity
      * @param array $postData
      */
@@ -123,7 +123,7 @@ class LocalidadeCtrl extends Action{
     }
    
     /**
-     * Função responsavel por retornar a listagem de locais.
+     * Funï¿½ï¿½o responsavel por retornar a listagem de locais.
      */
     public function getOptionLocal() {
         $localidadeDao = Container::getDao("LocalidadeDao");
@@ -134,7 +134,7 @@ class LocalidadeCtrl extends Action{
     }
     
     /**
-     * Função responsavel por retornar a listagem de locais para a transferencia.
+     * Funï¿½ï¿½o responsavel por retornar a listagem de locais para a transferencia.
      */
     public function getOptionTransferencia() {
         
@@ -147,7 +147,7 @@ class LocalidadeCtrl extends Action{
     }
     
     /**
-     * Função responsavel por retornar a listagem de locais para a transferencia.
+     * Funï¿½ï¿½o responsavel por retornar a listagem de locais para a transferencia.
      */
     public function getOptionDestino() {
         
@@ -160,7 +160,7 @@ class LocalidadeCtrl extends Action{
     }
 
     /**
-     * Função responsavel por realizar o processo de atualizar um local
+     * Funï¿½ï¿½o responsavel por realizar o processo de atualizar um local
      */
     public function atualizarLocal() {
         

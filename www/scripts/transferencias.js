@@ -8,7 +8,8 @@ var Transferencia = function(){
 	{
 		tableTransferencia = $('#dataTableTransferencia').DataTable(
     		{
-    	        "ajax": "getTransferencia",
+				"ajax": "getTransferencia",
+				"bDestroy": true,
     	        columns: [
     	        	{ "data": "ORIGEM"},
     				{ "data": "DESTINO"},
@@ -62,8 +63,12 @@ var Transferencia = function(){
 				} 
 			},
 			complete: function(data){
-				$(".close").click();
-				window.location.reload(true);
+				var result = JSON.parse(data.responseText);
+				if(result.sucesso) { 
+					$(".close").click();
+					tableTransferencia.ajax.reload();
+					$($form)[0].reset();
+				}
 			},
 			error: function(data){
 				msghelper.showMsgErro('Erro ao realizar a transferencia.');
