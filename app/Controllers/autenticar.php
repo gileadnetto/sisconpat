@@ -17,6 +17,7 @@ class Autenticar extends Action{
     public function validar() {    
         session_start();
 
+        
         $constraint = [];
         $postData = $this->getPostData();
 		
