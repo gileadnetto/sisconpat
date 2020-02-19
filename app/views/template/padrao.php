@@ -18,7 +18,7 @@
 		<meta name="theme-color" content="#ffffff">
 
 		<!--<script src ="jquery-3.2.1.js"></script>-->
-		<script type="text/javascript" src="./scripts/jquery3.2.1.js"></script>
+		<script src="./plugins/jquery/jquery.min.js"></script>
 		<script type="text/javascript" src="./scripts/Helpers/msgHelper.js"></script>
 		<script type="text/javascript" src="./scripts/Helpers/modalHelper.js"></script>
 		<script type="text/javascript" src="./scripts/Helpers/htmlHelper.js"></script>
@@ -29,12 +29,12 @@
 		<script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
 		<script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
 		<!-- <script type="text/javascript" src="./scripts/menu.js"></script> -->
-		<script type="text/javascript" src="css/jquery.form.js"></script>
+		<script type="text/javascript" src="./plugins/jquery.form.js"></script>
 		<script type="text/javascript" src="./scripts/{SCRIPT}.js"></script>
-        <script type="text/javascript" src="./scripts/highcharts.js"></script>
+        <script type="text/javascript" src="./plugins/highcharts.js"></script>
 
-		<link rel="stylesheet" type="text/css" href="css/bootstrap/css/bootstrap.min.css">
-		<link rel="stylesheet" href="css/font-awesome-4.7.0/css/font-awesome.min.css">
+		<link rel="stylesheet" type="text/css" href="./plugins/bootstrap/css/bootstrap.min.css">
+		<link rel="stylesheet" href="plugins/font-awesome/css/font-awesome.min.css">
 		<link rel="stylesheet" type="text/css" href="css/select2.min.css">
 		<link rel="stylesheet" type="text/css" href="css/estilo.css">
 		<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css"/>
@@ -70,10 +70,9 @@
 
 		</div>
 			
-		<script src="./scripts/bootstrap.min.js"></script>
-		<script src="vendor/popper.js/umd/popper.min.js"> </script>
-		<script src="vendor/jquery-validation/jquery.validate.min.js"></script>
-		<!-- Main File-->
-		<script src="js/front.js"></script>
+		<script src="./plugins/popper.js/umd/popper.min.js"> </script>
+		<script src="./plugins/bootstrap/js/bootstrap.min.js"></script>
+		<script src="./plugins/jquery-validation/jquery.validate.min.js"></script>
+		<script src="./scripts/front.js"></script>
 	</body>
 </html>

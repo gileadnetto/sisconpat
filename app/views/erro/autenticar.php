@@ -1,7 +1,7 @@
 <?php
-$error = 1;
-
+	$error = 1;
 ?>
+
 <!DOCTYPE html>
 <html>
   <head>
@@ -12,13 +12,13 @@ $error = 1;
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="robots" content="all,follow">
     <!-- Bootstrap CSS-->
-    <link rel="stylesheet" href="vendor/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./plugins/bootstrap/css/bootstrap.min.css">
     <!-- Font Awesome CSS-->
-    <link rel="stylesheet" href="vendor/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="./plugins/font-awesome/css/font-awesome.min.css">
     <!-- Fontastic Custom icon font-->
-    <link rel="stylesheet" href="css/fontastic.css">
+    <link rel="stylesheet" href="./css/fontastic.css">
     <!-- theme stylesheet-->
-    <link rel="stylesheet" href="css/style.sea.css" id="theme-stylesheet">
+    <link rel="stylesheet" href="./css/style.sea.css" id="theme-stylesheet">
     <!-- Favicon-->
 
   </head>
@@ -76,13 +76,10 @@ $error = 1;
       </div>
     </div>
     <!-- JavaScript files-->
-    <script src="./vendor/jquery/jquery.min.js"></script>
-    <script src="./vendor/popper.js/umd/popper.min.js"> </script>
-    <script src="./vendor/bootstrap/js/bootstrap.min.js"></script>
-    <script src="./vendor/jquery.cookie/jquery.cookie.js"> </script>
-    <script src="./vendor/chart.js/Chart.min.js"></script>
-    <script src="./vendor/jquery-validation/jquery.validate.min.js"></script>
+    <script src="./plugins/jquery/jquery.min.js"></script>
+    <script src="./plugins/bootstrap/js/bootstrap.min.js"></script>
+    <script src="./plugins/jquery-validation/jquery.validate.min.js"></script>
     <!-- Main File-->
-    <script src="js/front.js"></script>
+    <script src="./scripts/front.js"></script>
   </body>
 </html>
