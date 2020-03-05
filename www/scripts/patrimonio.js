@@ -117,6 +117,8 @@ var Patrimonio = function(){
 						var erros = result.constraint;
 						for (var index in erros){
 							$($form).find('input#'+index).after('<small class="invalid-input">'+ erros[index] +'</small>');
+							$($form).find('div.'+index).append('<small class="invalid-input">'+ erros[index] +'</small>');
+
 						}
 					}
 

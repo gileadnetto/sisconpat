@@ -116,3 +116,36 @@ a.list-group-item, .tabela {
 .modal-backdrop.fade {
     opacity: 0.5 !important;
 }
+
+.select2-selection{
+  width: 100% !important;
+}
+
+.selection{
+  width: 100% !important;
+}
+
+.select2-container--default .select2-selection--single{
+  border: 1px solid #dee2e6 !important;
+  height: 42px !important;
+  padding-top: 7px !important;
+}
+.select2-container--default .select2-selection--multiple{
+  border: 1px solid #dee2e6 !important;
+}
+
+.select2-container--default .select2-search--inline .select2-search__field {
+  border: none !important;
+
+}
+
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+  height: 40px !important;
+}
+
+.select2-container--open .select2-dropdown--below{
+  border-color: #dee2e6 !important;
+}
+.select2-search__field{
+  border: 1px solid #dee2e6 !important;
+}

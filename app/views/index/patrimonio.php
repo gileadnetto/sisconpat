@@ -39,7 +39,7 @@ var configInputsFormCadastrar = [
 	{label : 'Tombamento', name : 'tombamento', tamanho: 4},
 	{label : 'Valor', name : 'valor', tamanho: 4},
 	{label : 'Vida Util (Anos)', name : 'vidautil', tamanho: 4},
-	{label : 'Localidade', name : 'id_localidade', tamanho: 6, type: 'select', url:'getAutoCompleteLocalidadeList', classe:'select2'}
+	{label : 'Localidade', name : 'id_localidade', tamanho: 12, type: 'select', url:'getAutoCompleteLocalidadeList', classe:'select2'}
 ];
 
 var configButtonsFormCadastrar = [

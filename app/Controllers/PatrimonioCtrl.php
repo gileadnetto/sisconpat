@@ -35,13 +35,13 @@ class PatrimonioCtrl extends Action {
      */
     public function cadastrarPatrimonio() {
         
-        $request = $this->getPostData();
+		$request = $this->getPostData();
         $constraint = $postData = array();
         
         $postData = [
             'patrimonio'    => $request['patrimonio'],
             'descricao'     => $request['descricao'],
-            'id_localidade' => $request['id_localidade'],
+            'id_localidade' => isset($request['id_localidade']) ? $request['id_localidade'] : null,
             'tombamento'    => $request['tombamento'],
             'valor'         => $request['valor'],
             'vidautil'      => $request['vidautil'],

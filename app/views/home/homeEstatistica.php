@@ -68,15 +68,8 @@
     </div>
 </section>
 
-<!-- Dashboard Header Section    -->
-<section class="dashboard-header">
-        <div class="container-fluid">
-        </div>
-</section>
-                
-
 <!-- Feeds Section-->
-<section class="feeds no-padding-top">
+<section class="feeds">
     <div class="container-fluid">
         <div class="row">
             <!-- Trending Articles-->
@@ -123,7 +116,6 @@
                     <div class="card-body no-padding">
                         <div class="item d-flex align-items-center">
                             <div class="image">
-                                <img src="imagens/patrimonio/padrao.png" alt="..." class="img-fluid rounded-circle">
                             </div>
                             <div class="text"><a href="#">
                                 <h3 class="h5">Lorem Ipsum Dolor</h3>

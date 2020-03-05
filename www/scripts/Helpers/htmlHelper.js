@@ -62,17 +62,15 @@ var HtmlHelper = function()
 		tamanho = (array['tamanho'] ? " col-sm-" + array['tamanho'] : "");
 		classe = (array['classe'] ? array['classe'] : "");
 		label = array["label"];
+		name = array["name"];
 		url = array["url"];
 		multiple = (array['multiple'] ? "multiple='multiple'" : "");
 		
 		html = [
-			'<div class="form-group'+ tamanho +'">',
-				'<div>',
+			'<div class="form-group '+ tamanho +' '+name+'">',
 				'<label>'+ label,
-				'</div>',
-				'<div>',
-				'<select ' + multiple + ' name="'+label+'"class="form-control ' + classe + '" data-url="' + url + '"></select></label>',
-				'</div>',
+				'</label>',
+				'<div><select ' + multiple + ' name="'+name+'" id="'+name+'" class="form-control ' + classe + '" data-url="' + url + '"></select></div>',
 			'</div>'
 			];
 		
