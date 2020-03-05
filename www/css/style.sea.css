@@ -108,12 +108,14 @@ table {
 .content-inner {
   position: relative;
   width: calc(100% - 250px);
+  width: 100%;
   min-height: calc(100vh - 70px);
   padding-bottom: 60px;
 }
 
 .content-inner.active {
   width: calc(100% - 90px);
+  width: 100%;
 }
 
 .page-header {

@@ -17,7 +17,7 @@
 				<ul class="nav-menu list-unstyled d-flex flex-md-row align-items-md-center">
 				<!-- Logout    -->
 					<li class="nav-item">
-						<a href="login.html" class="nav-link logout">
+						<a href="sair" class="nav-link logout">
 							<span class="d-none d-sm-inline">Sair</span>
 							<i class="fa fa-sign-out"></i>
 						</a>
@@ -45,7 +45,7 @@
 		<!-- Sidebar Navidation Menus-->
 		<!-- <span class="heading">Main</span> -->
 		<ul class="list-unstyled">
-			<li class="active"><a href="home"> <i class="icon-home"></i>Inicio </a></li>
+			<li><a href="home"> <i class="icon-home"></i>Inicio </a></li>
 			<li><a href="transferencia"> <i class="icon-grid"></i>Transferencias </a></li>
 			<li><a href="localidade"> <i class="fa fa-bar-chart"></i>Locais </a></li>
 			<li><a href="patrimonio"> <i class="icon-padnote"></i>Produtos </a></li>
@@ -57,6 +57,5 @@
 					<li><a href="#">Transferir</a></li>
 				</ul>
 			</li>
-			<li><a href="login.html"> <i class="icon-interface-windows"></i>Login page </a></li>
 		</ul>
 	</nav>
