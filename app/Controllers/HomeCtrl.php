@@ -21,6 +21,11 @@ class HomeCtrl extends Action {
         $response = $homeDao->listar($id_usuario);
 
         $this->view->estatistica=$response;
+
+        $patrimonio = Container::getDao("PatrimonioDao");
+        $response = $patrimonio->ultimosCadastros(5);
+        $this->view->ultimosCadastros=$response;
+
         $this->render('homeEstatistica',"home");
 
     }

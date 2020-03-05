@@ -12,7 +12,7 @@
 	
 			<button type="button" id="btn_cad" class="btn btn-primary m-2">Nova transferencia</button>
 
-			<table id="dataTableTransferencia" class="table table-striped table-bordered table-hover display">
+			<table id="dataTableTransferencia" class="table table-striped table-bordered table-hover display" width="100%">
 				<thead>
 					<tr>
 						<th>Origem</th>

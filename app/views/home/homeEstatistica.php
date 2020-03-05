@@ -1,5 +1,7 @@
 <?php 
     $res = reset($this->view->estatistica['results']);
+    $produtos = $this->view->ultimosCadastros['results'];
+
 ?>
 
 <!-- Dashboard Counts Section-->
@@ -82,60 +84,30 @@
                 <div class="articles card">
                     <div class="card-header d-flex align-items-center">
                         <h2 class="h3">Ultimos produtos adicionados </h2>
-                        <div class="badge badge-rounded bg-green">4 novas 			
+                        <div class="badge badge-rounded bg-green"> <?php echo count($produtos);?> novas 			
                         </div>
                     </div>
                     <div class="card-body no-padding">
-                        <div class="item d-flex align-items-center">
-                            <div class="image">
-                                <img src="imagens/patrimonio/padrao.png" alt="..." class="img-fluid rounded-circle">
-                            </div>
-                            <div class="text"><a href="#">
-                                <h3 class="h5">Lorem Ipsum Dolor</h3>
-                                </a><small>Posted on 5th June 2017 by Aria Smith. </small>
-                            </div>
-                        </div>
+                        <?php 
+                            $html = '';
+                            if($produtos){
+                                foreach($produtos as $produto){
+                                    $html .= '<div class="item d-flex align-items-center">';
+                                        $html .= '<div class="image">';
+                                            $html .= '<img src="imagens/patrimonio/'.$produto['FOTO'].'"  class="img-fluid rounded-circle">';
+                                        $html .= '</div>';
 
-                        <div class="item d-flex align-items-center">
-                            <div class="image">
-                                <img src="imagens/patrimonio/padrao.png" alt="..." class="img-fluid rounded-circle">
-                            </div>
-                            <div class="text"><a href="#">
-                                <h3 class="h5">Lorem Ipsum Dolor</h3>
-                                </a><small>Posted on 5th June 2017 by Frank Williams. </small>
-                            </div>
-                        </div>
-                    
-                        <div class="item d-flex align-items-center">
-                            <div class="image">
-                                <img src="imagens/patrimonio/padrao.png" alt="..." class="img-fluid rounded-circle">
-                            </div>
-                            <div class="text"><a href="#">
-                                <h3 class="h5">Lorem Ipsum Dolor</h3>
-                                </a><small>Posted on 5th June 2017 by Ashley Wood. </small>
-                            </div>
-                        </div>
+                                        $html .= '<div class="text"><a href="#">';
+                                            $html .= '<h3 class="h5">'.$produto['PATRIMONIO'].'</h3>';
+                                            $html .= '</a><small>'.$produto['DESCRICAO'].'</small>';
+                                        $html .= '</div>';
+                                    $html .= '</div> ';
+                                }
+                            }
 
-                        <div class="item d-flex align-items-center">
-                            <div class="image">
-                                <img src="imagens/patrimonio/padrao.png" alt="..." class="img-fluid rounded-circle">
-                            </div>
-                            <div class="text"><a href="#">
-                                <h3 class="h5">Lorem Ipsum Dolor</h3>
-                                </a><small>Posted on 5th June 2017 by Jason Doe. </small>
-                            </div>
-                        </div>
-
-                        <div class="item d-flex align-items-center">
-                            <div class="image">
-                                <img src="imagens/patrimonio/padrao.png" alt="..." class="img-fluid rounded-circle">
-                            </div>
-                            <div class="text">
-                                <a href="#">
-                                <h3 class="h5">Lorem Ipsum Dolor</h3>
-                                </a><small>Posted on 5th June 2017 by Sam Martinez. </small>
-                            </div>
-                        </div>
+                            echo $html;
+                        
+                        ?>
                     </div>
                 </div>
             </div>

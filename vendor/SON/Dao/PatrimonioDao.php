@@ -96,6 +96,13 @@ class PatrimonioDao extends baseDao{
 		$query = 'UPDATE patrimonio set ID_LOCALIDADE='.$pat_json['idLocalidade'].' where ID='.$pat_json['id'].';';
 		$retorno = \processador\Processador::actionProvider($query, $conn, 'atualizar Patrimonio');
 		return $retorno;
-    }
+	}
+	
+	public function ultimosCadastros( $limit = 10 ) {
+		$conn = $this->db;   
+		$query   =  "SELECT PATRIMONIO, DESCRICAO, FOTO, DT_CAD, VALOR, TOMBAMENTO FROM `patrimonio` ORDER BY DT_CAD DESC LIMIT $limit;";
+		$retorno = \processador\Processador::action($query, $conn);
+		return $retorno;
+	}
 }
 
