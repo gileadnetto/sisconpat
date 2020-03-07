@@ -13,6 +13,9 @@ var HtmlHelper = function()
 			case 'select':
 				html += inputSelectCreate(key);
 				break;
+			case 'date':
+				html += inputDateCreate(key);
+				break;
 			case 'button':
 				html += buttonCreate(key);
 				break;
@@ -134,6 +137,36 @@ var HtmlHelper = function()
 		
 		return html.join('');
 	}
+
+	var inputDateCreate = function(array){
+		var html = [];
+		var tamanho, classe, type, label, name, value, disabled;
+		
+		tamanho = (array['tamanho'] ? " col-sm-" + array['tamanho'] : "");
+		classe = (array['classe'] ? array['classe'] : "");
+		type = (array['type'] ? 'type="' + array['type'] + '"' : 'type="text"');
+		label = (array['type'] == 'hidden' ? '' :' <label>'+ array["label"] +'</label>');
+		name = array["name"];
+		value = (array['value'] ? 'value="' + array['value'] + '"' : '');
+		disabled = (array['disabled'] ? "disabled" : "");
+		
+		
+		html = [
+			'<div id="datepicker-group" class="input-group date '+ tamanho +'" data-provide="datepicker">',
+			'	<label>'+ label,
+				'<input type="text" class="form-control" name="'+name+'" value="'+value+'">',
+				'</label>',
+				'<div class="input-group-addon">',
+					'<span class="glyphicon glyphicon-th"></span>',
+				'</div>',
+			'</div>',
+			
+		];
+
+		return html.join('');
+	}
+	
+
 	
 	return {
 		createElementsByType	:	createElementsByType,

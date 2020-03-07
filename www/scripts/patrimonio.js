@@ -16,19 +16,17 @@ var Patrimonio = function(){
     						return '<center><img src="imagens/patrimonio/'+data+'" class="img-responsive" alt="Patrimonio-IMG" width="120" ></center>';    						
     					}
     	        	},
-    				{ "data": "PATRIMONIO"},
-    				{ "data": "DESCRICAO"},
+					{ "data": "PATRIMONIO",
+						render: function (data, type, row) {
+							return '<p>'+data+'<br> <small>'+row.DESCRICAO+'<small>';    						
+						}
+					},
     				{ "data": "TOMBAMENTO"},
     				{ "data": "LOCALIDADE"},
-    				{ "data": "VALOR",
-    					render: function (data, type, row) {
-						return "R$" + data;
-					}
-				},
     				{ "data": "VIDAUTIL"},
     				{ "data": "VALORDEPRECIACAO",
     					render: function (data, type, row) {
-    						return "R$" + data;
+    						return "Valor: R$" +row.VALOR+"<br>Valor depreciado: R$" + data;
     					}
     				},
     				{ "data": "DT_CAD",

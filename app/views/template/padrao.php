@@ -28,7 +28,7 @@
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
 		<script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
 		<script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
-		<!-- <script type="text/javascript" src="./scripts/menu.js"></script> -->
+		<script type="text/javascript" src="./scripts/main.js"></script>
 		<script type="text/javascript" src="./plugins/jquery.form.js"></script>
 		<script type="text/javascript" src="./scripts/{SCRIPT}.js"></script>
         <script type="text/javascript" src="./plugins/highcharts.js"></script>
@@ -38,6 +38,9 @@
 		<link rel="stylesheet" type="text/css" href="css/select2.min.css">
 		<link rel="stylesheet" type="text/css" href="css/estilo.css">
 		<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css"/>
+		<link rel="stylesheet" type="text/css" href="./plugins/bootstrap-datepicker/css/bootstrap-datepicker3.standalone.min.css"/>
+
+		<script src="./plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js"> </script>
 
 		<!-- Fontastic Custom icon font-->
 		<link rel="stylesheet" href="./css/fontastic.css">
@@ -73,6 +76,8 @@
 		<script src="./plugins/popper.js/umd/popper.min.js"> </script>
 		<script src="./plugins/bootstrap/js/bootstrap.min.js"></script>
 		<script src="./plugins/jquery-validation/jquery.validate.min.js"></script>
+		<script src="./plugins/bootstrap-datepicker/js/bootstrap-datepicker.pt-BR.min.js"> </script>
+
 		<script src="./scripts/front.js"></script>
 	</body>
 </html>

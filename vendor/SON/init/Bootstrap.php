@@ -28,12 +28,13 @@ abstract Class Bootstrap{
                     $controller = new $class;
                     $action = $route['action'];
                     $retorno = $controller->$action();
-                  
-                    if(json_encode($retorno)) {
-                        $retorno = json_encode($retorno);
+                    if($retorno){
+                        if(json_encode($retorno)) {
+                            $retorno = json_encode($retorno);
+                        }
+                        echo $retorno;
                     }
 
-                    echo $retorno;
                 }
                 
             }) ;

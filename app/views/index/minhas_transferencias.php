@@ -125,28 +125,7 @@ $error = isset($_GET['error'])? $_GET['error']:0;
 			</div>
 		</div>
 	</form>
-	<script>
-	$(document).ready(function(){
-		var date_input=$('input[name="date"]'); //our date input has the name "date"
-		var container=$('.bootstrap-iso form').length>0 ? $('.bootstrap-iso form').parent() : "body";
-	
-		date_input.datepicker({
-		format: 'dd/mm/yyyy',
-		endDate: "now",
-		todayBtn: true,
-		language: "pt-BR",
-		container: container,
-		todayHighlight: true,
-		autoclose: true,
-		})
 
-		$('input[name="date2"]').datepicker({
-			endDate: "now",
-			todayBtn: true,
-			language: "pt-BR"
-		});
-	})	
-	</script>
 <script src="./scripts/bootstrap.min.js"></script>
 </body>
 </html>

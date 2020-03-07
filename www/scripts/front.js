@@ -1,32 +1,17 @@
 $(document).ready(function () {
+         
+    var cookMenu = getCookie('menuStl');
 
-    'use strict';
+    if(cookMenu.trim() === 'close'){
+        if($(window).outerWidth() > 590){
+            $('nav.side-navbar').addClass('shrinked');
+            $('#toggle-btn').removeClass('active');
 
-    // ------------------------------------------------------- //
-    // Search Box
-    // ------------------------------------------------------ //
-    $('#search').on('click', function (e) {
-        e.preventDefault();
-        $('.search-box').fadeIn();
-    });
-    $('.dismiss').on('click', function () {
-        $('.search-box').fadeOut();
-    });
-
-    // ------------------------------------------------------- //
-    // Card Close
-    // ------------------------------------------------------ //
-    $('.card-close a.remove').on('click', function (e) {
-        e.preventDefault();
-        $(this).parents('.card').fadeOut();
-    });
-
-    // ------------------------------------------------------- //
-    // Tooltips init
-    // ------------------------------------------------------ //    
-
-    $('[data-toggle="tooltip"]').tooltip()    
-
+        }
+    }
+    else{
+        $('nav.side-navbar').removeClass('shrinked');
+    }
 
     // ------------------------------------------------------- //
     // Adding fade effect to dropdowns
@@ -157,18 +142,6 @@ $(document).ready(function () {
         $('.side-navbar a[href='+url_atual+']').closest('li').addClass('active');
     }
 
-    var cookMenu = getCookie('menuStl');
-
-    if(cookMenu.trim() === 'close'){
-        if($(window).outerWidth() > 590){
-            $('nav.side-navbar').addClass('shrinked');
-            $('#toggle-btn').removeClass('active');
-
-        }
-    }
-    else{
-        $('nav.side-navbar').removeClass('shrinked');
-    }
 
     function getCookie(name) {
         var value = "; " + document.cookie;

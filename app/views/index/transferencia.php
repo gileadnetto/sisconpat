@@ -35,7 +35,7 @@ transferencia.carregarConteudo();
 var configInputsFormTransferir = [
 	{label : 'Origem', name : 'id_localidade_origem', tamanho: 12, type: 'select', url:'getAutoCompleteLocalidadeList', classe:'select2'},
 	{label : 'Destino', name : 'id_localidade_destino', tamanho: 12, type: 'select', url:'getAutoCompleteLocalidadeList', classe:'select2'},
-	{label : 'Data', name : 'data', tamanho: 4},
+	{label : 'Data', name : 'data', tamanho: 7,type: 'date'},
 	{label : 'Patrimonios', name : 'ids_Patrimonios', tamanho: 12, type: 'select', url:'getAutoCompletePatrimonioList', classe:'select2',multiple:true},
 ];
 
@@ -54,6 +54,7 @@ $('#btn_cad').on('click', function(){
 	$($modal).modal('show');
 	autocompleteHelper.createAutoComplete();
 });
+
 </script>
 
 

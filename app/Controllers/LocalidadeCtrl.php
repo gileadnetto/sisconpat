@@ -87,11 +87,15 @@ class LocalidadeCtrl extends Action{
      */
     private function checkPostData(array $postData, array $constraint)
     {
+        // foreach($postData as $k=>$valor){
+        //     if(!$postData[$k]) $constraint[$k] =  "Campo invalida!";
+        // }
         if(!$postData['localidade']) $constraint['localidade'] =  "Campo (Localidade) invalida!";
-        if(!$postData['descricao']) $constraint['descricao'] =  "Campo (Descricao) invalida!";
+
+        if(!$postData['descricao']) $constraint['descricao'] =  "Campo (Descrição) invalida!";
         if(!$postData['cep']) $constraint['cep'] =  "Campo (Cep) invalida!";
         if(!$postData['logradouro']) $constraint['logradouro'] =  "Campo (Logradouro) invalida!";
-        if(!$postData['numero']) $constraint['numero'] =  "Campo (N�mero) invalida!";
+        if(!$postData['numero']) $constraint['numero'] =  "Campo (Número) invalida!";
         if(!$postData['complemento']) $constraint['complemento'] =  "Campo (Complemento) invalida!";
                
         return $constraint;
