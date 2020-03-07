@@ -16,7 +16,11 @@ class LocalidadeCtrl extends Action{
         
         $localidadeDao = Container::getDao("LocalidadeDao");
         $result = $localidadeDao->getList();
-        echo json_encode(array("recordsTotal" => $result['total'], "data" => $result['results']));
+      
+        return [
+            "recordsTotal" => $result['total'],
+            "data" => $result['results']
+        ];
     }
     
     /**
@@ -28,7 +32,7 @@ class LocalidadeCtrl extends Action{
         
         $localidadeDao = Container::getDao("LocalidadeDao");
         $result = $localidadeDao->getAutoCompleteList(['term' => $query['q']]);
-        echo json_encode([$result['results']]);
+        return [$result['results']];
     }
     
     /**
@@ -54,7 +58,7 @@ class LocalidadeCtrl extends Action{
         $constraint = $this->checkPostData($postData, $constraint);
            
         if(count($constraint) > 0) {
-            echo json_encode(array("constraint" => $constraint , "sucesso" => 0));
+            return array("constraint" => $constraint , "sucesso" => 0);
         } else {
             $localidade = Container::getClass("Localidade");
             $localidadeDao = Container::getDao("LocalidadeDao");
@@ -66,9 +70,9 @@ class LocalidadeCtrl extends Action{
             $result = $localidadeDao->save($localidade, $endereco);
 
             if($result['success'] === true){
-                echo json_encode(array("sucesso" => true, "msg" => $localidade->getDescricao()." cadastrada com sucesso."));
+                return array("sucesso" => true, "msg" => $localidade->getDescricao()." cadastrada com sucesso.");
             } else {
-                echo json_encode(array("sucesso" => false, "msg" => "Erro ao cadastrar localidade!".$result['msg'] ));
+                return array("sucesso" => false, "msg" => "Erro ao cadastrar localidade!".$result['msg'] );
             }
             unset($localidade);
             unset($endereco);
@@ -177,9 +181,8 @@ class LocalidadeCtrl extends Action{
 
         $localidades = $localidade->jsonSerialize();        
         $response = $localidadeDao->atualizar($localidades);
-        $response = json_encode($response);
         unset($localidade);
-        print_r($response);   
+        return $response;   
         
    }
 }

@@ -23,7 +23,7 @@ class TransferenciaCtrl extends Action {
     public function getTransferencia() {
         $transferenciaDao = Container::getDao("TransferenciaDao");
         $result = $transferenciaDao->getList();
-        echo json_encode(array("recordsTotal" => $result['total'], "data" => $result['results']));
+        return array("recordsTotal" => $result['total'], "data" => $result['results']);
     }
     
     /**
@@ -39,17 +39,16 @@ class TransferenciaCtrl extends Action {
         $constraint = $this->checkPostData($data);
         
         if(count($constraint) > 0) {
-            echo ['sucesso' => false, 'msg' => $constraint ];
-            return;
+            return ['sucesso' => false, 'msg' => $constraint ];
         }
 
         try{
             $this->realizarTransferencia($data);
         } catch (\Exception $e){
-            echo $e->getMessage();   
+            return $e->getMessage();   
 		}
         
-        echo json_encode(['sucesso' => 1, 'msg' => 'Transferencia realizada com sucesso!' ]);
+        return ['sucesso' => 1, 'msg' => 'Transferencia realizada com sucesso!' ];
 	}
 	
 	private function buildArrayPostData($idsPatrimonio)

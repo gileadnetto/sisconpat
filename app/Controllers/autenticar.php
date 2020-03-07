@@ -25,7 +25,7 @@ class Autenticar extends Action{
 		
         if(count($constraint) > 0){
     	    header('Location: autenticar');
-    	    echo $constraint;
+    	    return $constraint;
     	}
     	
     	$usuarioDao = Container::getDao("UsuarioDao");

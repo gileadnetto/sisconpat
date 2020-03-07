@@ -15,7 +15,7 @@ class PatrimonioCtrl extends Action {
     {
         $patrimonioDao = Container::getDao("PatrimonioDao");
         $result = $patrimonioDao->getList();
-        echo json_encode(array("recordsTotal" => $result['total'], "data" => $result['results']));
+        return array("recordsTotal" => $result['total'], "data" => $result['results']);
     }
     
     /**
@@ -27,7 +27,7 @@ class PatrimonioCtrl extends Action {
         
         $patrimonioDao = Container::getDao("PatrimonioDao");
         $result = $patrimonioDao->getAutoCompleteList(['term' => $query['q']]);
-        echo json_encode([$result['results']]);
+        return [$result['results']];
     }
     
     /**
@@ -51,7 +51,7 @@ class PatrimonioCtrl extends Action {
         $constraint = $this->checkPostData($postData, $constraint);
         
         if(count($constraint) > 0) {
-            echo json_encode(array("constraint" => $constraint , "sucesso" => 0));
+            return array("constraint" => $constraint , "sucesso" => 0);
         } else {
             $patrimonio = Container::getClass("Patrimonio");
             $patrimonioDao = Container::getDao("PatrimonioDao");
@@ -59,13 +59,16 @@ class PatrimonioCtrl extends Action {
             $this->postDataToEntity($patrimonio, $postData);
             
             $result = $patrimonioDao->save($patrimonio);
-            
+			$retorno = [];
+			
             if($result['success']){
-                echo json_encode(array("sucesso" => true, "msg" => $patrimonio->getDescricao()." cadastrada com sucesso."));
+                $retorno = array("sucesso" => true, "msg" => $patrimonio->getDescricao()." cadastrada com sucesso.");
             } else {
-                echo json_encode(array("sucesso" => false, "msg" => "Erro ao cadastrar localidade!".$result['msg'] ));
+                $retorno = array("sucesso" => false, "msg" => "Erro ao cadastrar localidade!".$result['msg'] );
             }
-            unset($patrimonio);
+			unset($patrimonio);
+			
+			return $retorno;
         }
 	}
 	
@@ -171,9 +174,8 @@ class PatrimonioCtrl extends Action {
         $patrimonioDao = Container::getDao("PatrimonioDao"); //instaciando a classe e a conexao banco
         $response = $patrimonioDao->deletar($tombamento);
 	
-		$response = json_encode($response);
 		unset($patrimonioDao);
-        echo $response; 
+        return $response; 
         
     }
     
@@ -193,19 +195,19 @@ class PatrimonioCtrl extends Action {
         $constraint = $this->checkPostData($postData, $constraint);
         
         if(count($constraint) > 0) {
-            echo json_encode(array("constraint" => $constraint , "sucesso" => 0));
-        } else {
-            $patrimonio = Container::getClass("Localidade");
-            $patrimonioDao = Container::getDao("LocalidadeDao");
-            
-            $this->postDataToEntity($patrimonio, $postData);
-            
-            $response = $patrimonioDao->update($patrimonio);
-            unset($patrimonio);
-            echo json_encode(array("sucesso" => $response ));
-        }
+            return array("constraint" => $constraint , "sucesso" => 0);
+		} 
+	
+		$patrimonio = Container::getClass("Localidade");
+		$patrimonioDao = Container::getDao("LocalidadeDao");
+		
+		$this->postDataToEntity($patrimonio, $postData);
+		
+		$response = $patrimonioDao->update($patrimonio);
+		unset($patrimonio);
+
+		return array("sucesso" => $response );
        
-    }
-    
+    }   
    
 }

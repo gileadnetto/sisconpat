@@ -11,7 +11,7 @@ class UsuarioCtrl extends Action {
 
 		$usuarioDao = Container::getDao("UsuarioDao");
         $result = $usuarioDao->getList();
-        echo json_encode(array("recordsTotal" => $result['total'], "data" => $result['results']));
+        return array("recordsTotal" => $result['total'], "data" => $result['results']);
       
     }
     
@@ -19,9 +19,8 @@ class UsuarioCtrl extends Action {
         $id = $_POST['id'];
         $usuarioDao = Container::getDao("UsuarioDao"); //instacinado a classe e a conexao banco
 		$response = $usuarioDao->deletUsuario($id);
-		$response = json_encode($response);
-        print_r($response); 
-		unet($usuarioDao);
+		unset($usuarioDao);
+        return $response ; 
 	}
      
 	public function cadastrarUsuario() {  
@@ -39,7 +38,7 @@ class UsuarioCtrl extends Action {
         $constraint = $this->checkPostData($postData, $constraint);
            
         if(count($constraint) > 0) {
-            echo json_encode(array("constraint" => $constraint , "sucesso" => 0));
+            echo array("constraint" => $constraint , "sucesso" => 0);
         } else {
             $usuario = Container::getClass("Usuario");
 			$usuarioDao = Container::getDao("UsuarioDao");
@@ -47,13 +46,14 @@ class UsuarioCtrl extends Action {
             $this->postDataToEntity($usuario, $postData);
             
             $result = $usuarioDao->save($usuario);
+            $login = $usuario->getLogin();
+            unset($usuario);
             
             if($result['success']){
-                echo json_encode(array("sucesso" => true, "msg" => $usuario->getLogin()." cadastrado com sucesso."));
-            } else {
-                echo json_encode(array("sucesso" => false, "msg" => "Erro ao cadastrar o usuario!".$result['msg'] ));
+                return array("sucesso" => true, "msg" => $login." cadastrado com sucesso.");
             }
-            unset($usuario);
+
+            return array("sucesso" => false, "msg" => "Erro ao cadastrar o usuario!".$result['msg']);
 		}
         
 	}
@@ -77,10 +77,9 @@ class UsuarioCtrl extends Action {
          
         //var_dump($produto_json);
 		$response = $usuarioDao->updateUsuario($usuario);
-		$response = json_encode($usuario);
-		print_r($response); 
 		unset($user);
 		unset($usuarioDao);
+		return $response; 
 	}
 
 	/**
