@@ -15,13 +15,11 @@
 					<tr>
 						<th>Foto</th>
 						<th>Patrimonio</th>
-						<th>Descricao</th>
 						<th>Tombamento</th>
 						<th>Localidade</th>
-						<th>Valor</th>
 						<th>Vida Util(Anos)</th>
-						<th>Valor de depreciaçao(Meses)</th>
-						<th>Data do cadastro</th>
+						<th>Valor / Valor de depreciaçao(Meses)</th>
+						<th>Cadastrado em</th>
 						<th>Acoes</th>
 					</tr>
 				</thead>

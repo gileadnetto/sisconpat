@@ -2,7 +2,7 @@ $(document).ready(function () {
          
     var cookMenu = getCookie('menuStl');
 
-    if(cookMenu.trim() === 'close'){
+    if(cookMenu === 'close'){
         if($(window).outerWidth() > 590){
             $('nav.side-navbar').addClass('shrinked');
             $('#toggle-btn').removeClass('active');
